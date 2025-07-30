@@ -3,14 +3,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 :root {
-  /** Button **/
-  --button-font-size: var(--font-size-root);
-  --button-font-size-small: var(--font-size-small);
-  --button-min-height: var(--size-item-large);
-  --button-min-height-small: var(--size-item-medium);
-  --button-size-icon: var(--button-min-height);
-  --button-size-icon-small: var(--button-min-height-small);
-
   /** Checkbox **/
   --checkbox-size: var(--size-item-small); /* TODO Bug 1876537: Make this em-based, probably? */
 
