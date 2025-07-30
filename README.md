@@ -67,14 +67,11 @@ You can use the modular CSS files in your projects:
 | `acorn-tokens/acorn-borders.css` | Border widths, radii, and styles |
 | `acorn-tokens/acorn-shadows.css` | Box shadow definitions |
 | `acorn-tokens/acorn-inputs.css` | Form elements, buttons, and interactive components |
+| `acorn-utils/text-and-typography.css` | Additional typography utilities and text-related helper classes |
 
 ### Custom Utilities
 
 The `acorn-utils/` directory contains additional CSS utilities.
-
-| File | Description |
-|------|-------------|
-| `acorn-utils/text-and-typography.css` | Additional typography utilities and text-related helper classes |
 
 ```html
 <!-- Include custom utilities alongside token files -->
