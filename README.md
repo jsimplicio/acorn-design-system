@@ -1,6 +1,6 @@
 # Acorn Design System
 
-This repository contains the Acorn Design System from Mozilla Firefox, automatically synced from the [mozilla/gecko-dev](https://github.com/mozilla/gecko-dev) repository.
+This repository contains the Acorn Design System from Mozilla Firefox, automatically synced from the [mozilla/firefox](https://github.com/mozilla/firefox) repository.
 
 ## 🎨 What is Acorn?
 
@@ -81,7 +81,7 @@ The `acorn-utils/` directory contains additional CSS utilities.
 
 ## 🔗 Related Links
 
-- **Firefox Source**: [mozilla/gecko-dev](https://github.com/mozilla/gecko-dev)
+- **Firefox Source**: [mozilla/firefox](https://github.com/mozilla/firefox)
 - **Original Location**: `toolkit/themes/shared/design-system/`
 - **Acorn Design System**: [acorn.firefox.com](https://acorn.firefox.com/)
 - **Style Dictionary**: [Amazon Style Dictionary](https://amzn.github.io/style-dictionary/)
@@ -94,6 +94,6 @@ This project follows the same license as the Mozilla Firefox project. See the li
 
 Since this repository is automatically synced from Firefox, contributions should be made to the original Firefox repository:
 
-1. **For design token changes**: Contribute to [mozilla/gecko-dev](https://github.com/mozilla/gecko-dev)
+1. **For design token changes**: Contribute to [mozilla/firefox](https://github.com/mozilla/firefox)
 2. **For this sync setup**: Open issues or PRs in this repository
 

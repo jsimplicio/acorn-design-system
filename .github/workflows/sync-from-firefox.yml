@@ -33,7 +33,7 @@ jobs:
       - name: Sparse checkout Firefox design-system directory
         run: |
           echo "🦊 Setting up sparse checkout for design-system directory..."
-          git clone --filter=blob:none --no-checkout https://github.com/mozilla/gecko-dev.git firefox-repo
+          git clone --filter=blob:none --no-checkout https://github.com/mozilla/firefox.git firefox-repo
           cd firefox-repo
           git sparse-checkout init --cone
           git sparse-checkout set toolkit/themes/shared/design-system
@@ -116,7 +116,7 @@ jobs:
           if git diff --cached --quiet; then
             echo "No changes to commit after sync"
           else
-            git commit -m "Sync from Firefox repository\n\nSynced from mozilla/gecko-dev commit: $FIREFOX_COMMIT_SHORT\nDate: $(date '+%Y-%m-%d %H:%M:%S UTC')\nSource: https://github.com/mozilla/gecko-dev/commit/$FIREFOX_COMMIT"
+            git commit -m "Sync from Firefox repository\n\nSynced from mozilla/firefox commit: $FIREFOX_COMMIT_SHORT\nDate: $(date '+%Y-%m-%d %H:%M:%S UTC')\nSource: https://github.com/mozilla/firefox/commit/$FIREFOX_COMMIT"
             echo "Changes committed successfully!"
           fi
 
@@ -133,7 +133,7 @@ jobs:
           if [ "${{ steps.check_changes.outputs.changes_detected }}" == "true" ]; then
             echo "✅ **Changes detected and synced from Firefox repository**" >> $GITHUB_STEP_SUMMARY
             echo "" >> $GITHUB_STEP_SUMMARY
-            echo "The Acorn Design System has been updated with the latest changes from mozilla/gecko-dev." >> $GITHUB_STEP_SUMMARY
+            echo "The Acorn Design System has been updated with the latest changes from mozilla/firefox." >> $GITHUB_STEP_SUMMARY
           else
             echo "ℹ️ **No changes detected**" >> $GITHUB_STEP_SUMMARY
             echo "" >> $GITHUB_STEP_SUMMARY
