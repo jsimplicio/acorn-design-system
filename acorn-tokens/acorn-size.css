@@ -4,23 +4,10 @@
 
 :root {
   /** Checkbox **/
-  --checkbox-size: var(--size-item-small); /* TODO Bug 1876537: Make this em-based, probably? */
+  --checkbox-size: var(--size-item-small);
 
   /** Focus Outline **/
   --focus-outline-width: 2px;
-
-  /** Font Size **/
-  --font-size-root: 15px;
-  --font-size-xsmall: 0.733rem;
-  --font-size-small: 0.867rem;
-  --font-size-large: 1.133rem;
-  --font-size-xlarge: 1.467rem;
-  --font-size-xxlarge: 1.6rem;
-
-  /** Heading **/
-  --heading-font-size-medium: var(--font-size-large);
-  --heading-font-size-large: var(--font-size-xlarge);
-  --heading-font-size-xlarge: var(--font-size-xxlarge);
 
   /** Icon **/
   --icon-size-default: var(--icon-size-small);

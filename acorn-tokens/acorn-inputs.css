@@ -4,7 +4,7 @@
 
 :root {
   /** Button **/
-  --button-background-color: color-mix(in srgb, currentColor 7%, transparent); /* TODO Bug 1821203 - Gray use needs to be consolidated */
+  --button-background-color: color-mix(in srgb, currentColor 7%, transparent);
   --button-background-color-hover: color-mix(in srgb, currentColor 14%, transparent);
   --button-background-color-active: color-mix(in srgb, currentColor 21%, transparent);
   --button-background-color-disabled: var(--button-background-color);
@@ -69,7 +69,7 @@
 
   /** Checkbox **/
   --checkbox-margin-inline: var(--space-small);
-  --checkbox-size: var(--size-item-small); /* TODO Bug 1876537: Make this em-based, probably? */
+  --checkbox-size: var(--size-item-small);
 
   /** Focus Outline **/
   --focus-outline: var(--focus-outline-width) solid var(--focus-outline-color);
@@ -95,7 +95,7 @@
 @media (forced-colors) {
   :root {
   /** Button **/
-  --button-background-color: ButtonFace; /* TODO Bug 1821203 - Gray use needs to be consolidated */
+  --button-background-color: ButtonFace;
   --button-background-color-hover: SelectedItemText;
   --button-background-color-active: SelectedItemText;
   --button-background-color-disabled: ButtonFace;
