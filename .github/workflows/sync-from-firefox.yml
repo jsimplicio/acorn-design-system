@@ -49,73 +49,101 @@ jobs:
             echo "❌ Design system directory not found in Firefox repo"
             exit 1
           fi
-          mkdir -p temp-comparison
-          rsync -av --exclude='.git*' --exclude='node_modules' "$DESIGN_SYSTEM_PATH/" temp-comparison/
-          if ! diff -r --exclude='.git*' --exclude='node_modules' --exclude='.github' --exclude='acorn-utils' --exclude='acorn-tokens' --exclude='tokens-config.js' --exclude='tokens-*.json' --exclude='tokens-*.mjs' --exclude='package*.json' --exclude='.prettierrc' --exclude='build' . temp-comparison/ > /dev/null 2>&1; then
+          
+          echo "📋 Files available in Firefox design-system directory:"
+          ls -la "$DESIGN_SYSTEM_PATH/"
+          
+          # Check for meaningful changes in files we actually want to sync
+          CHANGES_FOUND=false
+          
+          # List of files we care about syncing (that match our .gitignore whitelist)
+          SYNC_FILES=("design-tokens.json" "package.json")
+          
+          echo "🔍 Checking for specific file changes..."
+          for file in "${SYNC_FILES[@]}"; do
+            if [ -f "$DESIGN_SYSTEM_PATH/$file" ]; then
+              if [ -f "$file" ]; then
+                if ! diff "$file" "$DESIGN_SYSTEM_PATH/$file" > /dev/null 2>&1; then
+                  echo "📝 Changes detected in $file"
+                  CHANGES_FOUND=true
+                fi
+              else
+                echo "📝 New file detected: $file"
+                CHANGES_FOUND=true
+              fi
+            elif [ -f "$file" ]; then
+              echo "📝 File removed in Firefox: $file"
+              CHANGES_FOUND=true
+            fi
+          done
+          
+          # For now, also check if tokens-config.js has any meaningful structural changes
+          # (This is more complex since our config is heavily customized)
+          if [ -f "$DESIGN_SYSTEM_PATH/tokens-config.js" ]; then
+            echo "ℹ️ Firefox tokens-config.js exists but we maintain our own version"
+          fi
+          
+          if [ "$CHANGES_FOUND" = true ]; then
             echo "changes_detected=true" >> $GITHUB_OUTPUT
             echo "📝 Changes detected in Firefox design-system!"
           else
             echo "changes_detected=false" >> $GITHUB_OUTPUT
-            echo "✅ No changes detected. Repository is up to date."
+            echo "✅ No meaningful changes detected for Acorn sync."
           fi
-          rm -rf temp-comparison
 
       - name: Sync changes from Firefox
         if: steps.check_changes.outputs.changes_detected == 'true'
         run: |
-          echo "🔄 Syncing changes from Firefox repository..."
+          echo "🔄 Syncing specific files from Firefox repository..."
           DESIGN_SYSTEM_PATH="firefox-repo/toolkit/themes/shared/design-system"
-          echo "📋 Copying files from Firefox repository..."
-          echo "rsync command: rsync -av --delete --force --ignore-errors --exclude='.git*' --exclude='node_modules' --exclude='.github' --exclude='README.md' --exclude='LICENSE' --exclude='package*.json' --exclude='acorn-utils' --exclude='acorn-tokens' --exclude='tokens-config.js' --exclude='tokens-*.json' --exclude='tokens-*.mjs' --exclude='build' $DESIGN_SYSTEM_PATH/ ./"
-          rsync -av --delete --force --ignore-errors \
-            --exclude='.git*' \
-            --exclude='node_modules' \
-            --exclude='.github' \
-            --exclude='README.md' \
-            --exclude='LICENSE' \
-            --exclude='package*.json' \
-            --exclude='.prettierrc' \
-            --exclude='acorn-utils' \
-            --exclude='acorn-tokens' \
-            --exclude='tokens-config.js' \
-            --exclude='tokens-*.json' \
-            --exclude='tokens-*.mjs' \
-            --exclude='build' \
-            "$DESIGN_SYSTEM_PATH/" ./ || {
-            RSYNC_EXIT_CODE=$?
-            echo "⚠️ rsync completed with exit code $RSYNC_EXIT_CODE"
-            if [ $RSYNC_EXIT_CODE -eq 24 ]; then
-              echo "ℹ️ Exit code 24: Some files vanished during transfer (non-critical)"
-            elif [ $RSYNC_EXIT_CODE -eq 23 ]; then
-              echo "ℹ️ Exit code 23: Partial transfer due to error (continuing)"
-            elif [ $RSYNC_EXIT_CODE -gt 25 ]; then
-              echo "❌ Critical rsync error (exit code $RSYNC_EXIT_CODE)"
-              exit 1
-            else
-              echo "ℹ️ Minor rsync issues, continuing..."
-            fi
-          }
-
-          echo ""
-          echo "Git status after rsync:"
-          git status
-
-          echo ""
-          echo "Git diff after rsync:"
-          git diff --stat
-
+          
           cd firefox-repo
           FIREFOX_COMMIT=$(git rev-parse HEAD)
           FIREFOX_COMMIT_SHORT=$(git rev-parse --short HEAD)
           cd ..
-
           echo "Firefox commit: $FIREFOX_COMMIT_SHORT"
           echo "FIREFOX_COMMIT_SHORT=$FIREFOX_COMMIT_SHORT" >> $GITHUB_ENV
-
-          git add .
+          
+          # Copy only specific files we want to sync
+          SYNC_FILES=("design-tokens.json" "package.json")
+          CHANGES_MADE=false
+          
+          for file in "${SYNC_FILES[@]}"; do
+            if [ -f "$DESIGN_SYSTEM_PATH/$file" ]; then
+              echo "📋 Copying $file from Firefox..."
+              cp "$DESIGN_SYSTEM_PATH/$file" "$file"
+              CHANGES_MADE=true
+            elif [ -f "$file" ]; then
+              echo "📋 Removing $file (deleted in Firefox)..."
+              rm "$file"
+              CHANGES_MADE=true
+            fi
+          done
+          
+          if [ "$CHANGES_MADE" = true ]; then
+            echo ""
+            echo "Git status after sync:"
+            git status
+            echo ""
+            echo "Git diff after sync:"
+            git diff --stat
+            
+            git add .
+            
+            if git diff --cached --quiet; then
+              echo "⚠️ No changes were actually staged (files may be identical)"
+              echo "changes_actually_made=false" >> $GITHUB_ENV
+            else
+              echo "✅ Changes staged successfully"
+              echo "changes_actually_made=true" >> $GITHUB_ENV
+            fi
+          else
+            echo "ℹ️ No files were copied or changed"
+            echo "changes_actually_made=false" >> $GITHUB_ENV
+          fi
 
       - name: Create Pull Request
-        if: steps.check_changes.outputs.changes_detected == 'true'
+        if: steps.check_changes.outputs.changes_detected == 'true' && env.changes_actually_made == 'true'
         id: create_pr
         uses: peter-evans/create-pull-request@v5
         with:
@@ -156,27 +184,37 @@ jobs:
       - name: Report PR Creation
         if: steps.check_changes.outputs.changes_detected == 'true'
         run: |
-          echo "🚀 Pull Request Creation Results:"
-          echo "PR Number: ${{ steps.create_pr.outputs.pull-request-number }}"
-          echo "PR URL: ${{ steps.create_pr.outputs.pull-request-url }}"
-          echo "PR Operation: ${{ steps.create_pr.outputs.pull-request-operation }}"
-          echo "PR Head SHA: ${{ steps.create_pr.outputs.pull-request-head-sha }}"
+          if [ "${{ env.changes_actually_made }}" = "true" ]; then
+            echo "🚀 Pull Request Creation Results:"
+            echo "PR Number: ${{ steps.create_pr.outputs.pull-request-number }}"
+            echo "PR URL: ${{ steps.create_pr.outputs.pull-request-url }}"
+            echo "PR Operation: ${{ steps.create_pr.outputs.pull-request-operation }}"
+            echo "PR Head SHA: ${{ steps.create_pr.outputs.pull-request-head-sha }}"
+          else
+            echo "ℹ️ No PR created - no actual changes were made"
+          fi
 
       - name: Create summary
         run: |
           echo "## Sync Summary" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           if [ "${{ steps.check_changes.outputs.changes_detected }}" == "true" ]; then
-            if [ "${{ steps.create_pr.outputs.pull-request-number }}" != "" ]; then
-              echo "✅ **Pull Request Created Successfully**" >> $GITHUB_STEP_SUMMARY
-              echo "" >> $GITHUB_STEP_SUMMARY
-              echo "**PR #${{ steps.create_pr.outputs.pull-request-number }}**: ${{ steps.create_pr.outputs.pull-request-url }}" >> $GITHUB_STEP_SUMMARY
-              echo "" >> $GITHUB_STEP_SUMMARY
-              echo "Please review and merge the PR to update the Acorn Design System." >> $GITHUB_STEP_SUMMARY
+            if [ "${{ env.changes_actually_made }}" == "true" ]; then
+              if [ "${{ steps.create_pr.outputs.pull-request-number }}" != "" ]; then
+                echo "✅ **Pull Request Created Successfully**" >> $GITHUB_STEP_SUMMARY
+                echo "" >> $GITHUB_STEP_SUMMARY
+                echo "**PR #${{ steps.create_pr.outputs.pull-request-number }}**: ${{ steps.create_pr.outputs.pull-request-url }}" >> $GITHUB_STEP_SUMMARY
+                echo "" >> $GITHUB_STEP_SUMMARY
+                echo "Please review and merge the PR to update the Acorn Design System." >> $GITHUB_STEP_SUMMARY
+              else
+                echo "⚠️ **Changes detected but PR creation failed**" >> $GITHUB_STEP_SUMMARY
+                echo "" >> $GITHUB_STEP_SUMMARY
+                echo "Changes were detected but no Pull Request was created. Check the workflow logs." >> $GITHUB_STEP_SUMMARY
+              fi
             else
-              echo "⚠️ **Changes detected but PR creation failed**" >> $GITHUB_STEP_SUMMARY
+              echo "ℹ️ **Changes detected but no meaningful updates for Acorn**" >> $GITHUB_STEP_SUMMARY
               echo "" >> $GITHUB_STEP_SUMMARY
-              echo "Changes were detected but no Pull Request was created. Check the workflow logs." >> $GITHUB_STEP_SUMMARY
+              echo "Firefox design system changes were detected, but they don't affect files tracked by the Acorn Design System. This is normal as the Acorn system maintains its own simplified token structure." >> $GITHUB_STEP_SUMMARY
             fi
           else
             echo "ℹ️ **No changes detected**" >> $GITHUB_STEP_SUMMARY
@@ -184,10 +222,12 @@ jobs:
             echo "The Acorn Design System is already up to date with the Firefox repository." >> $GITHUB_STEP_SUMMARY
           fi
           echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Note**: The Acorn Design System only syncs `design-tokens.json` and `package.json` from Firefox, maintaining its own simplified token structure." >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
           echo "Last sync: $(date '+%Y-%m-%d %H:%M:%S UTC')" >> $GITHUB_STEP_SUMMARY
 
       - name: Clean up
         if: always()
         run: |
           echo "🧹 Cleaning up temporary files..."
-          rm -rf firefox-repo temp-comparison
+          rm -rf firefox-repo firefox-repo-test temp-comparison
