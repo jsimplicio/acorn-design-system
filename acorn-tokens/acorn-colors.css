@@ -8,26 +8,56 @@
 
   /** Background Color **/
   --background-color-box: light-dark(var(--color-white), var(--color-gray-80));
-  --background-color-canvas: light-dark(var(--color-white), var(--color-gray-90));
-  --background-color-critical: light-dark(var(--color-red-0), var(--color-red-90));
-  --background-color-information: light-dark(var(--color-blue-0), var(--color-blue-90));
-  --background-color-success: light-dark(var(--color-green-0), var(--color-green-90));
-  --background-color-warning: light-dark(var(--color-yellow-0), var(--color-yellow-90));
+  --background-color-canvas: light-dark(
+    var(--color-white),
+    var(--color-gray-90)
+  );
+  --background-color-critical: light-dark(
+    var(--color-red-0),
+    var(--color-red-90)
+  );
+  --background-color-information: light-dark(
+    var(--color-blue-0),
+    var(--color-blue-90)
+  );
+  --background-color-success: light-dark(
+    var(--color-green-0),
+    var(--color-green-90)
+  );
+  --background-color-warning: light-dark(
+    var(--color-yellow-0),
+    var(--color-yellow-90)
+  );
 
   /** Border **/
-  --border-color: light-dark(#CFCFD8, #3A3944);
+  --border-color: light-dark(#cfcfd8, #3a3944);
   --border-color-card: color-mix(in srgb, currentColor 10%, transparent);
-  --border-color-deemphasized: light-dark(var(--color-gray-30), var(--color-gray-70));
-  --border-color-interactive: light-dark(var(--color-gray-60), var(--color-gray-50));
+  --border-color-deemphasized: light-dark(
+    var(--color-gray-30),
+    var(--color-gray-70)
+  );
+  --border-color-interactive: light-dark(
+    var(--color-gray-60),
+    var(--color-gray-50)
+  );
   --border-color-interactive-hover: var(--border-color-interactive);
   --border-color-interactive-active: var(--border-color-interactive);
   --border-color-interactive-disabled: var(--border-color-interactive);
   --border-color-transparent: transparent;
 
   /** Color **/
-  --color-accent-primary: light-dark(var(--color-blue-60), var(--color-cyan-30));
-  --color-accent-primary-hover: light-dark(var(--color-blue-70), var(--color-cyan-20));
-  --color-accent-primary-active: light-dark(var(--color-blue-80), var(--color-cyan-10));
+  --color-accent-primary: light-dark(
+    var(--color-blue-60),
+    var(--color-cyan-30)
+  );
+  --color-accent-primary-hover: light-dark(
+    var(--color-blue-70),
+    var(--color-cyan-20)
+  );
+  --color-accent-primary-active: light-dark(
+    var(--color-blue-80),
+    var(--color-cyan-10)
+  );
   --color-blue-0: oklch(97% 0.05 260);
   --color-blue-10: oklch(90% 0.13 260);
   --color-blue-20: oklch(83% 0.17 260);
@@ -74,16 +104,16 @@
   --color-green-100: oklch(27% 0.1 145);
   --color-green-110: oklch(20% 0.05 145);
   --color-orange-0: oklch(97% 0.05 50);
-  --color-orange-10: oklch(90% 0.10 50);
+  --color-orange-10: oklch(90% 0.1 50);
   --color-orange-20: oklch(86% 0.14 50);
   --color-orange-30: oklch(79% 0.17 50);
   --color-orange-40: oklch(72% 0.19 50);
   --color-orange-50: oklch(65% 0.21 50);
   --color-orange-60: oklch(58% 0.21 50);
-  --color-orange-70: oklch(48% 0.20 50);
+  --color-orange-70: oklch(48% 0.2 50);
   --color-orange-80: oklch(41% 0.17 50);
   --color-orange-90: oklch(34% 0.14 50);
-  --color-orange-100: oklch(27% 0.10 50);
+  --color-orange-100: oklch(27% 0.1 50);
   --color-orange-110: oklch(20% 0.05 50);
   --color-pink-0: oklch(97% 0.05 360);
   --color-pink-10: oklch(90% 0.1 360);
@@ -153,15 +183,29 @@
   /** Icon **/
   --icon-color: light-dark(var(--color-gray-70), var(--color-gray-05));
   --icon-color-critical: light-dark(var(--color-red-60), var(--color-red-20));
-  --icon-color-information: light-dark(var(--color-blue-60), var(--color-blue-20));
-  --icon-color-success: light-dark(var(--color-green-60), var(--color-green-20));
-  --icon-color-warning: light-dark(var(--color-yellow-60), var(--color-yellow-20));
+  --icon-color-information: light-dark(
+    var(--color-blue-60),
+    var(--color-blue-20)
+  );
+  --icon-color-success: light-dark(
+    var(--color-green-60),
+    var(--color-green-20)
+  );
+  --icon-color-warning: light-dark(
+    var(--color-yellow-60),
+    var(--color-yellow-20)
+  );
 
   /** Link **/
   --link-color: var(--color-accent-primary);
   --link-color-hover: var(--color-accent-primary-hover);
   --link-color-active: var(--color-accent-primary-active);
   --link-color-visited: var(--link-color);
+  /**
+   * Not using --force-outline-offset for links because that's intended for
+   * elements with a background, and we only want a slight offset here while
+   * not overlapping adjacent text
+   */
   --link-focus-outline-offset: 1px;
 
   /** Outline Color **/
@@ -169,7 +213,10 @@
 
   /** Table Row **/
   --table-row-background-color: var(--background-color-canvas);
-  --table-row-background-color-alternate: light-dark(#f0f0f4, var(--color-gray-80));
+  --table-row-background-color-alternate: light-dark(
+    #f0f0f4,
+    var(--color-gray-80)
+  ); /* TODO Bug 1821203 - Gray use needs to be consolidated */
 
   /** Text **/
   --text-color: light-dark(var(--color-gray-100), var(--color-gray-05));
@@ -180,69 +227,71 @@
 
 @media (prefers-contrast) {
   :root {
-  /** Attention Dot **/
-  --attention-dot-color: AccentColor;
+    /** Attention Dot **/
+    --attention-dot-color: AccentColor;
 
-  /** Background Color **/
-  --background-color-box: var(--background-color-canvas);
-  --background-color-canvas: Canvas;
-  --background-color-critical: var(--background-color-canvas);
-  --background-color-information: var(--background-color-canvas);
-  --background-color-success: var(--background-color-canvas);
-  --background-color-warning: var(--background-color-canvas);
+    /** Background Color **/
+    --background-color-box: var(--background-color-canvas);
+    --background-color-canvas: Canvas;
+    --background-color-critical: var(--background-color-canvas);
+    --background-color-information: var(--background-color-canvas);
+    --background-color-success: var(--background-color-canvas);
+    --background-color-warning: var(--background-color-canvas);
 
-  /** Border **/
-  --border-color: CanvasText;
-  --border-color-card: color-mix(in srgb, currentColor 41%, transparent);
-  --border-color-deemphasized: currentColor;
-  --border-color-interactive: var(--text-color);
-  --border-color-transparent: CanvasText;
+    /** Border **/
+    --border-color: CanvasText;
+    --border-color-card: color-mix(in srgb, currentColor 41%, transparent);
+    --border-color-deemphasized: currentColor;
+    --border-color-interactive: var(--text-color);
+    --border-color-transparent: CanvasText;
 
-  /** Icon **/
-  --icon-color: var(--text-color);
-  --icon-color-critical: var(--icon-color);
-  --icon-color-information: var(--icon-color);
-  --icon-color-success: var(--icon-color);
-  --icon-color-warning: var(--icon-color);
+    /** Icon **/
+    --icon-color: var(--text-color);
+    --icon-color-critical: var(--icon-color);
+    --icon-color-information: var(--icon-color);
+    --icon-color-success: var(--icon-color);
+    --icon-color-warning: var(--icon-color);
 
-  /** Outline Color **/
-  --outline-color-error: var(--border-color);
+    /** Outline Color **/
+    --outline-color-error: var(--border-color);
 
-  /** Text **/
-  --text-color: CanvasText;
-  --text-color-deemphasized: inherit;
-  --text-color-error: inherit;
+    /** Text **/
+    --text-color: CanvasText;
+    --text-color-deemphasized: inherit;
+    --text-color-error: inherit;
   }
 }
 
 @media (forced-colors) {
   :root {
-  /** Border **/
-  --border-color-card: CanvasText;
-  --border-color-deemphasized: ButtonText;
-  --border-color-interactive: ButtonText;
-  --border-color-interactive-hover: SelectedItem;
-  --border-color-interactive-active: ButtonText;
-  --border-color-interactive-disabled: GrayText;
+    /** Border **/
+    --border-color-card: CanvasText;
+    --border-color-deemphasized: ButtonText;
+    --border-color-interactive: ButtonText;
+    --border-color-interactive-hover: SelectedItem;
+    --border-color-interactive-active: ButtonText;
+    --border-color-interactive-disabled: GrayText;
 
-  /** Color **/
-  --color-accent-primary: ButtonText;
-  --color-accent-primary-hover: SelectedItem;
-  --color-accent-primary-active: var(--color-accent-primary-hover);
+    /** Color **/
+    --color-accent-primary: ButtonText;
+    --color-accent-primary-hover: SelectedItem;
+    --color-accent-primary-active: var(--color-accent-primary-hover);
 
-  /** Focus Outline **/
-  --focus-outline-color: var(--text-color);
+    /** Focus Outline **/
+    --focus-outline-color: var(--text-color);
 
-  /** Link **/
-  --link-color: LinkText;
-  --link-color-hover: LinkText;
-  --link-color-active: ActiveText;
-  --link-color-visited: var(--link-color);
+    /** Link **/
+    --link-color: LinkText;
+    --link-color-hover: LinkText;
+    --link-color-active: ActiveText;
+    --link-color-visited: var(--link-color);
 
-  /** Table Row **/
-  --table-row-background-color-alternate: var(--background-color-canvas);
+    /** Table Row **/
+    --table-row-background-color-alternate: var(
+      --background-color-canvas
+    ); /* TODO Bug 1821203 - Gray use needs to be consolidated */
 
-  /** Text **/
-  --text-color-disabled: GrayText;
+    /** Text **/
+    --text-color-disabled: GrayText;
   }
 }

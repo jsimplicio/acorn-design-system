@@ -4,7 +4,9 @@
 
 :root {
   /** Checkbox **/
-  --checkbox-size: var(--size-item-small);
+  --checkbox-size: var(
+    --size-item-small
+  ); /* TODO Bug 1876537: Make this em-based, probably? */
 
   /** Focus Outline **/
   --focus-outline-width: 2px;

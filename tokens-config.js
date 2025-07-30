@@ -173,6 +173,49 @@ function getOriginalTokenValue(token, prop, surface) {
 }
 
 /**
+ * Creates a light-dark transform that works for a given surface. Registers
+ * the transform with style-dictionary and returns the transform's name.
+ */
+const createLightDarkTransform = surface => {
+  let name = `lightDarkTransform/${surface}`;
+
+  // Matcher function for determining if a token's value needs to undergo
+  // a light-dark transform.
+  let matcher = token => {
+    if (surface != "shared") {
+      return (
+        token.original.value[surface]?.light &&
+        token.original.value[surface]?.dark
+      );
+    }
+    return token.original.value.light && token.original.value.dark;
+  };
+
+  // Function that uses the token's original value to create a new "default"
+  // light-dark value and updates the original value object.
+  let transformer = token => {
+    if (surface != "shared") {
+      let lightDarkVal = `light-dark(${token.original.value[surface].light}, ${token.original.value[surface].dark})`;
+      token.original.value[surface].default = lightDarkVal;
+      return token.value;
+    }
+    let value = `light-dark(${token.original.value.light}, ${token.original.value.dark})`;
+    token.original.value.default = value;
+    return value;
+  };
+
+  StyleDictionary.registerTransform({
+    type: "value",
+    transitive: true,
+    name,
+    matcher,
+    transformer,
+  });
+
+  return name;
+};
+
+/**
  * Updates a token's value to the relevant original value after resolving
  * variable references.
  */
@@ -306,6 +349,7 @@ module.exports = {
       },
       transforms: [
         ...StyleDictionary.transformGroup.css,
+        ...["shared", "platform", "brand"].map(createLightDarkTransform),
       ],
       files: [
 	{
