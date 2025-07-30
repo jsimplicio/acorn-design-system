@@ -11,6 +11,10 @@
 !acorn-tokens/
 !acorn-tokens/**
 
+# Keep the acorn-utils directory and all its contents
+!acorn-utils/
+!acorn-utils/**
+
 # Keep package.json for npm compatibility (if users want to build)
 !package.json
 
