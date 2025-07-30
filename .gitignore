@@ -16,3 +16,6 @@
 
 # Optionally keep design-tokens.json for reference
 !design-tokens.json
+
+# Keep the build configuration for the acorn design system
+!tokens-config.js
