@@ -27,10 +27,15 @@ jobs:
           git config --global user.name 'github-actions[bot]'
           git config --global user.email '41898282+github-actions[bot]@users.noreply.github.com'
 
-      - name: Clone Mozilla Firefox repository
+      - name: Sparse checkout Firefox design-system directory
         run: |
-          echo "🦊 Cloning Mozilla Firefox repository..."
-          git clone --depth 1 https://github.com/mozilla/gecko-dev.git firefox-repo
+          echo "🦊 Setting up sparse checkout for design-system directory..."
+          git clone --filter=blob:none --no-checkout https://github.com/mozilla/gecko-dev.git firefox-repo
+          cd firefox-repo
+          git sparse-checkout init --cone
+          git sparse-checkout set toolkit/themes/shared/design-system
+          git checkout
+          echo "✅ Successfully checked out design-system directory only"
 
       - name: Check for changes in design-system
         id: check_changes
@@ -57,11 +62,9 @@ jobs:
         run: |
           echo "🔄 Syncing changes from Firefox repository..."
           DESIGN_SYSTEM_PATH="firefox-repo/toolkit/themes/shared/design-system"
-          if ! git diff --quiet || ! git diff --cached --quiet; then
-            git add .
-            git commit -m "Backup before sync from Firefox $(date '+%Y-%m-%d %H:%M:%S')" || echo "No changes to backup"
-          fi
+          
           echo "📋 Copying files from Firefox repository..."
+          echo "rsync command: rsync -av --delete --exclude='.git*' --exclude='node_modules' --exclude='.github' --exclude='README.md' --exclude='LICENSE' $DESIGN_SYSTEM_PATH/ ./"
           rsync -av --delete \
             --exclude='.git*' \
             --exclude='node_modules' \
@@ -69,12 +72,26 @@ jobs:
             --exclude='README.md' \
             --exclude='LICENSE' \
             "$DESIGN_SYSTEM_PATH/" ./
+
+          echo "
+
+Git status after rsync:"
+          git status
+
+          echo "
+
+Git diff after rsync:"
+          git diff --stat
+
           cd firefox-repo
           FIREFOX_COMMIT=$(git rev-parse HEAD)
           FIREFOX_COMMIT_SHORT=$(git rev-parse --short HEAD)
           cd ..
+
           echo "Firefox commit: $FIREFOX_COMMIT_SHORT"
+
           git add .
+
           if git diff --cached --quiet; then
             echo "No changes to commit after sync"
           else
