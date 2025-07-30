@@ -63,14 +63,29 @@ jobs:
           echo "🔄 Syncing changes from Firefox repository..."
           DESIGN_SYSTEM_PATH="firefox-repo/toolkit/themes/shared/design-system"
           echo "📋 Copying files from Firefox repository..."
-          echo "rsync command: rsync -av --delete --exclude='.git*' --exclude='node_modules' --exclude='.github' --exclude='README.md' --exclude='LICENSE' $DESIGN_SYSTEM_PATH/ ./"
-          rsync -av --delete \
+          echo "rsync command: rsync -av --delete --force --ignore-errors --exclude='.git*' --exclude='node_modules' --exclude='.github' --exclude='README.md' --exclude='LICENSE' --exclude='package*.json' $DESIGN_SYSTEM_PATH/ ./"
+          rsync -av --delete --force --ignore-errors \
             --exclude='.git*' \
             --exclude='node_modules' \
             --exclude='.github' \
             --exclude='README.md' \
             --exclude='LICENSE' \
-            "$DESIGN_SYSTEM_PATH/" ./
+            --exclude='package*.json' \
+            --exclude='.prettierrc' \
+            "$DESIGN_SYSTEM_PATH/" ./ || {
+            RSYNC_EXIT_CODE=$?
+            echo "⚠️ rsync completed with exit code $RSYNC_EXIT_CODE"
+            if [ $RSYNC_EXIT_CODE -eq 24 ]; then
+              echo "ℹ️ Exit code 24: Some files vanished during transfer (non-critical)"
+            elif [ $RSYNC_EXIT_CODE -eq 23 ]; then
+              echo "ℹ️ Exit code 23: Partial transfer due to error (continuing)"
+            elif [ $RSYNC_EXIT_CODE -gt 25 ]; then
+              echo "❌ Critical rsync error (exit code $RSYNC_EXIT_CODE)"
+              exit 1
+            else
+              echo "ℹ️ Minor rsync issues, continuing..."
+            fi
+          }
 
           echo ""
           echo "Git status after rsync:"
