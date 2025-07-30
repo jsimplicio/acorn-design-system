@@ -17,16 +17,14 @@ acorn-design-system/
 ├── design-tokens.json          # Main design tokens definition
 ├── tokens-config.js           # Style Dictionary configuration
 ├── package.json               # Build dependencies
-├── acorn-tokens/              # Modular token CSS files
-│   ├── acorn-colors.css       # Color tokens (generated)
-│   ├── acorn-typography.css   # Typography tokens (generated)
-│   ├── acorn-size.css         # Size and dimension tokens (generated)
-│   ├── acorn-space.css        # Spacing tokens (generated)
-│   ├── acorn-borders.css      # Border tokens (generated)
-│   ├── acorn-shadows.css      # Shadow tokens (generated)
-│   └── acorn-inputs.css       # Input/form tokens (generated)
-├── docs/                      # Documentation and examples
-└── tests/                     # Token validation tests
+└── acorn-tokens/              # Modular token CSS files
+    ├── acorn-colors.css       # Color tokens (generated)
+    ├── acorn-typography.css   # Typography tokens (generated)
+    ├── acorn-size.css         # Size and dimension tokens (generated)
+    ├── acorn-space.css        # Spacing tokens (generated)
+    ├── acorn-borders.css      # Border tokens (generated)
+    ├── acorn-shadows.css      # Shadow tokens (generated)
+    └── acorn-inputs.css       # Input/form tokens (generated)
 ```
 
 ## 🔄 Automatic Sync
