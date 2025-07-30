@@ -110,6 +110,7 @@ jobs:
           cd ..
 
           echo "Firefox commit: $FIREFOX_COMMIT_SHORT"
+          echo "FIREFOX_COMMIT_SHORT=$FIREFOX_COMMIT_SHORT" >> $GITHUB_ENV
 
           git add .
 
@@ -120,20 +121,47 @@ jobs:
             echo "Changes committed successfully!"
           fi
 
-      - name: Push changes
+      - name: Create Pull Request
         if: steps.check_changes.outputs.changes_detected == 'true'
-        run: |
-          echo "🚀 Pushing changes to repository..."
-          git push origin ${{ github.ref_name }}
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          title: "🔄 Sync from Firefox Repository"
+          body: |
+            ## Firefox Design System Sync
+            
+            This PR contains the latest changes from the Firefox design system.
+            
+            **Source**: [mozilla/firefox](https://github.com/mozilla/firefox)
+            **Firefox Commit**: ${{ env.FIREFOX_COMMIT_SHORT }}
+            **Sync Date**: ${{ github.run_id }}
+            
+            ### Changes
+            
+            The following files have been updated from the Firefox repository:
+            
+            - Design tokens and related files from `toolkit/themes/shared/design-system/`
+            
+            ### Review Checklist
+            
+            - [ ] Review changes for any breaking modifications
+            - [ ] Ensure all custom files (acorn-utils/, acorn-tokens/, etc.) are preserved
+            - [ ] Test build process: `npm run build`
+            - [ ] Verify generated CSS files are correct
+            
+            **Note**: This PR was automatically created by the Firefox sync workflow.
+          branch: firefox-sync-${{ github.run_number }}
+          delete-branch: true
 
       - name: Create summary
         run: |
           echo "## Sync Summary" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           if [ "${{ steps.check_changes.outputs.changes_detected }}" == "true" ]; then
-            echo "✅ **Changes detected and synced from Firefox repository**" >> $GITHUB_STEP_SUMMARY
+            echo "✅ **Changes detected - Pull Request created**" >> $GITHUB_STEP_SUMMARY
             echo "" >> $GITHUB_STEP_SUMMARY
-            echo "The Acorn Design System has been updated with the latest changes from mozilla/firefox." >> $GITHUB_STEP_SUMMARY
+            echo "A Pull Request has been created with the latest changes from mozilla/firefox." >> $GITHUB_STEP_SUMMARY
+            echo "Please review and merge the PR to update the Acorn Design System." >> $GITHUB_STEP_SUMMARY
           else
             echo "ℹ️ **No changes detected**" >> $GITHUB_STEP_SUMMARY
             echo "" >> $GITHUB_STEP_SUMMARY
