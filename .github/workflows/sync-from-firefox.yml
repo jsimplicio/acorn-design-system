@@ -51,7 +51,7 @@ jobs:
           fi
           mkdir -p temp-comparison
           rsync -av --exclude='.git*' --exclude='node_modules' "$DESIGN_SYSTEM_PATH/" temp-comparison/
-          if ! diff -r --exclude='.git*' --exclude='node_modules' --exclude='.github' . temp-comparison/ > /dev/null 2>&1; then
+          if ! diff -r --exclude='.git*' --exclude='node_modules' --exclude='.github' --exclude='acorn-utils' . temp-comparison/ > /dev/null 2>&1; then
             echo "changes_detected=true" >> $GITHUB_OUTPUT
             echo "📝 Changes detected in Firefox design-system!"
           else
@@ -66,7 +66,7 @@ jobs:
           echo "🔄 Syncing changes from Firefox repository..."
           DESIGN_SYSTEM_PATH="firefox-repo/toolkit/themes/shared/design-system"
           echo "📋 Copying files from Firefox repository..."
-          echo "rsync command: rsync -av --delete --force --ignore-errors --exclude='.git*' --exclude='node_modules' --exclude='.github' --exclude='README.md' --exclude='LICENSE' --exclude='package*.json' $DESIGN_SYSTEM_PATH/ ./"
+          echo "rsync command: rsync -av --delete --force --ignore-errors --exclude='.git*' --exclude='node_modules' --exclude='.github' --exclude='README.md' --exclude='LICENSE' --exclude='package*.json' --exclude='acorn-utils' $DESIGN_SYSTEM_PATH/ ./"
           rsync -av --delete --force --ignore-errors \
             --exclude='.git*' \
             --exclude='node_modules' \
@@ -75,6 +75,7 @@ jobs:
             --exclude='LICENSE' \
             --exclude='package*.json' \
             --exclude='.prettierrc' \
+            --exclude='acorn-utils' \
             "$DESIGN_SYSTEM_PATH/" ./ || {
             RSYNC_EXIT_CODE=$?
             echo "⚠️ rsync completed with exit code $RSYNC_EXIT_CODE"
