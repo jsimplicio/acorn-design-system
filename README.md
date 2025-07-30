@@ -2,7 +2,7 @@
 
 This repository contains the Acorn Design System from Mozilla Firefox, automatically synced from the [mozilla/firefox](https://github.com/mozilla/firefox) repository.
 
-## 🎨 What is Acorn?
+## What is Acorn
 
 Acorn is Firefox's design system that provides:
 - **Design tokens** in JSON format (`design-tokens.json`)
@@ -10,7 +10,7 @@ Acorn is Firefox's design system that provides:
 - **Build tools** for generating CSS from design tokens
 - **Documentation** and examples
 
-## 📁 Repository Structure
+## Repository structure
 
 ```
 acorn-design-system/
@@ -29,15 +29,15 @@ acorn-design-system/
     └── text-and-typography.css # Additional typography utilities
 ```
 
-## 🛠️ Usage
+## Usage
 
-### Installing Dependencies
+### Installing dependencies
 
 ```bash
 npm install
 ```
 
-### Building Tokens
+### Building tokens
 
 ```bash
 npm run build
@@ -45,7 +45,7 @@ npm run build
 
 This will generate all the CSS files from the design tokens.
 
-### Using the Design System
+### Using the design system
 
 You can use the modular CSS files in your projects:
 
@@ -56,7 +56,7 @@ You can use the modular CSS files in your projects:
 <link rel="stylesheet" href="acorn-tokens/acorn-size.css">
 ```
 
-### Available CSS Files
+### CSS token files
 
 | File | Description |
 |------|-------------|
@@ -69,7 +69,7 @@ You can use the modular CSS files in your projects:
 | `acorn-tokens/acorn-inputs.css` | Form elements, buttons, and interactive components |
 | `acorn-utils/text-and-typography.css` | Additional typography utilities and text-related helper classes |
 
-### Custom Utilities
+### Custom utilities
 
 The `acorn-utils/` directory contains additional CSS utilities.
 
@@ -79,18 +79,19 @@ The `acorn-utils/` directory contains additional CSS utilities.
 <link rel="stylesheet" href="acorn-utils/text-and-typography.css">
 ```
 
-## 🔗 Related Links
+## Built with Style Dictionary
 
-- **Firefox Source**: [mozilla/firefox](https://github.com/mozilla/firefox)
-- **Original Location**: `toolkit/themes/shared/design-system/`
+These design tokens are generated with [Style Dictionary](https://github.com/amzn/style-dictionary), an open-source tool for transforming design tokens into platform-specific code. Style Dictionary enables us to maintain design tokens in a single JSON file and generate CSS variables, documentation, and other formats automatically.
+
+## Related links
+
 - **Acorn Design System**: [acorn.firefox.com](https://acorn.firefox.com/)
-- **Style Dictionary**: [Amazon Style Dictionary](https://amzn.github.io/style-dictionary/)
 
-## 📝 License
+## License
 
 This project follows the same license as the Mozilla Firefox project. See the license headers in individual files for details.
 
-## 🤝 Contributing
+## Contributing
 
 Since this repository is automatically synced from Firefox, contributions should be made to the original Firefox repository:
 
