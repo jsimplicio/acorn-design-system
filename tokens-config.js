@@ -53,19 +53,6 @@ const STATE_ORDER = [
   "disabled",
 ];
 
-/**
- * Adds the Mozilla Public License header in one comment and
- * how to make changes in the generated output files via the
- * design-tokens.json file in another comment. Also imports
- * tokens-shared.css when applicable.
- *
- * @param {string} surface
- *  Desktop surface, either "brand" or "platform". Determines
- *  whether or not we need to import tokens-shared.css.
- * @returns {string} Formatted comment header string
- */
-
-   until Bug 1879349 lands */`;
 
 const MEDIA_QUERY_PROPERTY_MAP = {
   "forced-colors": "forcedColors",
@@ -76,17 +63,6 @@ function formatBaseTokenNames(str) {
   return str.replaceAll(/(?<tokenName>\w+)-base(?=\b)/g, "$<tokenName>");
 }
 
-/**
- * Creates a surface-specific formatter. The formatter is used to build
- * our different CSS files, including "prefers-contrast" and "forced-colors"
- * media queries. See more at
- * https://amzn.github.io/style-dictionary/#/formats?id=formatter
- *
- * @param {string} surface
- *  Which desktop area we are generating CSS for.
- *  Either "brand" (i.e. in-content) or "platform" (i.e. chrome).
- * @returns {Function} - Formatter function that returns a CSS string.
- */
 
 /**
  * Creates a simple formatter for acorn-colors.css without layers or anonymous-content-host
@@ -185,55 +161,31 @@ ${formattedVars}
 }
 
 /**
- * Formats a subset of tokens into CSS. Wraps token CSS in a media query when
- * applicable.
- *
- * @param {object} tokenArgs
- * @param {string} [tokenArgs.mediaQuery]
- *  Media query formatted CSS should be wrapped in. This is used
- *  to determine what property we are parsing from the token values.
- * @param {string} [tokenArgs.surface]
- *  Specifies a desktop surface, either "brand" or "platform".
- * @param {object} tokenArgs.args
- *  Formatter arguments provided by style-dictionary. See more at
- *  https://amzn.github.io/style-dictionary/#/formats?id=formatter
- * @returns {string} Tokens formatted into a CSS string.
- */
-
-/**
  * Finds the original value of a token for a given media query and surface.
- *
- * @param {object} token - Token object parsed by style-dictionary.
- * @param {string} prop - Name of the property we're querying for.
- * @param {string} surface
- *  The desktop surface we're generating CSS for, either "brand" or "platform".
- * @returns {string} The original token value based on our parameters.
  */
+function getOriginalTokenValue(token, prop, surface) {
+  if (surface) {
+    return token.original.value[surface]?.[prop];
+  } else if (prop == "default" && typeof token.original.value != "object") {
+    return token.original.value;
+  }
+  return token.original.value?.[prop];
+}
 
 /**
  * Updates a token's value to the relevant original value after resolving
- * variable references. Also checks for surface specific comments.
- *
- * @param {object} token - Token object parsed from JSON by style-dictionary.
- * @param {string} originalVal
- *  Original value of the token for the combination of surface and media query.
- * @param {object} dictionary
- *  Object of transformed tokens and helper fns provided by style-dictionary.
- * @param {string} surface
- *  The desktop surface we're generating CSS for, either "brand", "platform",
- *  or "shared".
- * @returns {object} Token object with an updated value.
+ * variable references.
  */
-
-/**
- * Creates a light-dark transform that works for a given surface. Registers
- * the transform with style-dictionary and returns the transform's name.
- *
- * @param {string} surface
- *  The desktop surface we're generating CSS for, either "brand", "platform",
- *  or "shared".
- * @returns {string} Name of the transform that was registered.
- */
+function transformToken(token, originalVal, dictionary, surface) {
+  let value = originalVal;
+  if (dictionary.usesReference(value)) {
+    dictionary.getReferences(value).forEach(ref => {
+      value = value.replace(`{${ref.path.join(".")}}`, `var(--${ref.name})`);
+    });
+  }
+  let surfaceComment = token.original?.value[surface]?.comment;
+  return { ...token, value, comment: surfaceComment ?? token.comment };
+}
 
 /**
  * Format the tokens dictionary to a string. This mostly defers to
@@ -340,117 +292,11 @@ function formatVariables({ format, dictionary, outputReferences, formatting }) {
   return outputParts.join("\n");
 }
 
-// Easy way to grab variable values later for display.
-let variableLookupTable = {};
-
-function storybookJSFormat(args) {
-  let dictionary = Object.assign({}, args.dictionary);
-  let resolvedTokens = dictionary.allTokens.map(token => {
-    let tokenVal = resolveReferences(dictionary, token.original);
-    return {
-      name: token.name,
-      ...tokenVal,
-    };
-  });
-  dictionary.allTokens = dictionary.allProperties = resolvedTokens;
-
-  let parsedData = JSON.parse(
-    formatBaseTokenNames(
-      StyleDictionary.format["javascript/module-flat"]({
-        ...args,
-        dictionary,
-      })
-    )
-      .trim()
-      .replaceAll(/(^module\.exports\s*=\s*|\;$)/g, "")
-  );
-  let storybookTables = formatTokensTablesData(parsedData);
-
-  return `${customFileHeader({ platform: "storybook" })}
-  export const storybookTables = ${JSON.stringify(storybookTables)};
-
-  export const variableLookupTable = ${JSON.stringify(variableLookupTable)};
-  `;
-}
-
-function resolveReferences(dictionary, originalVal) {
-  let resolvedValues = {};
-  Object.entries(originalVal).forEach(([key, value]) => {
-    if (typeof value === "object" && value != null) {
-      resolvedValues[key] = resolveReferences(dictionary, value);
-    } else {
-      let resolvedVal = getValueWithReferences(dictionary, value);
-      resolvedValues[key] = resolvedVal;
-    }
-  });
-  return resolvedValues;
-}
-
-function getValueWithReferences(dictionary, value) {
-  let valWithRefs = value;
-  if (dictionary.usesReference(value)) {
-    dictionary.getReferences(value).forEach(ref => {
-      valWithRefs = valWithRefs.replace(
-        `{${ref.path.join(".")}}`,
-        `var(--${ref.name})`
-      );
-    });
-  }
-  return valWithRefs;
-}
-
-function formatTokensTablesData(tokensData) {
-  let tokensTables = {};
-  Object.entries(tokensData).forEach(([key, value]) => {
-    variableLookupTable[key] = value;
-    let formattedToken = {
-      value,
-      name: `--${key}`,
-    };
-
-    let tableName = getTableName(key);
-    if (tokensTables[tableName]) {
-      tokensTables[tableName].push(formattedToken);
-    } else {
-      tokensTables[tableName] = [formattedToken];
-    }
-  });
-  return tokensTables;
-}
-
-const SINGULAR_TABLE_CATEGORIES = [
-  "button",
-  "color",
-  "link",
-  "size",
-  "space",
-  "opacity",
-  "outline",
-  "padding",
-  "margin",
-];
-
-function getTableName(tokenName) {
-  if (tokenName.includes("page-main")) {
-    return "size";
-  }
-
-  let replacePattern =
-    /^(button-|input-text-|input-|focus-|checkbox-|table-row-|attention-dot-)/;
-  if (tokenName.match(replacePattern)) {
-    tokenName = tokenName.replace(replacePattern, "");
-  }
-  let [category, type] = tokenName.split("-");
-  return SINGULAR_TABLE_CATEGORIES.includes(category) || !type
-    ? category
-    : `${category}-${type}`;
-}
 
 module.exports = {
   source: ["design-tokens.json"],
   format: {
     "css/variables/simple-colors": createSimpleColorsFormat(),
-    "javascript/storybook": storybookJSFormat,
   },
   platforms: {
     css: {
@@ -460,7 +306,6 @@ module.exports = {
       },
       transforms: [
         ...StyleDictionary.transformGroup.css,
-        ...["shared", "platform", "brand"].map(createLightDarkTransform),
       ],
       files: [
 	{
