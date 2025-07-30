@@ -70,13 +70,11 @@ You can use the modular CSS files in your projects:
 
 ### Custom Utilities
 
-The `acorn-utils/` directory contains additional CSS utilities that are specific to this Acorn implementation and are not part of the upstream Firefox design system:
+The `acorn-utils/` directory contains additional CSS utilities.
 
 | File | Description |
 |------|-------------|
 | `acorn-utils/text-and-typography.css` | Additional typography utilities and text-related helper classes |
-
-**Note**: Files in `acorn-utils/` are protected from being overwritten during Firefox sync operations, making them safe for custom modifications and additions.
 
 ```html
 <!-- Include custom utilities alongside token files -->
