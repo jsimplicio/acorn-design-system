@@ -1,0 +1,18 @@
+# Hide everything by default
+*
+
+# But keep these essential files
+!README.md
+!.gitignore
+!.github/
+!.github/**
+
+# Keep the acorn-tokens directory and all its contents
+!acorn-tokens/
+!acorn-tokens/**
+
+# Keep package.json for npm compatibility (if users want to build)
+!package.json
+
+# Optionally keep design-tokens.json for reference
+!design-tokens.json
