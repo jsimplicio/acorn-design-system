@@ -27,23 +27,6 @@ acorn-design-system/
     └── acorn-inputs.css       # Input/form tokens (generated)
 ```
 
-## 🔄 Automatic Sync
-
-This repository is automatically kept in sync with Firefox's design system through a GitHub Action that:
-
-- **Runs daily** at 6 AM UTC to check for changes
-- **Compares** the current repository with the latest Firefox code
-- **Automatically syncs** any changes found
-- **Creates commits** with references to the source Firefox commits
-- **Can be triggered manually** via the GitHub Actions UI
-
-### Manual Sync
-
-You can also manually trigger a sync by:
-1. Going to the **Actions** tab in this repository
-2. Selecting the **"Sync from Firefox Repository"** workflow
-3. Clicking **"Run workflow"**
-
 ## 🛠️ Usage
 
 ### Installing Dependencies
