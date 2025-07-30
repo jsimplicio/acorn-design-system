@@ -3,9 +3,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 :root {
-  /** Checkbox **/
-  --checkbox-size: var(--size-item-small); /* TODO Bug 1876537: Make this em-based, probably? */
-
   /** Focus Outline **/
   --focus-outline-width: 2px;
 
@@ -16,9 +13,6 @@
   --icon-size-medium: 20px;
   --icon-size-large: 24px;
   --icon-size-xlarge: var(--size-item-large);
-
-  /** Input - Text **/
-  --input-text-min-height: var(--button-min-height);
 
   /** Page **/
   --page-main-content-width: 664px;

@@ -529,6 +529,11 @@ module.exports = {
 	        !token.name.includes('-size') && !token.name.includes('-width') && !token.name.includes('-height') && !token.name.includes('font-size')) {
 	      return false;
 	    }
+
+	    // Exclude checkbox and input tokens from acorn-size.css
+	    if (token.name.startsWith('checkbox-') || token.name.startsWith('input-')) {
+	      return false;
+	    }
 	    
 	    // For simple values (not objects), include them
 	    if (typeof token.original.value !== 'object') {
