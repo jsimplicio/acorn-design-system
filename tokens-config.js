@@ -227,7 +227,14 @@ function transformToken(token, originalVal, dictionary, surface) {
     });
   }
   let surfaceComment = token.original?.value[surface]?.comment;
-  return { ...token, value, comment: surfaceComment ?? token.comment };
+  let finalComment = surfaceComment ?? token.comment;
+  
+  // Filter out TODO comments to keep the generated CSS clean
+  if (finalComment && finalComment.startsWith('TODO')) {
+    finalComment = undefined;
+  }
+  
+  return { ...token, value, comment: finalComment };
 }
 
 /**
