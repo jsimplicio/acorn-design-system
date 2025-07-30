@@ -9,59 +9,30 @@
     currentColor 7%,
     transparent
   ); /* TODO Bug 1821203 - Gray use needs to be consolidated */
-  --button-background-color-hover: color-mix(
-    in srgb,
-    currentColor 14%,
-    transparent
-  );
-  --button-background-color-active: color-mix(
-    in srgb,
-    currentColor 21%,
-    transparent
-  );
+  --button-background-color-hover: color-mix(in srgb, currentColor 14%, transparent);
+  --button-background-color-active: color-mix(in srgb, currentColor 21%, transparent);
   --button-background-color-disabled: var(--button-background-color);
-  --button-background-color-destructive: light-dark(
-    var(--color-red-60),
-    var(--color-red-30)
-  );
-  --button-background-color-destructive-hover: light-dark(
-    var(--color-red-70),
-    var(--color-red-20)
-  );
-  --button-background-color-destructive-active: light-dark(
-    var(--color-red-80),
-    var(--color-red-10)
-  );
-  --button-background-color-destructive-disabled: var(
-    --button-background-color-destructive
-  );
+  --button-background-color-destructive: light-dark(var(--color-red-60), var(--color-red-30));
+  --button-background-color-destructive-hover: light-dark(var(--color-red-70), var(--color-red-20));
+  --button-background-color-destructive-active: light-dark(var(--color-red-80), var(--color-red-10));
+  --button-background-color-destructive-disabled: var(--button-background-color-destructive);
   --button-background-color-ghost: transparent;
   --button-background-color-ghost-hover: var(--button-background-color-hover);
   --button-background-color-ghost-active: var(--button-background-color-active);
-  --button-background-color-ghost-disabled: var(
-    --button-background-color-ghost
-  );
+  --button-background-color-ghost-disabled: var(--button-background-color-ghost);
   --button-background-color-primary: var(--color-accent-primary);
   --button-background-color-primary-hover: var(--color-accent-primary-hover);
   --button-background-color-primary-active: var(--color-accent-primary-active);
-  --button-background-color-primary-disabled: var(
-    --button-background-color-primary
-  );
+  --button-background-color-primary-disabled: var(--button-background-color-primary);
   --button-border: var(--border-width) solid var(--button-border-color);
   --button-border-color: transparent;
   --button-border-color-hover: var(--button-border-color);
   --button-border-color-active: var(--button-border-color);
   --button-border-color-disabled: var(--button-border-color);
   --button-border-color-destructive: transparent;
-  --button-border-color-destructive-hover: var(
-    --button-border-color-destructive
-  );
-  --button-border-color-destructive-active: var(
-    --button-border-color-destructive
-  );
-  --button-border-color-destructive-disabled: var(
-    --button-border-color-destructive
-  );
+  --button-border-color-destructive-hover: var(--button-border-color-destructive);
+  --button-border-color-destructive-active: var(--button-border-color-destructive);
+  --button-border-color-destructive-disabled: var(--button-border-color-destructive);
   --button-border-color-ghost: var(--button-border-color);
   --button-border-color-ghost-hover: var(--button-border-color-hover);
   --button-border-color-ghost-active: var(--button-border-color-active);
@@ -87,32 +58,22 @@
   --button-text-color-hover: var(--button-text-color);
   --button-text-color-active: var(--button-text-color);
   --button-text-color-disabled: var(--button-text-color);
-  --button-text-color-destructive: light-dark(
-    var(--color-white),
-    var(--color-gray-100)
-  );
+  --button-text-color-destructive: light-dark(var(--color-white), var(--color-gray-100));
   --button-text-color-destructive-hover: var(--button-text-color-destructive);
   --button-text-color-destructive-active: var(--button-text-color-destructive);
-  --button-text-color-destructive-disabled: var(
-    --button-text-color-destructive
-  );
+  --button-text-color-destructive-disabled: var(--button-text-color-destructive);
   --button-text-color-ghost: inherit;
   --button-text-color-ghost-hover: inherit;
   --button-text-color-ghost-active: inherit;
   --button-text-color-ghost-disabled: inherit;
-  --button-text-color-primary: light-dark(
-    var(--color-white),
-    var(--color-gray-100)
-  );
+  --button-text-color-primary: light-dark(var(--color-white), var(--color-gray-100));
   --button-text-color-primary-hover: var(--button-text-color-primary);
   --button-text-color-primary-active: var(--button-text-color-primary-hover);
   --button-text-color-primary-disabled: var(--button-text-color-primary);
 
   /** Checkbox **/
   --checkbox-margin-inline: var(--space-small);
-  --checkbox-size: var(
-    --size-item-small
-  ); /* TODO Bug 1876537: Make this em-based, probably? */
+  --checkbox-size: var(--size-item-small); /* TODO Bug 1876537: Make this em-based, probably? */
 
   /** Focus Outline **/
   --focus-outline: var(--focus-outline-width) solid var(--focus-outline-color);
@@ -142,39 +103,21 @@
     --button-background-color-hover: SelectedItemText;
     --button-background-color-active: SelectedItemText;
     --button-background-color-disabled: ButtonFace;
-    --button-background-color-destructive: var(
-      --button-background-color-primary
-    );
-    --button-background-color-destructive-hover: var(
-      --button-background-color-primary-hover
-    );
-    --button-background-color-destructive-active: var(
-      --button-background-color-primary-active
-    );
-    --button-background-color-destructive-disabled: var(
-      --button-background-color-primary-disabled
-    );
+    --button-background-color-destructive: var(--button-background-color-primary);
+    --button-background-color-destructive-hover: var(--button-background-color-primary-hover);
+    --button-background-color-destructive-active: var(--button-background-color-primary-active);
+    --button-background-color-destructive-disabled: var(--button-background-color-primary-disabled);
     --button-background-color-ghost: var(--button-background-color);
-    --button-background-color-ghost-disabled: var(
-      --button-background-color-disabled
-    );
-    --button-background-color-primary-disabled: var(
-      --button-text-color-disabled
-    );
+    --button-background-color-ghost-disabled: var(--button-background-color-disabled);
+    --button-background-color-primary-disabled: var(--button-text-color-disabled);
     --button-border-color: var(--border-color-interactive);
     --button-border-color-hover: var(--border-color-interactive-hover);
     --button-border-color-active: var(--border-color-interactive-active);
     --button-border-color-disabled: var(--border-color-interactive-disabled);
     --button-border-color-destructive: var(--button-border-color-primary);
-    --button-border-color-destructive-hover: var(
-      --button-border-color-primary-hover
-    );
-    --button-border-color-destructive-active: var(
-      --button-border-color-primary-active
-    );
-    --button-border-color-destructive-disabled: var(
-      --button-border-color-primary-disabled
-    );
+    --button-border-color-destructive-hover: var(--button-border-color-primary-hover);
+    --button-border-color-destructive-active: var(--button-border-color-primary-active);
+    --button-border-color-destructive-disabled: var(--button-border-color-primary-disabled);
     --button-border-color-primary: ButtonFace;
     --button-border-color-primary-hover: SelectedItemText;
     --button-border-color-primary-active: ButtonText;
@@ -184,15 +127,9 @@
     --button-text-color-active: SelectedItem;
     --button-text-color-disabled: GrayText;
     --button-text-color-destructive: var(--button-text-color-primary);
-    --button-text-color-destructive-hover: var(
-      --button-text-color-primary-hover
-    );
-    --button-text-color-destructive-active: var(
-      --button-text-color-primary-active
-    );
-    --button-text-color-destructive-disabled: var(
-      --button-text-color-primary-disabled
-    );
+    --button-text-color-destructive-hover: var(--button-text-color-primary-hover);
+    --button-text-color-destructive-active: var(--button-text-color-primary-active);
+    --button-text-color-destructive-disabled: var(--button-text-color-primary-disabled);
     --button-text-color-ghost: var(--button-text-color);
     --button-text-color-ghost-hover: var(--button-text-color-hover);
     --button-text-color-ghost-active: var(--button-text-color-active);
