@@ -114,18 +114,18 @@ jobs:
 
           git add .
 
-          if git diff --cached --quiet; then
-            echo "No changes to commit after sync"
-          else
-            git commit -m "Sync from Firefox repository\n\nSynced from mozilla/firefox commit: $FIREFOX_COMMIT_SHORT\nDate: $(date '+%Y-%m-%d %H:%M:%S UTC')\nSource: https://github.com/mozilla/firefox/commit/$FIREFOX_COMMIT"
-            echo "Changes committed successfully!"
-          fi
-
       - name: Create Pull Request
         if: steps.check_changes.outputs.changes_detected == 'true'
+        id: create_pr
         uses: peter-evans/create-pull-request@v5
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: |
+            Sync from Firefox repository
+            
+            Synced from mozilla/firefox commit: ${{ env.FIREFOX_COMMIT_SHORT }}
+            Date: ${{ github.run_id }}
+            Source: https://github.com/mozilla/firefox/commit/${{ env.FIREFOX_COMMIT_SHORT }}
           title: "🔄 Sync from Firefox Repository"
           body: |
             ## Firefox Design System Sync
@@ -134,7 +134,7 @@ jobs:
             
             **Source**: [mozilla/firefox](https://github.com/mozilla/firefox)
             **Firefox Commit**: ${{ env.FIREFOX_COMMIT_SHORT }}
-            **Sync Date**: ${{ github.run_id }}
+            **Sync Run**: ${{ github.run_id }}
             
             ### Changes
             
@@ -153,15 +153,31 @@ jobs:
           branch: firefox-sync-${{ github.run_number }}
           delete-branch: true
 
+      - name: Report PR Creation
+        if: steps.check_changes.outputs.changes_detected == 'true'
+        run: |
+          echo "🚀 Pull Request Creation Results:"
+          echo "PR Number: ${{ steps.create_pr.outputs.pull-request-number }}"
+          echo "PR URL: ${{ steps.create_pr.outputs.pull-request-url }}"
+          echo "PR Operation: ${{ steps.create_pr.outputs.pull-request-operation }}"
+          echo "PR Head SHA: ${{ steps.create_pr.outputs.pull-request-head-sha }}"
+
       - name: Create summary
         run: |
           echo "## Sync Summary" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           if [ "${{ steps.check_changes.outputs.changes_detected }}" == "true" ]; then
-            echo "✅ **Changes detected - Pull Request created**" >> $GITHUB_STEP_SUMMARY
-            echo "" >> $GITHUB_STEP_SUMMARY
-            echo "A Pull Request has been created with the latest changes from mozilla/firefox." >> $GITHUB_STEP_SUMMARY
-            echo "Please review and merge the PR to update the Acorn Design System." >> $GITHUB_STEP_SUMMARY
+            if [ "${{ steps.create_pr.outputs.pull-request-number }}" != "" ]; then
+              echo "✅ **Pull Request Created Successfully**" >> $GITHUB_STEP_SUMMARY
+              echo "" >> $GITHUB_STEP_SUMMARY
+              echo "**PR #${{ steps.create_pr.outputs.pull-request-number }}**: ${{ steps.create_pr.outputs.pull-request-url }}" >> $GITHUB_STEP_SUMMARY
+              echo "" >> $GITHUB_STEP_SUMMARY
+              echo "Please review and merge the PR to update the Acorn Design System." >> $GITHUB_STEP_SUMMARY
+            else
+              echo "⚠️ **Changes detected but PR creation failed**" >> $GITHUB_STEP_SUMMARY
+              echo "" >> $GITHUB_STEP_SUMMARY
+              echo "Changes were detected but no Pull Request was created. Check the workflow logs." >> $GITHUB_STEP_SUMMARY
+            fi
           else
             echo "ℹ️ **No changes detected**" >> $GITHUB_STEP_SUMMARY
             echo "" >> $GITHUB_STEP_SUMMARY
