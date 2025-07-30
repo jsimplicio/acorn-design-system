@@ -62,7 +62,6 @@ jobs:
         run: |
           echo "🔄 Syncing changes from Firefox repository..."
           DESIGN_SYSTEM_PATH="firefox-repo/toolkit/themes/shared/design-system"
-          
           echo "📋 Copying files from Firefox repository..."
           echo "rsync command: rsync -av --delete --exclude='.git*' --exclude='node_modules' --exclude='.github' --exclude='README.md' --exclude='LICENSE' $DESIGN_SYSTEM_PATH/ ./"
           rsync -av --delete \
@@ -73,14 +72,12 @@ jobs:
             --exclude='LICENSE' \
             "$DESIGN_SYSTEM_PATH/" ./
 
-          echo "
-
-Git status after rsync:"
+          echo ""
+          echo "Git status after rsync:"
           git status
 
-          echo "
-
-Git diff after rsync:"
+          echo ""
+          echo "Git diff after rsync:"
           git diff --stat
 
           cd firefox-repo
