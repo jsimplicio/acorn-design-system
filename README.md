@@ -17,14 +17,16 @@ acorn-design-system/
 ├── design-tokens.json          # Main design tokens definition
 ├── tokens-config.js           # Style Dictionary configuration
 ├── package.json               # Build dependencies
-└── acorn-tokens/              # Modular token CSS files
-    ├── acorn-colors.css       # Color tokens (generated)
-    ├── acorn-typography.css   # Typography tokens (generated)
-    ├── acorn-size.css         # Size and dimension tokens (generated)
-    ├── acorn-space.css        # Spacing tokens (generated)
-    ├── acorn-borders.css      # Border tokens (generated)
-    ├── acorn-shadows.css      # Shadow tokens (generated)
-    └── acorn-inputs.css       # Input/form tokens (generated)
+├── acorn-tokens/              # Modular token CSS files
+│   ├── acorn-colors.css       # Color tokens (generated)
+│   ├── acorn-typography.css   # Typography tokens (generated)
+│   ├── acorn-size.css         # Size and dimension tokens (generated)
+│   ├── acorn-space.css        # Spacing tokens (generated)
+│   ├── acorn-borders.css      # Border tokens (generated)
+│   ├── acorn-shadows.css      # Shadow tokens (generated)
+│   └── acorn-inputs.css       # Input/form tokens (generated)
+└── acorn-utils/               # Custom Acorn utilities
+    └── text-and-typography.css # Additional typography utilities
 ```
 
 ## 🛠️ Usage
@@ -65,6 +67,22 @@ You can use the modular CSS files in your projects:
 | `acorn-tokens/acorn-borders.css` | Border widths, radii, and styles |
 | `acorn-tokens/acorn-shadows.css` | Box shadow definitions |
 | `acorn-tokens/acorn-inputs.css` | Form elements, buttons, and interactive components |
+
+### Custom Utilities
+
+The `acorn-utils/` directory contains additional CSS utilities that are specific to this Acorn implementation and are not part of the upstream Firefox design system:
+
+| File | Description |
+|------|-------------|
+| `acorn-utils/text-and-typography.css` | Additional typography utilities and text-related helper classes |
+
+**Note**: Files in `acorn-utils/` are protected from being overwritten during Firefox sync operations, making them safe for custom modifications and additions.
+
+```html
+<!-- Include custom utilities alongside token files -->
+<link rel="stylesheet" href="acorn-tokens/acorn-typography.css">
+<link rel="stylesheet" href="acorn-utils/text-and-typography.css">
+```
 
 ## 🔗 Related Links
 
