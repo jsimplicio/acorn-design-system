@@ -84,9 +84,6 @@ You can use the modular CSS files in your projects:
 | `acorn-tokens/acorn-borders.css` | Border widths, radii, and styles |
 | `acorn-tokens/acorn-shadows.css` | Box shadow definitions |
 | `acorn-tokens/acorn-inputs.css` | Form elements, buttons, and interactive components |
-| `tokens-shared.css` | Complete shared token set with layers |
-| `tokens-brand.css` | Brand-specific tokens |
-| `tokens-platform.css` | Platform-specific tokens |
 
 ## 🔗 Related Links
 
