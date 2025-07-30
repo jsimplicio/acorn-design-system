@@ -1,144 +1,111 @@
+---
 name: Sync from Firefox Repository
 
 on:
-  # Run every day at 6 AM UTC
   schedule:
     - cron: '0 6 * * *'
-  
-  # Allow manual triggering
   workflow_dispatch:
-  
-  # Run on push to main branch (for testing)
   push:
-    branches: [ main, master ]
-    paths: [ '.github/workflows/sync-from-firefox.yml' ]
+    branches:
+      - main
+      - master
+    paths:
+      - '.github/workflows/sync-from-firefox.yml'
 
 jobs:
   sync:
     runs-on: ubuntu-latest
-    
     steps:
-    - name: Checkout Acorn Design System repo
-      uses: actions/checkout@v4
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-        fetch-depth: 0
-    
-    - name: Set up Git
-      run: |
-        git config --global user.name 'github-actions[bot]'
-        git config --global user.email '41898282+github-actions[bot]@users.noreply.github.com'
-    
-    - name: Clone Mozilla Firefox repository
-      run: |
-        echo "🦊 Cloning Mozilla Firefox repository..."
-        git clone --depth 1 https://github.com/mozilla/gecko-dev.git firefox-repo
-        
-    - name: Check for changes in design-system
-      id: check_changes
-      run: |
-        echo "🔍 Checking for changes in design-system directory..."
-        
-        # Compare current files with Firefox repo
-        DESIGN_SYSTEM_PATH="firefox-repo/toolkit/themes/shared/design-system"
-        
-        if [ ! -d "$DESIGN_SYSTEM_PATH" ]; then
-          echo "❌ Design system directory not found in Firefox repo"
-          exit 1
-        fi
-        
-        # Create a temporary directory for comparison
-        mkdir -p temp-comparison
-        
-        # Copy Firefox design-system files to temp directory (excluding .git and node_modules)
-        rsync -av --exclude='.git*' --exclude='node_modules' "$DESIGN_SYSTEM_PATH/" temp-comparison/
-        
-        # Check if there are differences
-        if ! diff -r --exclude='.git*' --exclude='node_modules' --exclude='.github' . temp-comparison/ > /dev/null 2>&1; then
-          echo "changes_detected=true" >> $GITHUB_OUTPUT
-          echo "📝 Changes detected in Firefox design-system!"
-        else
-          echo "changes_detected=false" >> $GITHUB_OUTPUT
-          echo "✅ No changes detected. Repository is up to date."
-        fi
-        
-        # Clean up
-        rm -rf temp-comparison
-    
-    - name: Sync changes from Firefox
-      if: steps.check_changes.outputs.changes_detected == 'true'
-      run: |
-        echo "🔄 Syncing changes from Firefox repository..."
-        
-        DESIGN_SYSTEM_PATH="firefox-repo/toolkit/themes/shared/design-system"
-        
-        # Backup current state by creating a commit (if there are uncommitted changes)
-        if ! git diff --quiet || ! git diff --cached --quiet; then
-          git add .
-          git commit -m "Backup before sync from Firefox $(date '+%Y-%m-%d %H:%M:%S')" || echo "No changes to backup"
-        fi
-        
-        # Sync files from Firefox repository
-        echo "📋 Copying files from Firefox repository..."
-        rsync -av --delete \
-          --exclude='.git*' \
-          --exclude='node_modules' \
-          --exclude='.github' \
-          --exclude='README.md' \
-          --exclude='LICENSE' \
-          "$DESIGN_SYSTEM_PATH/" ./
-        
-        # Get the latest commit hash from Firefox repo for reference
-        cd firefox-repo
-        FIREFOX_COMMIT=$(git rev-parse HEAD)
-        FIREFOX_COMMIT_SHORT=$(git rev-parse --short HEAD)
-        cd ..
-        
-        echo "Firefox commit: $FIREFOX_COMMIT_SHORT"
-        
-        # Stage all changes
-        git add .
-        
-        # Check if there are actually changes to commit
-        if git diff --cached --quiet; then
-          echo "No changes to commit after sync"
-        else
-          # Commit changes
-          git commit -m "Sync from Firefox repository
+      - name: Checkout Acorn Design System repo
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
 
-Synced from mozilla/gecko-dev commit: $FIREFOX_COMMIT_SHORT
-Date: $(date '+%Y-%m-%d %H:%M:%S UTC')
-Source: https://github.com/mozilla/gecko-dev/commit/$FIREFOX_COMMIT"
-          
-          echo "Changes committed successfully!"
-        fi
-    
-    - name: Push changes
-      if: steps.check_changes.outputs.changes_detected == 'true'
-      run: |
-        echo "🚀 Pushing changes to repository..."
-        git push origin ${{ github.ref_name }}
-    
-    - name: Create summary
-      run: |
-        echo "## Sync Summary" >> $GITHUB_STEP_SUMMARY
-        echo "" >> $GITHUB_STEP_SUMMARY
-        
-        if [ "${{ steps.check_changes.outputs.changes_detected }}" == "true" ]; then
-          echo "✅ **Changes detected and synced from Firefox repository**" >> $GITHUB_STEP_SUMMARY
+      - name: Set up Git
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email '41898282+github-actions[bot]@users.noreply.github.com'
+
+      - name: Clone Mozilla Firefox repository
+        run: |
+          echo "🦊 Cloning Mozilla Firefox repository..."
+          git clone --depth 1 https://github.com/mozilla/gecko-dev.git firefox-repo
+
+      - name: Check for changes in design-system
+        id: check_changes
+        run: |
+          echo "🔍 Checking for changes in design-system directory..."
+          DESIGN_SYSTEM_PATH="firefox-repo/toolkit/themes/shared/design-system"
+          if [ ! -d "$DESIGN_SYSTEM_PATH" ]; then
+            echo "❌ Design system directory not found in Firefox repo"
+            exit 1
+          fi
+          mkdir -p temp-comparison
+          rsync -av --exclude='.git*' --exclude='node_modules' "$DESIGN_SYSTEM_PATH/" temp-comparison/
+          if ! diff -r --exclude='.git*' --exclude='node_modules' --exclude='.github' . temp-comparison/ > /dev/null 2>&1; then
+            echo "changes_detected=true" >> $GITHUB_OUTPUT
+            echo "📝 Changes detected in Firefox design-system!"
+          else
+            echo "changes_detected=false" >> $GITHUB_OUTPUT
+            echo "✅ No changes detected. Repository is up to date."
+          fi
+          rm -rf temp-comparison
+
+      - name: Sync changes from Firefox
+        if: steps.check_changes.outputs.changes_detected == 'true'
+        run: |
+          echo "🔄 Syncing changes from Firefox repository..."
+          DESIGN_SYSTEM_PATH="firefox-repo/toolkit/themes/shared/design-system"
+          if ! git diff --quiet || ! git diff --cached --quiet; then
+            git add .
+            git commit -m "Backup before sync from Firefox $(date '+%Y-%m-%d %H:%M:%S')" || echo "No changes to backup"
+          fi
+          echo "📋 Copying files from Firefox repository..."
+          rsync -av --delete \
+            --exclude='.git*' \
+            --exclude='node_modules' \
+            --exclude='.github' \
+            --exclude='README.md' \
+            --exclude='LICENSE' \
+            "$DESIGN_SYSTEM_PATH/" ./
+          cd firefox-repo
+          FIREFOX_COMMIT=$(git rev-parse HEAD)
+          FIREFOX_COMMIT_SHORT=$(git rev-parse --short HEAD)
+          cd ..
+          echo "Firefox commit: $FIREFOX_COMMIT_SHORT"
+          git add .
+          if git diff --cached --quiet; then
+            echo "No changes to commit after sync"
+          else
+            git commit -m "Sync from Firefox repository\n\nSynced from mozilla/gecko-dev commit: $FIREFOX_COMMIT_SHORT\nDate: $(date '+%Y-%m-%d %H:%M:%S UTC')\nSource: https://github.com/mozilla/gecko-dev/commit/$FIREFOX_COMMIT"
+            echo "Changes committed successfully!"
+          fi
+
+      - name: Push changes
+        if: steps.check_changes.outputs.changes_detected == 'true'
+        run: |
+          echo "🚀 Pushing changes to repository..."
+          git push origin ${{ github.ref_name }}
+
+      - name: Create summary
+        run: |
+          echo "## Sync Summary" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "The Acorn Design System has been updated with the latest changes from mozilla/gecko-dev." >> $GITHUB_STEP_SUMMARY
-        else
-          echo "ℹ️ **No changes detected**" >> $GITHUB_STEP_SUMMARY
+          if [ "${{ steps.check_changes.outputs.changes_detected }}" == "true" ]; then
+            echo "✅ **Changes detected and synced from Firefox repository**" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "The Acorn Design System has been updated with the latest changes from mozilla/gecko-dev." >> $GITHUB_STEP_SUMMARY
+          else
+            echo "ℹ️ **No changes detected**" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "The Acorn Design System is already up to date with the Firefox repository." >> $GITHUB_STEP_SUMMARY
+          fi
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "The Acorn Design System is already up to date with the Firefox repository." >> $GITHUB_STEP_SUMMARY
-        fi
-        
-        echo "" >> $GITHUB_STEP_SUMMARY
-        echo "Last sync: $(date '+%Y-%m-%d %H:%M:%S UTC')" >> $GITHUB_STEP_SUMMARY
-    
-    - name: Clean up
-      if: always()
-      run: |
-        echo "🧹 Cleaning up temporary files..."
-        rm -rf firefox-repo temp-comparison
+          echo "Last sync: $(date '+%Y-%m-%d %H:%M:%S UTC')" >> $GITHUB_STEP_SUMMARY
+
+      - name: Clean up
+        if: always()
+        run: |
+          echo "🧹 Cleaning up temporary files..."
+          rm -rf firefox-repo temp-comparison
