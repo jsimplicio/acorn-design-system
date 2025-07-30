@@ -17,13 +17,14 @@ acorn-design-system/
 ├── design-tokens.json          # Main design tokens definition
 ├── tokens-config.js           # Style Dictionary configuration
 ├── package.json               # Build dependencies
-├── acorn-colors.css           # Color tokens (generated)
-├── acorn-typography.css       # Typography tokens (generated)
-├── acorn-size.css             # Size and dimension tokens (generated)
-├── acorn-space.css            # Spacing tokens (generated)
-├── acorn-borders.css          # Border tokens (generated)
-├── acorn-shadows.css          # Shadow tokens (generated)
-├── acorn-inputs.css           # Input/form tokens (generated)
+├── acorn-tokens/              # Modular token CSS files
+│   ├── acorn-colors.css       # Color tokens (generated)
+│   ├── acorn-typography.css   # Typography tokens (generated)
+│   ├── acorn-size.css         # Size and dimension tokens (generated)
+│   ├── acorn-space.css        # Spacing tokens (generated)
+│   ├── acorn-borders.css      # Border tokens (generated)
+│   ├── acorn-shadows.css      # Shadow tokens (generated)
+│   └── acorn-inputs.css       # Input/form tokens (generated)
 ├── docs/                      # Documentation and examples
 └── tests/                     # Token validation tests
 ```
@@ -67,25 +68,22 @@ You can use the modular CSS files in your projects:
 
 ```html
 <!-- Use specific token categories -->
-<link rel="stylesheet" href="acorn-colors.css">
-<link rel="stylesheet" href="acorn-typography.css">
-<link rel="stylesheet" href="acorn-size.css">
-
-<!-- Or use the comprehensive files -->
-<link rel="stylesheet" href="tokens-shared.css">
+<link rel="stylesheet" href="acorn-tokens/acorn-colors.css">
+<link rel="stylesheet" href="acorn-tokens/acorn-typography.css">
+<link rel="stylesheet" href="acorn-tokens/acorn-size.css">
 ```
 
 ### Available CSS Files
 
 | File | Description |
 |------|-------------|
-| `acorn-colors.css` | All color-related tokens (backgrounds, borders, text, icons, etc.) |
-| `acorn-typography.css` | Font sizes, weights, and heading styles |
-| `acorn-size.css` | Dimensions, icon sizes, and layout measurements |
-| `acorn-space.css` | Spacing, padding, and margin tokens |
-| `acorn-borders.css` | Border widths, radii, and styles |
-| `acorn-shadows.css` | Box shadow definitions |
-| `acorn-inputs.css` | Form elements, buttons, and interactive components |
+| `acorn-tokens/acorn-colors.css` | All color-related tokens (backgrounds, borders, text, icons, etc.) |
+| `acorn-tokens/acorn-typography.css` | Font sizes, weights, and heading styles |
+| `acorn-tokens/acorn-size.css` | Dimensions, icon sizes, and layout measurements |
+| `acorn-tokens/acorn-space.css` | Spacing, padding, and margin tokens |
+| `acorn-tokens/acorn-borders.css` | Border widths, radii, and styles |
+| `acorn-tokens/acorn-shadows.css` | Box shadow definitions |
+| `acorn-tokens/acorn-inputs.css` | Form elements, buttons, and interactive components |
 | `tokens-shared.css` | Complete shared token set with layers |
 | `tokens-brand.css` | Brand-specific tokens |
 | `tokens-platform.css` | Platform-specific tokens |
@@ -94,7 +92,7 @@ You can use the modular CSS files in your projects:
 
 - **Firefox Source**: [mozilla/gecko-dev](https://github.com/mozilla/gecko-dev)
 - **Original Location**: `toolkit/themes/shared/design-system/`
-- **Mozilla Design**: [Mozilla Design System](https://design.firefox.com/)
+- **Acorn Design System**: [acorn.firefox.com](https://acorn.firefox.com/)
 - **Style Dictionary**: [Amazon Style Dictionary](https://amzn.github.io/style-dictionary/)
 
 ## 📝 License
@@ -108,6 +106,3 @@ Since this repository is automatically synced from Firefox, contributions should
 1. **For design token changes**: Contribute to [mozilla/gecko-dev](https://github.com/mozilla/gecko-dev)
 2. **For this sync setup**: Open issues or PRs in this repository
 
----
-
-*This repository is automatically maintained and synced from the Mozilla Firefox codebase.*

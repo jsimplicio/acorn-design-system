@@ -651,7 +651,7 @@ module.exports = {
             token.original.value.platform,
         },
 	{
-	  destination: "acorn-colors.css",
+	  destination: "acorn-tokens/acorn-colors.css",
 	  format: "css/variables/simple-colors",
 	  filter: token => {
 	    // Exclude shadow-related color tokens (they go to shadows)
@@ -709,7 +709,7 @@ module.exports = {
 	  }
 	},
 	{
-	  destination: "acorn-typography.css",
+	  destination: "acorn-tokens/acorn-typography.css",
 	  format: "css/variables/simple-colors",
 	  filter: token => {
 	    // Exclude input-related tokens (buttons, checkboxes, input-text, etc.)
@@ -746,7 +746,7 @@ module.exports = {
 	  }
 	},
 	{
-	  destination: "acorn-space.css",
+	  destination: "acorn-tokens/acorn-space.css",
 	  format: "css/variables/simple-colors",
 	  filter: token => {
 	    // Exclude input-related tokens (buttons, checkboxes, input-text, etc.)
@@ -785,7 +785,7 @@ module.exports = {
 	  }
 	},
 	{
-	  destination: "acorn-size.css",
+	  destination: "acorn-tokens/acorn-size.css",
 	  format: "css/variables/simple-colors",
 	  filter: token => {
 	    // Match all size-related tokens:
@@ -836,7 +836,7 @@ module.exports = {
 	  }
 	},
 	{
-	  destination: "acorn-borders.css",
+	  destination: "acorn-tokens/acorn-borders.css",
 	  format: "css/variables/simple-colors",
 	  filter: token => {
 	    // Exclude input-related tokens (buttons, checkboxes, input-text, etc.)
@@ -865,7 +865,7 @@ module.exports = {
 	  }
 	},
 	{
-	  destination: "acorn-shadows.css",
+	  destination: "acorn-tokens/acorn-shadows.css",
 	  format: "css/variables/simple-colors",
 	  filter: token => {
 	    // Match shadow-related token names (including box-shadow)
@@ -893,7 +893,7 @@ module.exports = {
 	  }
 	},
 	{
-	  destination: "acorn-inputs.css",
+	  destination: "acorn-tokens/acorn-inputs.css",
 	  format: "css/variables/simple-colors",
 	  filter: token => {
 	    // Match input-related token names (buttons, checkboxes, input-text, etc.) and focus outline tokens (except color)
@@ -929,7 +929,7 @@ module.exports = {
 	    
 	    return hasSharedOrBrand || !isPlatformOnly;
 	  }
-	},
+	}
       ],
     },
     storybook: {

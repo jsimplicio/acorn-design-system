@@ -5,8 +5,13 @@
 :host {
   --border-color-tokens-table: var(--color-gray-50);
   --table-border-outer: 2px solid var(--border-color-tokens-table);
-  --table-border-inner: var(--border-width) solid var(--border-color-tokens-table);
-  --table-background-color: color-mix(in srgb, var(--color-gray-50) 20%, transparent);
+  --table-border-inner: var(--border-width) solid
+    var(--border-color-tokens-table);
+  --table-background-color: color-mix(
+    in srgb,
+    var(--color-gray-50) 20%,
+    transparent
+  );
   --outline-preview: 2px solid var(--color-gray-60);
   --background-color-icon-demo: var(--color-gray-60);
   --background-color-padding-demo: var(--color-blue-60);
@@ -306,7 +311,8 @@ td:first-of-type {
   height: var(--size-item-large);
   width: var(--size-item-large);
   /* FIXME: our icons don't seem to work when used as a mask */
-  mask: url(https://upload.wikimedia.org/wikipedia/commons/c/c4/Globe_icon.svg) no-repeat center / contain;
+  mask: url(https://upload.wikimedia.org/wikipedia/commons/c/c4/Globe_icon.svg)
+    no-repeat center / contain;
 }
 
 /** Link **/
