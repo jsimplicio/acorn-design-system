@@ -226,15 +226,9 @@ function transformToken(token, originalVal, dictionary, surface) {
       value = value.replace(`{${ref.path.join(".")}}`, `var(--${ref.name})`);
     });
   }
-  let surfaceComment = token.original?.value[surface]?.comment;
-  let finalComment = surfaceComment ?? token.comment;
   
-  // Filter out TODO comments to keep the generated CSS clean
-  if (finalComment && finalComment.startsWith('TODO')) {
-    finalComment = undefined;
-  }
-  
-  return { ...token, value, comment: finalComment };
+  // Ignore all comments from design-tokens.json since section headings come from TOKEN_SECTIONS
+  return { ...token, value, comment: undefined };
 }
 
 /**
