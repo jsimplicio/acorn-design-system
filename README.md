@@ -15,6 +15,7 @@ acorn-design-system/
 ├── design-tokens.json          # Main design tokens definition
 ├── tokens-config.js           # Style Dictionary configuration
 ├── package.json               # Build dependencies
+├── acorn.css                  # Complete design system (imports all below)
 ├── acorn-tokens/              # Modular token CSS files
 │   ├── acorn-colors.css       # Color tokens (generated)
 │   ├── acorn-typography.css   # Typography tokens (generated)
@@ -48,7 +49,10 @@ This will generate all the CSS files from the design tokens.
 You can use the modular CSS files in your projects:
 
 ```html
-<!-- Use specific token categories -->
+<!-- Option 1: Import everything at once -->
+<link rel="stylesheet" href="acorn.css">
+
+<!-- Option 2: Use specific token categories (recommended for performance) -->
 <link rel="stylesheet" href="acorn-tokens/acorn-colors.css">
 <link rel="stylesheet" href="acorn-tokens/acorn-typography.css">
 <link rel="stylesheet" href="acorn-tokens/acorn-size.css">
@@ -58,6 +62,7 @@ You can use the modular CSS files in your projects:
 
 | File | Description |
 |------|-------------|
+| `acorn.css` | **Complete import** - Imports all token files and utilities below |
 | `acorn-tokens/acorn-colors.css` | All color-related tokens (backgrounds, borders, text, icons, etc.) |
 | `acorn-tokens/acorn-typography.css` | Font sizes, weights, and heading styles |
 | `acorn-tokens/acorn-size.css` | Dimensions, icon sizes, and layout measurements |

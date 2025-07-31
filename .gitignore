@@ -7,6 +7,9 @@
 !.github/
 !.github/**
 
+# Keep the complete import file
+!acorn.css
+
 # Keep the acorn-tokens directory and all its contents
 !acorn-tokens/
 !acorn-tokens/**

@@ -1,0 +1,25 @@
+/* Acorn Design System - Complete Import
+ * This file imports all Acorn design tokens and utilities for convenience.
+ * 
+ * For better performance, consider importing only the specific files you need:
+ * - acorn-tokens/acorn-colors.css (color tokens)
+ * - acorn-tokens/acorn-typography.css (typography tokens)
+ * - acorn-tokens/acorn-size.css (size and dimension tokens)
+ * - acorn-tokens/acorn-space.css (spacing tokens)
+ * - acorn-tokens/acorn-borders.css (border tokens)
+ * - acorn-tokens/acorn-shadows.css (shadow tokens)
+ * - acorn-tokens/acorn-inputs.css (input/form tokens)
+ * - acorn-utils/text-and-typography.css (typography utilities)
+ */
+
+/* Design Token Files */
+@import url("acorn-tokens/acorn-colors.css");
+@import url("acorn-tokens/acorn-typography.css");
+@import url("acorn-tokens/acorn-size.css");
+@import url("acorn-tokens/acorn-space.css");
+@import url("acorn-tokens/acorn-borders.css");
+@import url("acorn-tokens/acorn-shadows.css");
+@import url("acorn-tokens/acorn-inputs.css");
+
+/* Utility Files */
+@import url("acorn-utils/text-and-typography.css");
