@@ -58,13 +58,20 @@ jobs:
           
           # List of files we care about syncing (that match our .gitignore whitelist)
           # Note: package.json is excluded because Acorn maintains its own customized build script
-          SYNC_FILES=("design-tokens.json")
+          SYNC_FILES=("design-tokens.json" "text-and-typography.css")
           
           echo "🔍 Checking for specific file changes..."
           for file in "${SYNC_FILES[@]}"; do
+            # Handle special case for text-and-typography.css which goes to acorn-utils/
+            if [ "$file" = "text-and-typography.css" ]; then
+              local_file="acorn-utils/$file"
+            else
+              local_file="$file"
+            fi
+            
             if [ -f "$DESIGN_SYSTEM_PATH/$file" ]; then
-              if [ -f "$file" ]; then
-                if ! diff "$file" "$DESIGN_SYSTEM_PATH/$file" > /dev/null 2>&1; then
+              if [ -f "$local_file" ]; then
+                if ! diff "$local_file" "$DESIGN_SYSTEM_PATH/$file" > /dev/null 2>&1; then
                   echo "📝 Changes detected in $file"
                   CHANGES_FOUND=true
                 fi
@@ -72,7 +79,7 @@ jobs:
                 echo "📝 New file detected: $file"
                 CHANGES_FOUND=true
               fi
-            elif [ -f "$file" ]; then
+            elif [ -f "$local_file" ]; then
               echo "📝 File removed in Firefox: $file"
               CHANGES_FOUND=true
             fi
@@ -107,17 +114,26 @@ jobs:
           
           # Copy only specific files we want to sync
           # Note: package.json is excluded because Acorn maintains its own customized build script
-          SYNC_FILES=("design-tokens.json")
+          SYNC_FILES=("design-tokens.json" "text-and-typography.css")
           CHANGES_MADE=false
           
           for file in "${SYNC_FILES[@]}"; do
+            # Handle special case for text-and-typography.css which goes to acorn-utils/
+            if [ "$file" = "text-and-typography.css" ]; then
+              local_file="acorn-utils/$file"
+            else
+              local_file="$file"
+            fi
+            
             if [ -f "$DESIGN_SYSTEM_PATH/$file" ]; then
-              echo "📋 Copying $file from Firefox..."
-              cp "$DESIGN_SYSTEM_PATH/$file" "$file"
+              echo "📋 Copying $file from Firefox to $local_file..."
+              # Ensure directory exists
+              mkdir -p "$(dirname "$local_file")"
+              cp "$DESIGN_SYSTEM_PATH/$file" "$local_file"
               CHANGES_MADE=true
-            elif [ -f "$file" ]; then
-              echo "📋 Removing $file (deleted in Firefox)..."
-              rm "$file"
+            elif [ -f "$local_file" ]; then
+              echo "📋 Removing $local_file (deleted in Firefox)..."
+              rm "$local_file"
               CHANGES_MADE=true
             fi
           done
@@ -224,7 +240,7 @@ jobs:
             echo "The Acorn Design System is already up to date with the Firefox repository." >> $GITHUB_STEP_SUMMARY
           fi
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "**Note**: The Acorn Design System only syncs `design-tokens.json` from Firefox, maintaining its own simplified token structure and customized build configuration." >> $GITHUB_STEP_SUMMARY
+          echo "**Note**: The Acorn Design System syncs `design-tokens.json` and `text-and-typography.css` from Firefox, maintaining its own simplified token structure and customized build configuration." >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "Last sync: $(date '+%Y-%m-%d %H:%M:%S UTC')" >> $GITHUB_STEP_SUMMARY
 
