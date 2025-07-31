@@ -2,8 +2,6 @@
 
 This repository contains the Acorn Design System from Mozilla Firefox, automatically synced from the [mozilla/firefox](https://github.com/mozilla/firefox) repository.
 
-## What is Acorn
-
 Acorn is Firefox's design system that provides:
 - **Design tokens** in JSON format (`design-tokens.json`)
 - **Modular CSS files** for different token categories
@@ -85,7 +83,7 @@ These design tokens are generated with [Style Dictionary](https://github.com/amz
 
 ## Related links
 
-- **Acorn Design System**: [acorn.firefox.com](https://acorn.firefox.com/)
+**Acorn Design System**: [acorn.firefox.com](https://acorn.firefox.com/)
 
 ## License
 
