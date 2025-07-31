@@ -57,7 +57,8 @@ jobs:
           CHANGES_FOUND=false
           
           # List of files we care about syncing (that match our .gitignore whitelist)
-          SYNC_FILES=("design-tokens.json" "package.json")
+          # Note: package.json is excluded because Acorn maintains its own customized build script
+          SYNC_FILES=("design-tokens.json")
           
           echo "🔍 Checking for specific file changes..."
           for file in "${SYNC_FILES[@]}"; do
@@ -105,7 +106,8 @@ jobs:
           echo "FIREFOX_COMMIT_SHORT=$FIREFOX_COMMIT_SHORT" >> $GITHUB_ENV
           
           # Copy only specific files we want to sync
-          SYNC_FILES=("design-tokens.json" "package.json")
+          # Note: package.json is excluded because Acorn maintains its own customized build script
+          SYNC_FILES=("design-tokens.json")
           CHANGES_MADE=false
           
           for file in "${SYNC_FILES[@]}"; do
@@ -222,7 +224,7 @@ jobs:
             echo "The Acorn Design System is already up to date with the Firefox repository." >> $GITHUB_STEP_SUMMARY
           fi
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "**Note**: The Acorn Design System only syncs `design-tokens.json` and `package.json` from Firefox, maintaining its own simplified token structure." >> $GITHUB_STEP_SUMMARY
+          echo "**Note**: The Acorn Design System only syncs `design-tokens.json` from Firefox, maintaining its own simplified token structure and customized build configuration." >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "Last sync: $(date '+%Y-%m-%d %H:%M:%S UTC')" >> $GITHUB_STEP_SUMMARY
 
