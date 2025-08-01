@@ -31,28 +31,15 @@ const TOKEN_SECTIONS = {
   Text: "text",
   Unspecified: "",
 };
+
 const TSHIRT_ORDER = [
-  "circle",
-  "xxxsmall",
-  "xxsmall",
-  "xsmall",
-  "small",
-  "medium",
-  "large",
-  "xlarge",
-  "xxlarge",
-  "xxxlarge",
-];
-const STATE_ORDER = [
-  "base",
-  "default",
-  "root",
-  "hover",
-  "active",
-  "focus",
-  "disabled",
+  "circle", "xxxsmall", "xxsmall", "xsmall", "small", "medium",
+  "large", "xlarge", "xxlarge", "xxxlarge",
 ];
 
+const STATE_ORDER = [
+  "base", "default", "root", "hover", "active", "focus", "disabled",
+];
 
 const MEDIA_QUERY_PROPERTY_MAP = {
   "forced-colors": "forcedColors",
@@ -60,7 +47,35 @@ const MEDIA_QUERY_PROPERTY_MAP = {
 };
 
 function formatBaseTokenNames(str) {
-  return str.replaceAll(/(?<tokenName>\w+)-base(?=\b)/g, "$<tokenName>");
+  // Convert both @base and default suffixes to base token names
+  return str.replaceAll(/(?<tokenName>\w+)-base(?=\b)/g, "$<tokenName>")
+            .replaceAll(/(?<tokenName>\w+)-default(?=\b)/g, "$<tokenName>");
+}
+
+// Helper function to check if token should be included (not platform-only)
+function shouldIncludeToken(token) {
+  // For simple values (not objects), include them
+  if (typeof token.original.value !== 'object') {
+    return true;
+  }
+  
+  // Include tokens that have brand, shared (light/dark), or non-platform-only definitions
+  const hasSharedOrBrand = token.original.value.brand ||
+                          token.original.value.light ||
+                          token.original.value.dark ||
+                          token.original.value.default;
+                          
+  const isPlatformOnly = token.original.value.platform &&
+                        Object.keys(token.original.value).length === 1;
+                        
+  return hasSharedOrBrand || !isPlatformOnly;
+}
+
+// Helper function to check if token is input-related
+function isInputRelated(tokenName) {
+  return tokenName.includes('button-') || tokenName.startsWith('button-') ||
+         tokenName.includes('checkbox-') || tokenName.startsWith('checkbox-') ||
+         tokenName.includes('input-') || tokenName.startsWith('input-');
 }
 
 
@@ -393,75 +408,29 @@ module.exports = {
 	                        // Include icon color tokens
 	                        (token.name.startsWith('icon-') && token.name.includes('color'));
 	    
-	    if (!isColorToken) return false;
-	    
-	    // For simple values (not objects), include them
-	    if (typeof token.original.value !== 'object') {
-	      return true;
-	    }
-	    
-	    // Include tokens that have brand, shared (light/dark), or non-platform-only definitions
-	    const hasSharedOrBrand = token.original.value.brand ||
-	                            token.original.value.light ||
-	                            token.original.value.dark ||
-	                            token.original.value.default;
-	    
-	    const isPlatformOnly = token.original.value.platform &&
-	                          Object.keys(token.original.value).length === 1;
-	    
-	    return hasSharedOrBrand || !isPlatformOnly;
+	    return isColorToken && shouldIncludeToken(token);
 	  }
 	},
 	{
 	  destination: "acorn-tokens/acorn-typography.css",
 	  format: "css/variables/simple-colors",
 	  filter: token => {
-	    // Exclude input-related tokens (buttons, checkboxes, input-text, etc.)
-	    if (token.name.includes('button-') || token.name.startsWith('button-') ||
-	        token.name.includes('checkbox-') || token.name.startsWith('checkbox-') ||
-	        token.name.includes('input-') || token.name.startsWith('input-')) return false;
+	    if (isInputRelated(token.name)) return false;
 	    
-	    // Match all typography-related tokens:
-	    // - Font tokens (font-size, font-weight, etc.)
-	    // - Heading tokens (heading-font-size-*, heading-font-weight)
-	    // - Text tokens (text-color is excluded as it goes to colors)
 	    const isTypographyToken = token.name.startsWith('font-') ||
 	                             token.name.includes('font-') ||
 	                             token.name.startsWith('heading-') ||
 	                             (token.name.startsWith('text-') && !token.name.includes('color'));
 	    
-	    if (!isTypographyToken) return false;
-	    
-	    // For simple values (not objects), include them
-	    if (typeof token.original.value !== 'object') {
-	      return true;
-	    }
-	    
-	    // Include tokens that have brand, shared, or non-platform-only definitions
-	    const hasSharedOrBrand = token.original.value.brand ||
-	                            token.original.value.light ||
-	                            token.original.value.dark ||
-	                            token.original.value.default;
-	    
-	    const isPlatformOnly = token.original.value.platform &&
-	                          Object.keys(token.original.value).length === 1;
-	    
-	    return hasSharedOrBrand || !isPlatformOnly;
+	    return isTypographyToken && shouldIncludeToken(token);
 	  }
 	},
 	{
 	  destination: "acorn-tokens/acorn-space.css",
 	  format: "css/variables/simple-colors",
 	  filter: token => {
-	    // Exclude input-related tokens (buttons, checkboxes, input-text, etc.)
-	    if (token.name.includes('button-') || token.name.startsWith('button-') ||
-	        token.name.includes('checkbox-') || token.name.startsWith('checkbox-') ||
-	        token.name.includes('input-') || token.name.startsWith('input-')) return false;
+	    if (isInputRelated(token.name)) return false;
 	    
-	    // Match all space-related tokens:
-	    // - Space tokens (space-*, --space-*)
-	    // - Padding tokens (padding-*, --*-padding)
-	    // - Margin tokens (margin-*, --*-margin)
 	    const isSpaceToken = token.name.startsWith('space-') ||
 	                       token.name.includes('-space') ||
 	                       token.name.startsWith('padding-') ||
@@ -469,23 +438,7 @@ module.exports = {
 	                       token.name.startsWith('margin-') ||
 	                       token.name.includes('-margin');
 	    
-	    if (!isSpaceToken) return false;
-	    
-	    // For simple values (not objects), include them
-	    if (typeof token.original.value !== 'object') {
-	      return true;
-	    }
-	    
-	    // Include tokens that have brand, shared, or non-platform-only definitions
-	    const hasSharedOrBrand = token.original.value.brand ||
-	                            token.original.value.light ||
-	                            token.original.value.dark ||
-	                            token.original.value.default;
-	    
-	    const isPlatformOnly = token.original.value.platform &&
-	                          Object.keys(token.original.value).length === 1;
-	    
-	    return hasSharedOrBrand || !isPlatformOnly;
+	    return isSpaceToken && shouldIncludeToken(token);
 	  }
 	},
 	{
@@ -525,6 +478,9 @@ module.exports = {
 	    // Exclude border-width from the size file (goes to borders)
 	    if (token.name.includes('border-width')) return false;
 	    
+	    // Exclude focus-outline tokens from the size file (goes to inputs)
+	    if (token.name.includes('focus-outline')) return false;
+	    
 	    // Exclude other input-related non-size tokens
 	    if ((token.name.includes('button') || token.name.includes('checkbox') || token.name.includes('input')) && 
 	        !token.name.includes('-size') && !token.name.includes('-width') && !token.name.includes('-height') && !token.name.includes('font-size')) {
@@ -536,92 +492,36 @@ module.exports = {
 	      return false;
 	    }
 	    
-	    // For simple values (not objects), include them
-	    if (typeof token.original.value !== 'object') {
-	      return true;
-	    }
-	    
-	    // Include tokens that have brand, shared, or non-platform-only definitions
-	    const hasSharedOrBrand = token.original.value.brand ||
-	                            token.original.value.light ||
-	                            token.original.value.dark ||
-	                            token.original.value.default;
-	    
-	    const isPlatformOnly = token.original.value.platform &&
-	                          Object.keys(token.original.value).length === 1;
-	    
-	    return hasSharedOrBrand || !isPlatformOnly;
+	    return shouldIncludeToken(token);
 	  }
 	},
 	{
 	  destination: "acorn-tokens/acorn-borders.css",
 	  format: "css/variables/simple-colors",
 	  filter: token => {
-	    // Exclude input-related tokens (buttons, checkboxes, input-text, etc.)
-	    if (token.name.includes('button') || token.name.includes('checkbox') || token.name.includes('input')) return false;
+	    if (isInputRelated(token.name)) return false;
 
-	    // Match all border-related tokens except colors
 	    const isBorderToken = (token.name.startsWith('border-') || token.name.includes('-border')) && !token.name.includes('-color');
 	    
-	    if (!isBorderToken) return false;
-	    
-	    // For simple values (not objects), include them
-	    if (typeof token.original.value !== 'object') {
-	      return true;
-	    }
-	    
-	    // Include tokens that have brand, shared, or non-platform-only definitions
-	    const hasSharedOrBrand = token.original.value.brand ||
-	                            token.original.value.light ||
-	                            token.original.value.dark ||
-	                            token.original.value.default;
-	    
-	    const isPlatformOnly = token.original.value.platform &&
-	                          Object.keys(token.original.value).length === 1;
-	    
-	    return hasSharedOrBrand || !isPlatformOnly;
+	    return isBorderToken && shouldIncludeToken(token);
 	  }
 	},
 	{
 	  destination: "acorn-tokens/acorn-shadows.css",
 	  format: "css/variables/simple-colors",
 	  filter: token => {
-	    // Match shadow-related token names (including box-shadow)
 	    const isShadowToken = token.name.includes('shadow') ||
 	                         token.name.includes('box-shadow') ||
 	                         token.name.startsWith('box-shadow-');
 	    
-	    if (!isShadowToken) return false;
-	    
-	    // For simple values (not objects), include them
-	    if (typeof token.original.value !== 'object') {
-	      return true;
-	    }
-	    
-	    // Include tokens that have brand, shared, or non-platform-only definitions
-	    const hasSharedOrBrand = token.original.value.brand ||
-	                            token.original.value.light ||
-	                            token.original.value.dark ||
-	                            token.original.value.default;
-	    
-	    const isPlatformOnly = token.original.value.platform &&
-	                          Object.keys(token.original.value).length === 1;
-	    
-	    return hasSharedOrBrand || !isPlatformOnly;
+	    return isShadowToken && shouldIncludeToken(token);
 	  }
 	},
 	{
 	  destination: "acorn-tokens/acorn-inputs.css",
 	  format: "css/variables/simple-colors",
 	  filter: token => {
-	    // Match input-related token names (buttons, checkboxes, input-text, etc.) and focus outline tokens (except color)
-	    // NOTE: Button color tokens are now included here instead of acorn-colors.css
-	    const isInputToken = token.name.includes('button-') || 
-	                        token.name.startsWith('button-') ||
-	                        token.name.includes('checkbox-') ||
-	                        token.name.startsWith('checkbox-') ||
-	                        token.name.includes('input-') ||
-	                        token.name.startsWith('input-') ||
+	    const isInputToken = isInputRelated(token.name) ||
 	                        (token.name.startsWith('focus-outline') && !token.name.includes('-color'));
 	    
 	    if (!isInputToken) return false;
@@ -629,21 +529,7 @@ module.exports = {
 	    // Exclude color tokens as they go to colors file, EXCEPT button colors which belong here
 	    if (token.name.includes('-color') && !token.name.includes('button-')) return false;
 	    
-	    // For simple values (not objects), include them
-	    if (typeof token.original.value !== 'object') {
-	      return true;
-	    }
-	    
-	    // Include tokens that have brand, shared, or non-platform-only definitions
-	    const hasSharedOrBrand = token.original.value.brand ||
-	                            token.original.value.light ||
-	                            token.original.value.dark ||
-	                            token.original.value.default;
-	    
-	    const isPlatformOnly = token.original.value.platform &&
-	                          Object.keys(token.original.value).length === 1;
-	    
-	    return hasSharedOrBrand || !isPlatformOnly;
+	    return shouldIncludeToken(token);
 	  }
 	}
       ],
