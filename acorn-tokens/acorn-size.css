@@ -3,11 +3,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 :root {
-  /** Focus Outline **/
-  --focus-outline-width: 2px;
-
   /** Icon **/
-  --icon-size-default: var(--icon-size-small);
+  --icon-size: var(--icon-size-small);
   --icon-size-xsmall: 12px;
   --icon-size-small: var(--size-item-small);
   --icon-size-medium: 20px;

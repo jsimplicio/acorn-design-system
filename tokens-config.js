@@ -80,10 +80,10 @@ function isInputRelated(tokenName) {
 
 
 /**
- * Creates a simple formatter for acorn-colors.css without layers or anonymous-content-host
- * @returns {Function} - Formatter function that returns a simple CSS string.
+ * Creates a modular CSS formatter for acorn design tokens without layers or anonymous-content-host
+ * @returns {Function} - Formatter function that returns a modular CSS string.
  */
-const createSimpleColorsFormat = () => args => {
+const createModularCssFormat = () => args => {
   // Custom header without layers - only license, no DO NOT EDIT comment
   let licenseString = [
     "/* This Source Code Form is subject to the terms of the Mozilla Public",
@@ -355,7 +355,7 @@ function formatVariables({ format, dictionary, outputReferences, formatting }) {
 module.exports = {
   source: ["design-tokens.json"],
   format: {
-    "css/variables/simple-colors": createSimpleColorsFormat(),
+    "css/variables/modular-css": createModularCssFormat(),
   },
   platforms: {
     css: {
@@ -370,7 +370,7 @@ module.exports = {
       files: [
 	{
 	  destination: "acorn-tokens/acorn-colors.css",
-	  format: "css/variables/simple-colors",
+	  format: "css/variables/modular-css",
 	  filter: token => {
 	    // Exclude shadow-related color tokens (they go to shadows)
 	    if (token.name.includes('shadow') && token.name.includes('color')) return false;
@@ -413,7 +413,7 @@ module.exports = {
 	},
 	{
 	  destination: "acorn-tokens/acorn-typography.css",
-	  format: "css/variables/simple-colors",
+	  format: "css/variables/modular-css",
 	  filter: token => {
 	    if (isInputRelated(token.name)) return false;
 	    
@@ -427,7 +427,7 @@ module.exports = {
 	},
 	{
 	  destination: "acorn-tokens/acorn-space.css",
-	  format: "css/variables/simple-colors",
+	  format: "css/variables/modular-css",
 	  filter: token => {
 	    if (isInputRelated(token.name)) return false;
 	    
@@ -443,7 +443,7 @@ module.exports = {
 	},
 	{
 	  destination: "acorn-tokens/acorn-size.css",
-	  format: "css/variables/simple-colors",
+	  format: "css/variables/modular-css",
 	  filter: token => {
 	    // Exclude all button tokens from the size file
 	    if (token.name.startsWith('button-')) {
@@ -497,7 +497,7 @@ module.exports = {
 	},
 	{
 	  destination: "acorn-tokens/acorn-borders.css",
-	  format: "css/variables/simple-colors",
+	  format: "css/variables/modular-css",
 	  filter: token => {
 	    if (isInputRelated(token.name)) return false;
 
@@ -508,7 +508,7 @@ module.exports = {
 	},
 	{
 	  destination: "acorn-tokens/acorn-shadows.css",
-	  format: "css/variables/simple-colors",
+	  format: "css/variables/modular-css",
 	  filter: token => {
 	    const isShadowToken = token.name.includes('shadow') ||
 	                         token.name.includes('box-shadow') ||
@@ -519,7 +519,7 @@ module.exports = {
 	},
 	{
 	  destination: "acorn-tokens/acorn-inputs.css",
-	  format: "css/variables/simple-colors",
+	  format: "css/variables/modular-css",
 	  filter: token => {
 	    const isInputToken = isInputRelated(token.name) ||
 	                        (token.name.startsWith('focus-outline') && !token.name.includes('-color'));
