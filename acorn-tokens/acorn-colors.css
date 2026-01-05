@@ -8,6 +8,7 @@
 
   /** Background Color **/
   --background-color-box: light-dark(var(--color-white), var(--color-gray-80));
+  --background-color-box-info: light-dark(var(--color-gray-20), var(--color-gray-80));
   --background-color-canvas: light-dark(var(--color-white), var(--color-gray-90));
   --background-color-critical: light-dark(var(--color-red-0), var(--color-red-90));
   --background-color-information: light-dark(var(--color-blue-0), var(--color-blue-90));
@@ -22,12 +23,14 @@
   --border-color-interactive-hover: var(--border-color-interactive);
   --border-color-interactive-active: var(--border-color-interactive);
   --border-color-interactive-disabled: var(--border-color-interactive);
+  --border-color-selected: var(--color-accent-primary);
   --border-color-transparent: transparent;
 
   /** Color **/
   --color-accent-primary: light-dark(var(--color-blue-60), var(--color-cyan-30));
   --color-accent-primary-hover: light-dark(var(--color-blue-70), var(--color-cyan-20));
   --color-accent-primary-active: light-dark(var(--color-blue-80), var(--color-cyan-10));
+  --color-accent-primary-selected: light-dark(var(--color-blue-60), var(--color-cyan-30));
   --color-blue-0: oklch(97% 0.05 260);
   --color-blue-10: oklch(90% 0.13 260);
   --color-blue-20: oklch(83% 0.17 260);
@@ -174,8 +177,12 @@
   /** Text **/
   --text-color: light-dark(var(--color-gray-100), var(--color-gray-05));
   --text-color-disabled: color-mix(in srgb, currentColor 40%, transparent);
+  --text-color-accent-primary-selected: light-dark(var(--color-white), var(--color-gray-100));
   --text-color-deemphasized: color-mix(in srgb, currentColor 69%, transparent);
   --text-color-error: light-dark(var(--color-red-70), var(--color-red-20));
+
+  /** Unspecified **/
+  --promo-background-color: var(--background-color-box-info);
 }
 
 @media (prefers-contrast) {
@@ -185,6 +192,7 @@
 
     /** Background Color **/
     --background-color-box: var(--background-color-canvas);
+    --background-color-box-info: var(--background-color-canvas);
     --background-color-canvas: Canvas;
     --background-color-critical: var(--background-color-canvas);
     --background-color-information: var(--background-color-canvas);
@@ -224,11 +232,13 @@
     --border-color-interactive-hover: SelectedItem;
     --border-color-interactive-active: ButtonText;
     --border-color-interactive-disabled: GrayText;
+    --border-color-selected: SelectedItem;
 
     /** Color **/
     --color-accent-primary: ButtonText;
     --color-accent-primary-hover: SelectedItem;
     --color-accent-primary-active: var(--color-accent-primary-hover);
+    --color-accent-primary-selected: SelectedItem;
 
     /** Focus Outline **/
     --focus-outline-color: var(--text-color);
@@ -244,5 +254,6 @@
 
     /** Text **/
     --text-color-disabled: GrayText;
+    --text-color-accent-primary-selected: SelectedItemText;
   }
 }
