@@ -33,7 +33,7 @@ jobs:
       - name: Sparse checkout Firefox design-system directory
         run: |
           echo "🦊 Setting up sparse checkout for design-system directory..."
-          git clone --filter=blob:none --no-checkout https://github.com/mozilla/firefox.git firefox-repo
+          git clone --filter=blob:none --no-checkout https://github.com/mozilla-firefox/firefox.git firefox-repo
           cd firefox-repo
           git sparse-checkout init --cone
           git sparse-checkout set toolkit/themes/shared/design-system
@@ -45,6 +45,8 @@ jobs:
         run: |
           echo "🔍 Checking for changes in design-system directory..."
           DESIGN_SYSTEM_PATH="firefox-repo/toolkit/themes/shared/design-system"
+          # Source files are now in the src/ subdirectory
+          DESIGN_SYSTEM_SRC_PATH="$DESIGN_SYSTEM_PATH/src"
           if [ ! -d "$DESIGN_SYSTEM_PATH" ]; then
             echo "❌ Design system directory not found in Firefox repo"
             exit 1
@@ -52,12 +54,15 @@ jobs:
           
           echo "📋 Files available in Firefox design-system directory:"
           ls -la "$DESIGN_SYSTEM_PATH/"
+          echo "📋 Files available in Firefox design-system/src directory:"
+          ls -la "$DESIGN_SYSTEM_SRC_PATH/" 2>/dev/null || echo "(src directory not found)"
           
           # Check for meaningful changes in files we actually want to sync
           CHANGES_FOUND=false
           
           # List of files we care about syncing (that match our .gitignore whitelist)
           # Note: package.json is excluded because Acorn maintains its own customized build script
+          # These files are now located in the src/ subdirectory of design-system
           SYNC_FILES=("design-tokens.json" "text-and-typography.css")
           
           echo "🔍 Checking for specific file changes..."
@@ -69,9 +74,10 @@ jobs:
               local_file="$file"
             fi
             
-            if [ -f "$DESIGN_SYSTEM_PATH/$file" ]; then
+            # Files are now in the src/ subdirectory
+            if [ -f "$DESIGN_SYSTEM_SRC_PATH/$file" ]; then
               if [ -f "$local_file" ]; then
-                if ! diff "$local_file" "$DESIGN_SYSTEM_PATH/$file" > /dev/null 2>&1; then
+                if ! diff "$local_file" "$DESIGN_SYSTEM_SRC_PATH/$file" > /dev/null 2>&1; then
                   echo "📝 Changes detected in $file"
                   CHANGES_FOUND=true
                 fi
@@ -87,7 +93,7 @@ jobs:
           
           # For now, also check if tokens-config.js has any meaningful structural changes
           # (This is more complex since our config is heavily customized)
-          if [ -f "$DESIGN_SYSTEM_PATH/tokens-config.js" ]; then
+          if [ -f "$DESIGN_SYSTEM_PATH/config/tokens-config.js" ]; then
             echo "ℹ️ Firefox tokens-config.js exists but we maintain our own version"
           fi
           
@@ -104,6 +110,8 @@ jobs:
         run: |
           echo "🔄 Syncing specific files from Firefox repository..."
           DESIGN_SYSTEM_PATH="firefox-repo/toolkit/themes/shared/design-system"
+          # Source files are now in the src/ subdirectory
+          DESIGN_SYSTEM_SRC_PATH="$DESIGN_SYSTEM_PATH/src"
           
           cd firefox-repo
           FIREFOX_COMMIT=$(git rev-parse HEAD)
@@ -114,6 +122,7 @@ jobs:
           
           # Copy only specific files we want to sync
           # Note: package.json is excluded because Acorn maintains its own customized build script
+          # These files are now located in the src/ subdirectory of design-system
           SYNC_FILES=("design-tokens.json" "text-and-typography.css")
           CHANGES_MADE=false
           
@@ -125,11 +134,12 @@ jobs:
               local_file="$file"
             fi
             
-            if [ -f "$DESIGN_SYSTEM_PATH/$file" ]; then
-              echo "📋 Copying $file from Firefox to $local_file..."
+            # Files are now in the src/ subdirectory
+            if [ -f "$DESIGN_SYSTEM_SRC_PATH/$file" ]; then
+              echo "📋 Copying $file from Firefox src/ to $local_file..."
               # Ensure directory exists
               mkdir -p "$(dirname "$local_file")"
-              cp "$DESIGN_SYSTEM_PATH/$file" "$local_file"
+              cp "$DESIGN_SYSTEM_SRC_PATH/$file" "$local_file"
               CHANGES_MADE=true
             elif [ -f "$local_file" ]; then
               echo "📋 Removing $local_file (deleted in Firefox)..."
@@ -178,7 +188,7 @@ jobs:
             
             This PR contains the latest changes from the Firefox design system.
             
-            **Source**: [mozilla/firefox](https://github.com/mozilla/firefox)
+            **Source**: [mozilla-firefox/firefox](https://github.com/mozilla-firefox/firefox)
             **Firefox Commit**: ${{ env.FIREFOX_COMMIT_SHORT }}
             **Sync Run**: ${{ github.run_id }}
             
@@ -186,7 +196,7 @@ jobs:
             
             The following files have been updated from the Firefox repository:
             
-            - Design tokens and related files from `toolkit/themes/shared/design-system/`
+            - Design tokens and related files from `toolkit/themes/shared/design-system/src/`
             
             ### Review Checklist
             
