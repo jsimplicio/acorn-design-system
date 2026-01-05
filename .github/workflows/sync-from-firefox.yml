@@ -190,6 +190,25 @@ jobs:
             echo "changes_actually_made=true" >> $GITHUB_ENV
           fi
 
+      - name: Close stale sync PRs
+        if: steps.check_changes.outputs.changes_detected == 'true' && env.changes_actually_made == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "🧹 Closing stale Firefox sync PRs..."
+          # Find all open PRs with the sync title created by github-actions[bot]
+          STALE_PRS=$(gh pr list --state open --author "github-actions[bot]" --search "🔄 Sync from Firefox Repository in:title" --json number --jq '.[].number')
+          
+          if [ -n "$STALE_PRS" ]; then
+            for pr_number in $STALE_PRS; do
+              echo "🔒 Closing stale PR #$pr_number..."
+              gh pr close "$pr_number" --comment "Superseded by a newer sync PR. This PR contained outdated changes and has been automatically closed."
+              echo "✅ Closed PR #$pr_number"
+            done
+          else
+            echo "ℹ️ No stale sync PRs found"
+          fi
+
       - name: Create Pull Request
         if: steps.check_changes.outputs.changes_detected == 'true' && env.changes_actually_made == 'true'
         id: create_pr
