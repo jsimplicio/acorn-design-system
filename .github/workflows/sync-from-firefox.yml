@@ -149,25 +149,45 @@ jobs:
           done
           
           if [ "$CHANGES_MADE" = true ]; then
-            echo ""
-            echo "Git status after sync:"
-            git status
-            echo ""
-            echo "Git diff after sync:"
-            git diff --stat
-            
-            git add .
-            
-            if git diff --cached --quiet; then
-              echo "⚠️ No changes were actually staged (files may be identical)"
-              echo "changes_actually_made=false" >> $GITHUB_ENV
-            else
-              echo "✅ Changes staged successfully"
-              echo "changes_actually_made=true" >> $GITHUB_ENV
-            fi
+            echo "files_synced=true" >> $GITHUB_ENV
           else
             echo "ℹ️ No files were copied or changed"
+            echo "files_synced=false" >> $GITHUB_ENV
             echo "changes_actually_made=false" >> $GITHUB_ENV
+          fi
+
+      - name: Setup Node.js
+        if: steps.check_changes.outputs.changes_detected == 'true' && env.files_synced == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Build CSS from design tokens
+        if: steps.check_changes.outputs.changes_detected == 'true' && env.files_synced == 'true'
+        run: |
+          echo "🔨 Building CSS from design tokens..."
+          npm ci
+          npm run build
+          echo "✅ CSS build completed"
+
+      - name: Stage changes
+        if: steps.check_changes.outputs.changes_detected == 'true' && env.files_synced == 'true'
+        run: |
+          echo ""
+          echo "Git status after sync and build:"
+          git status
+          echo ""
+          echo "Git diff after sync and build:"
+          git diff --stat
+          
+          git add .
+          
+          if git diff --cached --quiet; then
+            echo "⚠️ No changes were actually staged (files may be identical)"
+            echo "changes_actually_made=false" >> $GITHUB_ENV
+          else
+            echo "✅ Changes staged successfully"
+            echo "changes_actually_made=true" >> $GITHUB_ENV
           fi
 
       - name: Create Pull Request
