@@ -18,8 +18,9 @@
 !acorn-utils/
 !acorn-utils/**
 
-# Keep package.json for npm compatibility (if users want to build)
+# Keep package.json and package-lock.json for npm compatibility (if users want to build)
 !package.json
+!package-lock.json
 
 # Optionally keep design-tokens.json for reference
 !design-tokens.json
