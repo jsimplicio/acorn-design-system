@@ -6,6 +6,7 @@
     "test": "(npm ls || npm ci) && node tests/try-runner.js"
   },
   "devDependencies": {
+    "prettier": "^3.2.5",
     "style-dictionary": "^3.9.2"
   }
 }
