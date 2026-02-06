@@ -9,6 +9,7 @@ const { createPropertyFormatter } = StyleDictionary.formatHelpers;
 
 const TOKEN_SECTIONS = {
   "Attention Dot": "attention-dot",
+  Badge: "badge",
   "Background Color": "background-color",
   Border: "border",
   "Box Shadow": "box-shadow",
@@ -27,7 +28,7 @@ const TOKEN_SECTIONS = {
   Page: "page",
   Size: "size",
   Space: "space",
-  "Table Row": "table-row",
+  Table: ["table", "table-row"],
   Text: "text",
   Unspecified: "",
 };
@@ -375,8 +376,11 @@ module.exports = {
 	    // Exclude shadow-related color tokens (they go to shadows)
 	    if (token.name.includes('shadow') && token.name.includes('color')) return false;
 	    
-	    // First exclude button color tokens (they go to acorn-inputs.css)
-	    if (token.name.includes('button-') && token.name.includes('color')) return false;
+	    // Exclude component-specific tokens (they go to their own files)
+	    if (token.name.startsWith('button-')) return false;
+	    if (token.name.startsWith('badge-')) return false;
+	    if (token.name.startsWith('table-')) return false;
+	    if (token.name.startsWith('promo-')) return false;
 	    
 	    // Match ALL other color-related tokens including:
 	    // - Color palettes (color-red-10, color-blue-50, etc.)
@@ -385,7 +389,6 @@ module.exports = {
 	    // - Text colors (text-color-*)
 	    // - Icon colors (icon-color-*)
 	    // - Link colors (link-color-*)
-	    // - Table colors (table-*-color)
 	    // - Outline colors (outline-color-*)
 	    // - Attention dot color
 	    // - Focus outline color
@@ -397,7 +400,6 @@ module.exports = {
 	                        token.name.startsWith('icon-color') ||
 	                        token.name.startsWith('link-color') ||
 	                        token.name.startsWith('link-') ||
-	                        token.name.startsWith('table-') ||
 	                        token.name.startsWith('outline-color') ||
 	                        token.name === 'attention-dot-color' ||
 	                        token.name === 'focus-outline-color' ||
@@ -521,15 +523,50 @@ module.exports = {
 	  destination: "acorn-tokens/acorn-inputs.css",
 	  format: "css/variables/modular-css",
 	  filter: token => {
+	    // Exclude button tokens (they now go to their own file)
+	    if (token.name.startsWith('button-')) return false;
+	    
 	    const isInputToken = isInputRelated(token.name) ||
 	                        (token.name.startsWith('focus-outline') && !token.name.includes('-color'));
 	    
 	    if (!isInputToken) return false;
 	    
-	    // Exclude color tokens as they go to colors file, EXCEPT button colors which belong here
-	    if (token.name.includes('-color') && !token.name.includes('button-')) return false;
+	    // Exclude color tokens as they go to colors file
+	    if (token.name.includes('-color')) return false;
 	    
 	    return shouldIncludeToken(token);
+	  }
+	},
+	{
+	  destination: "acorn-tokens/acorn-button.css",
+	  format: "css/variables/modular-css",
+	  filter: token => {
+	    const isButtonToken = token.name.startsWith('button-');
+	    return isButtonToken && shouldIncludeToken(token);
+	  }
+	},
+	{
+	  destination: "acorn-tokens/acorn-badge.css",
+	  format: "css/variables/modular-css",
+	  filter: token => {
+	    const isBadgeToken = token.name.startsWith('badge-');
+	    return isBadgeToken && shouldIncludeToken(token);
+	  }
+	},
+	{
+	  destination: "acorn-tokens/acorn-table.css",
+	  format: "css/variables/modular-css",
+	  filter: token => {
+	    const isTableToken = token.name.startsWith('table-') || token.name.startsWith('table-row-');
+	    return isTableToken && shouldIncludeToken(token);
+	  }
+	},
+	{
+	  destination: "acorn-tokens/acorn-promo.css",
+	  format: "css/variables/modular-css",
+	  filter: token => {
+	    const isPromoToken = token.name.startsWith('promo-');
+	    return isPromoToken && shouldIncludeToken(token);
 	  }
 	}
       ],
