@@ -1,0 +1,16 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+:root {
+  /** Table **/
+  --table-row-background-color: var(--background-color-canvas);
+  --table-row-background-color-alternate: light-dark(#f0f0f4, var(--color-gray-80));
+}
+
+@media (forced-colors) {
+  :root {
+    /** Table **/
+    --table-row-background-color-alternate: var(--background-color-canvas);
+  }
+}
