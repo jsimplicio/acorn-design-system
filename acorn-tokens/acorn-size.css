@@ -20,4 +20,6 @@
   --size-item-medium: 24px;
   --size-item-large: 32px;
   --size-item-xlarge: 48px;
+  --size-sidebar: 280px;
+  --size-sidebar-narrow: 118px;
 }
