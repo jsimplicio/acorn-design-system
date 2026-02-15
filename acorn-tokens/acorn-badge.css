@@ -1,0 +1,33 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+:root {
+  /** Badge **/
+  --badge-background-color: transparent;
+  --badge-background-color-filled: light-dark(
+    var(--color-green-70),
+    var(--color-green-40)
+  );
+  --badge-border-color: var(--border-color);
+  --badge-border-color-filled: light-dark(
+    rgba(251, 251, 254, 0.4),
+    rgba(21, 20, 26, 0.4)
+  );
+  --badge-text-color: var(--text-color);
+  --badge-text-color-filled: light-dark(
+    var(--color-white),
+    var(--color-gray-100)
+  );
+}
+
+@media (forced-colors) {
+  :root {
+    /** Badge **/
+    --badge-background-color: Canvas;
+    --badge-background-color-filled: AccentColor;
+    --badge-border-color-filled: CanvasText;
+    --badge-text-color: CanvasText;
+    --badge-text-color-filled: AccentColorText;
+  }
+}
