@@ -4,11 +4,11 @@
 
 :root {
   /** Space **/
-  --space-xxsmall: calc(0.5 * var(--space-xsmall));
-  --space-xsmall: 0.267rem;
-  --space-small: calc(2 * var(--space-xsmall));
-  --space-medium: calc(3 * var(--space-xsmall));
-  --space-large: calc(4 * var(--space-xsmall));
-  --space-xlarge: calc(6 * var(--space-xsmall));
-  --space-xxlarge: calc(8 * var(--space-xsmall));
+  --space-xxsmall: var(--dimension-relative-0125);
+  --space-xsmall: var(--dimension-relative-025);
+  --space-small: var(--dimension-relative-050);
+  --space-medium: var(--dimension-relative-075);
+  --space-large: var(--dimension-relative-100);
+  --space-xlarge: var(--dimension-relative-150);
+  --space-xxlarge: var(--dimension-relative-200);
 }
