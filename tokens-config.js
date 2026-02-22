@@ -19,6 +19,10 @@ const TOKEN_SECTIONS = {
   "Focus Outline": "focus-outline",
   "Font Size": "font-size",
   "Font Weight": "font-weight",
+  Dimension: "dimension",
+  "Focus Outline": "focus-outline",
+  "Font Size": "font-size",
+  "Font Weight": "font-weight",
   Heading: "heading",
   Icon: "icon",
   "Input - Text": "input-text",
@@ -26,6 +30,7 @@ const TOKEN_SECTIONS = {
   Link: "link",
   "Outline Color": "outline-color",
   Page: "page",
+  Promo: "promo",
   Size: "size",
   Space: "space",
   Table: ["table", "table-row"],
@@ -428,25 +433,10 @@ module.exports = {
 	  }
 	},
 	{
-	  destination: "acorn-tokens/acorn-space.css",
+	  destination: "acorn-tokens/acorn-dimension.css",
 	  format: "css/variables/modular-css",
 	  filter: token => {
 	    if (isInputRelated(token.name)) return false;
-	    
-	    const isSpaceToken = token.name.startsWith('space-') ||
-	                       token.name.includes('-space') ||
-	                       token.name.startsWith('padding-') ||
-	                       token.name.includes('-padding') ||
-	                       token.name.startsWith('margin-') ||
-	                       token.name.includes('-margin');
-	    
-	    return isSpaceToken && shouldIncludeToken(token);
-	  }
-	},
-	{
-	  destination: "acorn-tokens/acorn-size.css",
-	  format: "css/variables/modular-css",
-	  filter: token => {
 	    // Exclude all button tokens from the size file
 	    if (token.name.startsWith('button-')) {
 	      return false;
@@ -463,7 +453,14 @@ module.exports = {
 	    // - Icon size tokens (icon-size-*)
 	    // - Page dimensions (page-*-width, page-*-height)
 	    // - Button size tokens (button-size-*) but not color or other non-size properties
-	    const isSizeToken = token.name.startsWith('size-') ||
+	    
+	    const isDimensionToken = token.name.startsWith('space-') ||
+	                       token.name.includes('-space') ||
+	                       token.name.startsWith('padding-') ||
+	                       token.name.includes('-padding') ||
+	                       token.name.startsWith('margin-') ||
+	                       token.name.includes('-margin') ||
+			       token.name.startsWith('size-') ||
 	                       token.name.includes('-size') ||
 	                       token.name.startsWith('width-') ||
 	                       token.name.includes('-width') ||
@@ -475,7 +472,7 @@ module.exports = {
 	                       // Include button size tokens but exclude other button properties
 	                       (token.name.includes('button-size') && !token.name.includes('color'));
 	    
-	    if (!isSizeToken) return false;
+	    if (!isDimensionToken) return false;
 
 	    // Exclude border-width from the size file (goes to borders)
 	    if (token.name.includes('border-width')) return false;
@@ -494,7 +491,7 @@ module.exports = {
 	      return false;
 	    }
 	    
-	    return shouldIncludeToken(token);
+	    return isDimensionToken && shouldIncludeToken(token);
 	  }
 	},
 	{
