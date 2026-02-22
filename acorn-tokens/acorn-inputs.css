@@ -5,7 +5,7 @@
 :root {
   /** Checkbox **/
   --checkbox-margin-inline: var(--space-small);
-  --checkbox-size: var(--size-item-small);
+  --checkbox-size: var(--size-item-small); /* TODO Bug 1876537: Make this em-based, probably? */
 
   /** Focus Outline **/
   --focus-outline: var(--focus-outline-width) solid var(--focus-outline-color);
