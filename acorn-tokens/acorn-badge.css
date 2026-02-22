@@ -3,17 +3,25 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 :root {
-  /** Badge **/
+  /* ** Badge ** */
   --badge-background-color: transparent;
   --badge-border-color: var(--border-color);
   --badge-text-color: var(--text-color);
 }
 
+@media (prefers-contrast) {
+  :root {
+    /* ** Badge ** */
+    --badge-border-color: var(--border-color);
+  }
+}
+
 @media (forced-colors) {
   :root {
-    /** Badge **/
+    /* ** Badge ** */
     --badge-background-color: Canvas;
     --badge-background-color-filled: AccentColor;
+    --badge-border-color: var(--border-color);
     --badge-border-color-filled: CanvasText;
     --badge-text-color: CanvasText;
     --badge-text-color-filled: AccentColorText;

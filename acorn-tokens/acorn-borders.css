@@ -3,11 +3,35 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 :root {
-  /** Border **/
+  /* ** Border ** */
   --border-radius-circle: 9999px;
-  --border-radius-xsmall: 2px;
-  --border-radius-small: 4px;
-  --border-radius-medium: 8px;
   --border-radius-large: 16px;
+  --border-radius-medium: 8px;
+  --border-radius-small: 4px;
+  --border-radius-xsmall: 2px;
   --border-width: 1px;
+}
+
+@media (prefers-contrast) {
+  :root {
+    /* ** Border ** */
+    --border-radius-circle: 9999px;
+    --border-radius-large: 16px;
+    --border-radius-medium: 8px;
+    --border-radius-small: 4px;
+    --border-radius-xsmall: 2px;
+    --border-width: 1px;
+  }
+}
+
+@media (forced-colors) {
+  :root {
+    /* ** Border ** */
+    --border-radius-circle: 9999px;
+    --border-radius-large: 16px;
+    --border-radius-medium: 8px;
+    --border-radius-small: 4px;
+    --border-radius-xsmall: 2px;
+    --border-width: 1px;
+  }
 }

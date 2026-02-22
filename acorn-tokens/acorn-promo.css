@@ -3,6 +3,20 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 :root {
-  /** Promo **/
+  /* ** Page ** */
   --promo-background-color: var(--background-color-box-info);
+}
+
+@media (prefers-contrast) {
+  :root {
+    /* ** Page ** */
+    --promo-background-color: var(--background-color-box-info);
+  }
+}
+
+@media (forced-colors) {
+  :root {
+    /* ** Page ** */
+    --promo-background-color: var(--background-color-box-info);
+  }
 }

@@ -3,16 +3,52 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 :root {
-  /** Checkbox **/
+  /* ** Checkbox ** */
   --checkbox-margin-inline: var(--space-small);
   --checkbox-size: var(--size-item-small); /* TODO Bug 1876537: Make this em-based, probably? */
 
-  /** Focus Outline **/
+  /* ** Focus Outline ** */
   --focus-outline: var(--focus-outline-width) solid var(--focus-outline-color);
+  --focus-outline-color: var(--color-accent-primary);
   --focus-outline-inset: calc(-1 * var(--focus-outline-width));
   --focus-outline-offset: 2px;
   --focus-outline-width: 2px;
 
-  /** Input - Text **/
+  /* ** Input - Text ** */
   --input-text-min-height: var(--button-min-height);
+}
+
+@media (prefers-contrast) {
+  :root {
+    /* ** Checkbox ** */
+    --checkbox-margin-inline: var(--space-small);
+    --checkbox-size: var(--size-item-small); /* TODO Bug 1876537: Make this em-based, probably? */
+
+    /* ** Focus Outline ** */
+    --focus-outline: var(--focus-outline-width) solid var(--focus-outline-color);
+    --focus-outline-inset: calc(-1 * var(--focus-outline-width));
+    --focus-outline-offset: 2px;
+    --focus-outline-width: 2px;
+
+    /* ** Input - Text ** */
+    --input-text-min-height: var(--button-min-height);
+  }
+}
+
+@media (forced-colors) {
+  :root {
+    /* ** Checkbox ** */
+    --checkbox-margin-inline: var(--space-small);
+    --checkbox-size: var(--size-item-small); /* TODO Bug 1876537: Make this em-based, probably? */
+
+    /* ** Focus Outline ** */
+    --focus-outline: var(--focus-outline-width) solid var(--focus-outline-color);
+    --focus-outline-color: var(--text-color);
+    --focus-outline-inset: calc(-1 * var(--focus-outline-width));
+    --focus-outline-offset: 2px;
+    --focus-outline-width: 2px;
+
+    /* ** Input - Text ** */
+    --input-text-min-height: var(--button-min-height);
+  }
 }

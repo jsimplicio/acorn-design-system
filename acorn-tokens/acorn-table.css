@@ -3,7 +3,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 :root {
-  /** Table **/
+  /* ** Table ** */
   --table-border-color: color-mix(in srgb, currentColor 41%, transparent);
   --table-header-background-color: var(--color-accent-primary);
   --table-row-background-color: var(--background-color-canvas);
@@ -11,7 +11,7 @@
 
 @media (forced-colors) {
   :root {
-    /** Table **/
+    /* ** Table ** */
     --table-background-color: Canvas;
     --table-border-color: CanvasText;
     --table-header-background-color: AccentColor;

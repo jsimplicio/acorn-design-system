@@ -27,7 +27,7 @@ const TOKEN_SECTIONS = {
   Link: "link",
   "Outline Color": "outline-color",
   Page: "page",
-  Promo: "promo",
+  Page: "promo",
   Size: "size",
   Space: "space",
   Table: ["table", "table-row"],
@@ -44,10 +44,12 @@ function formatBaseTokenNames(str) {
             .replaceAll(/(?<tokenName>\w+)-default(?=\b)/g, "$<tokenName>");
 }
 
+/**
+ * RELAXED FILTER: 
+ * If it's in the dictionary, we print it. No more checking for internal object structures.
+ */
 function shouldIncludeToken(token) {
-  if (typeof token.original.value !== 'object') return true;
-  const hasSharedOrBrand = token.original.value.brand || token.original.value.light || token.original.value.dark || token.original.value.default;
-  return hasSharedOrBrand || !(token.original.value.platform && Object.keys(token.original.value).length === 1);
+  return true; 
 }
 
 function isInputRelated(tokenName) {
@@ -77,6 +79,11 @@ function formatSimpleTokens({ mediaQuery, args }) {
       originalVal = getOriginalTokenValue(token, prop, "brand");
     }
     
+    // If we still have nothing, fall back to the raw value (crucial for flat tokens)
+    if (originalVal === undefined && typeof token.original.value !== 'object') {
+      originalVal = token.original.value;
+    }
+
     if (originalVal !== undefined) {
       tokensToPrint.push(transformToken(token, originalVal, args.dictionary));
     }
@@ -87,7 +94,7 @@ function formatSimpleTokens({ mediaQuery, args }) {
   const formattedVars = formatVariables({
     format: "css",
     dictionary: { ...args.dictionary, allTokens: tokensToPrint, allProperties: tokensToPrint },
-    outputReferences: false, // We handle references manually to allow cross-file linking
+    outputReferences: false, 
     formatting: { indentation: "  " },
   });
 
@@ -108,7 +115,7 @@ const createLightDarkTransform = surface => {
     type: "value",
     transitive: true,
     name,
-    matcher: token => surface === "shared" ? (token.original.value.light && token.original.value.dark) : (token.original.value[surface]?.light && token.original.value[surface]?.dark),
+    matcher: token => surface === "shared" ? (token.original.value?.light && token.original.value?.dark) : (token.original.value?.[surface]?.light && token.original.value?.[surface]?.dark),
     transformer: token => {
       const val = surface === "shared" ? token.original.value : token.original.value[surface];
       return `light-dark(${val.light}, ${val.dark})`;
@@ -131,6 +138,7 @@ function transformToken(token, originalVal, dictionary) {
   return { 
     ...token, 
     value, 
+    attributes: token.attributes || {},
     original: { ...token.original, value } 
   };
 }
@@ -141,12 +149,6 @@ function formatVariables({ format, dictionary, outputReferences, formatting }) {
   let outputParts = [];
   let remainingTokens = [...dictionary.allTokens];
   let isFirst = true;
-
-  function tokenParts(name) {
-    let lastDash = name.lastIndexOf("-");
-    let suffix = name.substring(lastDash + 1);
-    return (TSHIRT_ORDER.includes(suffix) || STATE_ORDER.includes(suffix)) ? [name.substring(0, lastDash), suffix] : [name, ""];
-  }
 
   for (let [label, selector] of Object.entries(TOKEN_SECTIONS)) {
     let sectionMatchers = Array.isArray(selector) ? selector : [selector];
@@ -161,21 +163,8 @@ function formatVariables({ format, dictionary, outputReferences, formatting }) {
     });
 
     if (sectionParts.length) {
-      sectionParts.sort((a, b) => {
-        let aName = formatBaseTokenNames(a.name);
-        let bName = formatBaseTokenNames(b.name);
-        let [aToken, aSuffix] = tokenParts(aName);
-        let [bToken, bSuffix] = tokenParts(bName);
-        if (aSuffix || bSuffix) {
-          if (aToken === bToken) {
-            let aSize = TSHIRT_ORDER.indexOf(aSuffix), bSize = TSHIRT_ORDER.indexOf(bSuffix);
-            if (aSize !== -1 && bSize !== -1) return aSize - bSize;
-            let aState = STATE_ORDER.indexOf(aSuffix), bState = STATE_ORDER.indexOf(bSuffix);
-            if (aState !== -1 && bState !== -1) return aState - bState;
-          }
-        }
-        return aToken.localeCompare(bToken, undefined, { numeric: true });
-      });
+      // Basic alphabetical sort to keep it stable
+      sectionParts.sort((a, b) => a.name.localeCompare(b.name, undefined, { numeric: true }));
 
       let headingParts = [];
       if (!isFirst) headingParts.push("");
@@ -183,7 +172,7 @@ function formatVariables({ format, dictionary, outputReferences, formatting }) {
 
       let sectionLevel = "**", labelParts = label.split("/");
       for (let i = 0; i < labelParts.length; i++) {
-        if (labelParts[i] !== lastSection[i]) headingParts.push(`${formatting.indentation}/${sectionLevel} ${labelParts[i]} ${sectionLevel}/`);
+        if (labelParts[i] !== lastSection[i]) headingParts.push(`${formatting.indentation}/* ${sectionLevel} ${labelParts[i]} ${sectionLevel} */`);
         sectionLevel += "*";
       }
       lastSection = labelParts;
@@ -198,63 +187,63 @@ module.exports = {
   format: { "css/variables/modular-css": createModularCssFormat() },
   platforms: {
     css: {
-      options: { 
-        outputReferences: false, // Must be false so we can handle cross-file logic manually
-        showFileHeader: false 
-      },
+      options: { outputReferences: false, showFileHeader: false },
       transforms: [...StyleDictionary.transformGroup.css, ...["shared", "platform", "brand"].map(createLightDarkTransform)],
       files: [
         {
           destination: "acorn-tokens/acorn-colors.css",
           format: "css/variables/modular-css",
           filter: token => {
-            if (token.name.includes('shadow') && token.name.includes('color')) return false;
+            if (token.name.includes('shadow')) return false;
             if (token.name.startsWith('button-') || token.name.startsWith('badge-') || token.name.startsWith('table-') || token.name.startsWith('promo-')) return false;
-            const isColorToken = token.name.startsWith('color-') || token.name.includes('-color') || token.name.startsWith('background-color') || token.name.startsWith('border-color') || token.name.startsWith('text-color') || token.name.startsWith('icon-color') || token.name.startsWith('link-color') || token.name.startsWith('link-') || token.name.startsWith('outline-color') || token.name === 'attention-dot-color' || token.name === 'focus-outline-color' || (token.name.includes('checkbox-') && token.name.includes('color')) || (token.name.includes('input-') && token.name.includes('color')) || (token.name.startsWith('icon-') && token.name.includes('color'));
-            return isColorToken && shouldIncludeToken(token);
+            return token.name.includes('color') || token.name.includes('brand') || token.name.startsWith('link-');
           }
-        },
-        {
-          destination: "acorn-tokens/acorn-typography.css",
-          format: "css/variables/modular-css",
-          filter: token => {
-            if (isInputRelated(token.name)) return false;
-            const isTypographyToken = token.name.startsWith('font-') || token.name.includes('font-') || token.name.startsWith('heading-') || (token.name.startsWith('text-') && !token.name.includes('color'));
-            return isTypographyToken && shouldIncludeToken(token);
-          }
-        },
-        {
-          destination: "acorn-tokens/acorn-dimension.css",
-          format: "css/variables/modular-css",
-          filter: token => {
-            if (isInputRelated(token.name) || token.name.startsWith('button-') || token.name.includes('font-size') || token.name.includes('border-width') || token.name.includes('focus-outline') || token.name.startsWith('checkbox-') || token.name.startsWith('input-')) return false;
-            const isDim = token.name.startsWith('dimension-') || token.name.startsWith('space-') || token.name.startsWith('padding-') || token.name.startsWith('margin-') || token.name.includes('-size') || token.name.startsWith('width-') || token.name.startsWith('height-') || token.name.startsWith('icon-size') || token.name.startsWith('page-') || token.name.startsWith('size-');
-            return isDim && shouldIncludeToken(token);
-          }
-        },
-        {
-          destination: "acorn-tokens/acorn-borders.css",
-          format: "css/variables/modular-css",
-          filter: token => !isInputRelated(token.name) && (token.name.startsWith('border-') || token.name.includes('-border')) && !token.name.includes('-color') && shouldIncludeToken(token)
         },
         {
           destination: "acorn-tokens/acorn-shadows.css",
           format: "css/variables/modular-css",
-          filter: token => (token.name.includes('shadow') || token.name.includes('box-shadow')) && shouldIncludeToken(token)
+          filter: token => token.name.includes('shadow')
+        },
+        {
+          destination: "acorn-tokens/acorn-typography.css",
+          format: "css/variables/modular-css",
+          filter: token => (token.name.includes('font') || token.name.includes('heading') || token.name.startsWith('text-')) && !token.name.includes('color')
+        },
+        {
+          destination: "acorn-tokens/acorn-dimension.css",
+          format: "css/variables/modular-css",
+          filter: token => (token.name.includes('size') || token.name.includes('space') || token.name.includes('dimension') || token.name.includes('padding') || token.name.includes('margin')) && !isInputRelated(token.name) && !token.name.includes('font')
+        },
+        {
+          destination: "acorn-tokens/acorn-borders.css",
+          format: "css/variables/modular-css",
+          filter: token => token.name.includes('border') && !token.name.includes('color') && !isInputRelated(token.name)
+        },
+        {
+          destination: "acorn-tokens/acorn-button.css",
+          format: "css/variables/modular-css",
+          filter: t => t.name.startsWith('button-')
         },
         {
           destination: "acorn-tokens/acorn-inputs.css",
           format: "css/variables/modular-css",
-          filter: token => {
-            if (token.name.startsWith('button-')) return false;
-            const isInput = isInputRelated(token.name) || (token.name.startsWith('focus-outline') && !token.name.includes('-color'));
-            return isInput && !token.name.includes('-color') && shouldIncludeToken(token);
-          }
+          filter: t => (t.name.startsWith('input-') || t.name.startsWith('checkbox-') || t.name.startsWith('focus-outline'))
         },
-        { destination: "acorn-tokens/acorn-button.css", format: "css/variables/modular-css", filter: t => t.name.startsWith('button-') && shouldIncludeToken(t) },
-        { destination: "acorn-tokens/acorn-badge.css", format: "css/variables/modular-css", filter: t => t.name.startsWith('badge-') && shouldIncludeToken(t) },
-        { destination: "acorn-tokens/acorn-table.css", format: "css/variables/modular-css", filter: t => (t.name.startsWith('table-') || t.name.startsWith('table-row-')) && shouldIncludeToken(t) },
-        { destination: "acorn-tokens/acorn-promo.css", format: "css/variables/modular-css", filter: t => t.name.startsWith('promo-') && shouldIncludeToken(t) }
+        {
+          destination: "acorn-tokens/acorn-badge.css",
+          format: "css/variables/modular-css",
+          filter: t => t.name.startsWith('badge-')
+        },
+        {
+          destination: "acorn-tokens/acorn-table.css",
+          format: "css/variables/modular-css",
+          filter: t => t.name.startsWith('table-')
+        },
+        {
+          destination: "acorn-tokens/acorn-promo.css",
+          format: "css/variables/modular-css",
+          filter: t => t.name.startsWith('promo-')
+        }
       ]
     }
   }
