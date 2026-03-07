@@ -1,12 +1,29 @@
 {
-  "description": "Package file for node modules used to create our CSS tokens from a JSON source of truth.",
+  "name": "acorn-design-system",
+  "version": "0.1.0",
+  "description": "Acorn Design System - design tokens and web components for cross-browser use",
   "license": "MPL-2.0",
+  "type": "module",
+  "main": "./components/index.js",
+  "exports": {
+    ".": "./components/index.js",
+    "./components": "./components/index.js",
+    "./components/core": "./components/core/acorn-element.js",
+    "./components/badge": "./components/badge/acorn-badge.js",
+    "./components/button": "./components/button/acorn-button.js",
+    "./components/card": "./components/card/acorn-card.js",
+    "./tokens": "./acorn.css",
+    "./tokens/*": "./acorn-tokens/*"
+  },
   "scripts": {
-    "build": "(npm ls || npm ci) && style-dictionary build --config ./tokens-config.js && prettier ./acorn-tokens/*.css --write",
+    "build": "(npm ls || npm ci) && style-dictionary build --config ./tokens-config.cjs && prettier ./acorn-tokens/*.css --write",
     "test": "(npm ls || npm ci) && node tests/try-runner.js"
   },
   "devDependencies": {
     "prettier": "^3.2.5",
     "style-dictionary": "^3.9.2"
+  },
+  "dependencies": {
+    "lit": "^3.3.2"
   }
 }
