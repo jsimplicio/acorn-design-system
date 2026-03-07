@@ -9,7 +9,7 @@
 
 @media (prefers-contrast) {
   :root {
-  /** Outline Color **/
-  --outline-color-error: var(--border-color);
+    /** Outline Color **/
+    --outline-color-error: var(--border-color);
   }
 }

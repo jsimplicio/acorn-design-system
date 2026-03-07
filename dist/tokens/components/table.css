@@ -14,11 +14,11 @@
 
 @media (forced-colors) {
   :root {
-  /** Table **/
-  --table-background-color: Canvas;
-  --table-border-color: CanvasText;
-  --table-header-background-color: AccentColor;
-  --table-header-text-color: AccentColorText;
-  --table-row-background-color-alternate: var(--background-color-canvas);
+    /** Table **/
+    --table-background-color: Canvas;
+    --table-border-color: CanvasText;
+    --table-header-background-color: AccentColor;
+    --table-header-text-color: AccentColorText;
+    --table-row-background-color-alternate: var(--background-color-canvas);
   }
 }

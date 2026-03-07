@@ -13,7 +13,7 @@
 
 @media (forced-colors) {
   :root {
-  /** Focus Outline **/
-  --focus-outline-color: var(--text-color);
+    /** Focus Outline **/
+    --focus-outline-color: var(--text-color);
   }
 }

@@ -23,24 +23,24 @@
 
 @media (prefers-contrast) {
   :root {
-  /** Border **/
-  --border-color: CanvasText;
-  --border-color-card: color-mix(in srgb, currentColor 41%, transparent);
-  --border-color-deemphasized: currentColor;
-  --border-color-interactive: var(--text-color);
-  --border-color-transparent: CanvasText;
+    /** Border **/
+    --border-color: CanvasText;
+    --border-color-card: color-mix(in srgb, currentColor 41%, transparent);
+    --border-color-deemphasized: currentColor;
+    --border-color-interactive: var(--text-color);
+    --border-color-transparent: CanvasText;
   }
 }
 
 @media (forced-colors) {
   :root {
-  /** Border **/
-  --border-color-card: CanvasText;
-  --border-color-deemphasized: ButtonText;
-  --border-color-interactive: ButtonText;
-  --border-color-interactive-hover: SelectedItem;
-  --border-color-interactive-active: ButtonText;
-  --border-color-interactive-disabled: GrayText;
-  --border-color-selected: SelectedItem;
+    /** Border **/
+    --border-color-card: CanvasText;
+    --border-color-deemphasized: ButtonText;
+    --border-color-interactive: ButtonText;
+    --border-color-interactive-hover: SelectedItem;
+    --border-color-interactive-active: ButtonText;
+    --border-color-interactive-disabled: GrayText;
+    --border-color-selected: SelectedItem;
   }
 }

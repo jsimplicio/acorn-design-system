@@ -1,0 +1,30 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+:root {
+  /** Background Color **/
+  --background-color-box: light-dark(var(--color-white), var(--color-gray-80));
+  --background-color-box-info: light-dark(var(--color-gray-20), var(--color-gray-80));
+  --background-color-canvas: light-dark(var(--color-white), var(--color-gray-90));
+  --background-color-critical: light-dark(var(--color-red-0), var(--color-red-90));
+  --background-color-information: light-dark(var(--color-blue-0), var(--color-blue-90));
+  --background-color-list-item-hover: color-mix(in srgb, var(--color-accent-primary) 20%, transparent);
+  --background-color-overlay: var(--color-black-alpha-50);
+  --background-color-success: light-dark(var(--color-green-0), var(--color-green-90));
+  --background-color-warning: light-dark(var(--color-yellow-0), var(--color-yellow-90));
+}
+
+@media (prefers-contrast) {
+  :root {
+    /** Background Color **/
+    --background-color-box: var(--background-color-canvas);
+    --background-color-box-info: var(--background-color-canvas);
+    --background-color-canvas: Canvas;
+    --background-color-critical: var(--background-color-canvas);
+    --background-color-information: var(--background-color-canvas);
+    --background-color-list-item-hover: SelectedItem;
+    --background-color-success: var(--background-color-canvas);
+    --background-color-warning: var(--background-color-canvas);
+  }
+}

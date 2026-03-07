@@ -14,18 +14,18 @@
 
 @media (prefers-contrast) {
   :root {
-  /** Text **/
-  --text-color: CanvasText;
-  --text-color-deemphasized: inherit;
-  --text-color-error: inherit;
-  --text-color-list-item-hover: SelectedItemText;
+    /** Text **/
+    --text-color: CanvasText;
+    --text-color-deemphasized: inherit;
+    --text-color-error: inherit;
+    --text-color-list-item-hover: SelectedItemText;
   }
 }
 
 @media (forced-colors) {
   :root {
-  /** Text **/
-  --text-color-disabled: GrayText;
-  --text-color-accent-primary-selected: SelectedItemText;
+    /** Text **/
+    --text-color-disabled: GrayText;
+    --text-color-accent-primary-selected: SelectedItemText;
   }
 }

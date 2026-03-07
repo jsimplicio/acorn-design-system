@@ -11,13 +11,9 @@
 !src/
 !src/**
 
-# Keep the dist directory (built CSS)
+# Keep the dist directory (built CSS and utils)
 !dist/
 !dist/**
-
-# Keep the utils directory and all its contents
-!utils/
-!utils/**
 
 # Keep the examples directory
 !examples/

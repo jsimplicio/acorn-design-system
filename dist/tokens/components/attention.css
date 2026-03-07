@@ -3,13 +3,13 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 :root {
-  /** Outline Color **/
-  --outline-color-error: light-dark(var(--color-red-70), var(--color-red-20));
+  /** Attention Dot **/
+  --attention-dot-color: light-dark(#2ac3a2, #54ffbd);
 }
 
 @media (prefers-contrast) {
   :root {
-  /** Outline Color **/
-  --outline-color-error: var(--border-color);
+    /** Attention Dot **/
+    --attention-dot-color: AccentColor;
   }
 }

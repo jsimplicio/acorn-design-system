@@ -12,6 +12,11 @@ Acorn is Firefox's design system that provides:
 
 ```
 acorn-design-system/
+├── dist/                      # Build outputs (for consumers)
+│   ├── tokens/                # Generated CSS from tokens
+│   │   ├── base/              # Base token CSS
+│   │   └── components/        # Component token CSS
+│   └── utils/                 # Utility CSS (text and typography)
 ├── src/
 │   ├── components/            # Web components (Lit)
 │   ├── tokens/                # Design token JSON sources
@@ -19,13 +24,8 @@ acorn-design-system/
 │   │   └── components/        # Component tokens (button, badge, etc.)
 │   └── styles/
 │       └── index.css          # Main CSS entry point
-├── dist/
-│   └── styles/                # Generated CSS from tokens
-│       ├── base/              # Base token CSS
-│       └── components/        # Component token CSS
 ├── examples/
 │   └── index.html             # Demo page
-├── utils/                     # Firefox utilities
 ├── tokens-config.cjs          # Style Dictionary configuration
 └── package.json               # Build dependencies
 ```
@@ -49,7 +49,10 @@ This will generate all the CSS files from the design tokens.
 ### Using the design system
 
 ```html
-<!-- Import the complete design system -->
+<!-- Import design tokens -->
+<link rel="stylesheet" href="dist/tokens/base/color.css">
+<link rel="stylesheet" href="dist/tokens/components/button.css">
+<!-- Or import all tokens via the convenience file -->
 <link rel="stylesheet" href="src/styles/index.css">
 
 <!-- Use web components -->
@@ -65,8 +68,8 @@ This will generate all the CSS files from the design tokens.
 ### CSS token files
 
 Generated CSS is organized to mirror the source JSON structure:
-- `dist/styles/base/` - Base design tokens (color, size, space, font, etc.)
-- `dist/styles/components/` - Component-specific tokens (button, badge, checkbox, etc.)
+- `dist/tokens/base/` - Base design tokens (color, size, space, font, etc.)
+- `dist/tokens/components/` - Component-specific tokens (button, badge, checkbox, etc.)
 - `src/styles/index.css` - Imports all token files
 
 ## Built with Style Dictionary

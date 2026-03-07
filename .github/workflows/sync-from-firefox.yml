@@ -68,9 +68,9 @@ jobs:
           
           echo "🔍 Checking for specific file and directory changes..."
           for file in "${SYNC_FILES[@]}"; do
-            # Handle special case for text-and-typography.css which goes to utils/
+            # Handle special case for text-and-typography.css which goes to dist/utils/
             if [ "$file" = "text-and-typography.css" ]; then
-              local_file="utils/$file"
+              local_file="dist/utils/$file"
             else
               local_file="$file"
             fi
@@ -148,9 +148,9 @@ jobs:
           CHANGES_MADE=false
           
           for file in "${SYNC_FILES[@]}"; do
-            # Handle special case for text-and-typography.css which goes to utils/
+            # Handle special case for text-and-typography.css which goes to dist/utils/
             if [ "$file" = "text-and-typography.css" ]; then
-              local_file="utils/$file"
+              local_file="dist/utils/$file"
             else
               local_file="$file"
             fi
@@ -274,15 +274,15 @@ jobs:
             
             The following have been updated from the Firefox repository:
             
-            - Split design token files from `toolkit/themes/shared/design-system/src/tokens/`
-            - Text and typography utilities from `toolkit/themes/shared/design-system/src/`
+            - Split design token files from `toolkit/themes/shared/design-system/src/tokens/` → `src/tokens/`
+            - Text and typography utilities from `toolkit/themes/shared/design-system/src/` → `dist/utils/`
             
             ### Review Checklist
             
             - [ ] Review changes for any breaking modifications
             - [ ] Ensure all custom files are preserved (src/components/, dist/, examples/)
             - [ ] Test build process: `npm run build`
-            - [ ] Verify generated CSS files in dist/styles/
+            - [ ] Verify generated CSS files in dist/tokens/
             
             **Note**: This PR was automatically created by the Firefox sync workflow.
           branch: firefox-sync-${{ github.run_number }}

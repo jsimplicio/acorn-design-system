@@ -4,33 +4,33 @@
  * Token files are organized to mirror the source JSON structure:
  * - tokens/base/* (base design tokens)
  * - tokens/components/* (component-specific tokens)
- * - utils/* (utility files)
+ * - ../utils/* (utility files)
  */
 
 /* Base Design Tokens */
-@import url("../../dist/styles/base/background.css");
-@import url("../../dist/styles/base/border.css");
-@import url("../../dist/styles/base/box.css");
-@import url("../../dist/styles/base/color.css");
-@import url("../../dist/styles/base/dimension.css");
-@import url("../../dist/styles/base/focus.css");
-@import url("../../dist/styles/base/font.css");
-@import url("../../dist/styles/base/outline.css");
-@import url("../../dist/styles/base/size.css");
-@import url("../../dist/styles/base/space.css");
-@import url("../../dist/styles/base/text.css");
+@import url("../../dist/tokens/base/background.css");
+@import url("../../dist/tokens/base/border.css");
+@import url("../../dist/tokens/base/box.css");
+@import url("../../dist/tokens/base/color.css");
+@import url("../../dist/tokens/base/dimension.css");
+@import url("../../dist/tokens/base/focus.css");
+@import url("../../dist/tokens/base/font.css");
+@import url("../../dist/tokens/base/outline.css");
+@import url("../../dist/tokens/base/size.css");
+@import url("../../dist/tokens/base/space.css");
+@import url("../../dist/tokens/base/text.css");
 
 /* Component Tokens */
-@import url("../../dist/styles/components/attention.css");
-@import url("../../dist/styles/components/badge.css");
-@import url("../../dist/styles/components/button.css");
-@import url("../../dist/styles/components/checkbox.css");
-@import url("../../dist/styles/components/heading.css");
-@import url("../../dist/styles/components/icon.css");
-@import url("../../dist/styles/components/input.css");
-@import url("../../dist/styles/components/link.css");
-@import url("../../dist/styles/components/page.css");
-@import url("../../dist/styles/components/table.css");
+@import url("../../dist/tokens/components/attention.css");
+@import url("../../dist/tokens/components/badge.css");
+@import url("../../dist/tokens/components/button.css");
+@import url("../../dist/tokens/components/checkbox.css");
+@import url("../../dist/tokens/components/heading.css");
+@import url("../../dist/tokens/components/icon.css");
+@import url("../../dist/tokens/components/input.css");
+@import url("../../dist/tokens/components/link.css");
+@import url("../../dist/tokens/components/page.css");
+@import url("../../dist/tokens/components/table.css");
 
 /* Utility Files */
-@import url("../../utils/text-and-typography.css");
+@import url("../../dist/utils/text-and-typography.css");

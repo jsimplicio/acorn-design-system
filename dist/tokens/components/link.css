@@ -13,10 +13,10 @@
 
 @media (forced-colors) {
   :root {
-  /** Link **/
-  --link-color: LinkText;
-  --link-color-hover: LinkText;
-  --link-color-active: ActiveText;
-  --link-color-visited: var(--link-color);
+    /** Link **/
+    --link-color: LinkText;
+    --link-color-hover: LinkText;
+    --link-color-active: ActiveText;
+    --link-color-visited: var(--link-color);
   }
 }

@@ -19,11 +19,11 @@
 
 @media (prefers-contrast) {
   :root {
-  /** Icon **/
-  --icon-color: var(--text-color);
-  --icon-color-critical: var(--icon-color);
-  --icon-color-information: var(--icon-color);
-  --icon-color-success: var(--icon-color);
-  --icon-color-warning: var(--icon-color);
+    /** Icon **/
+    --icon-color: var(--text-color);
+    --icon-color-critical: var(--icon-color);
+    --icon-color-information: var(--icon-color);
+    --icon-color-success: var(--icon-color);
+    --icon-color-warning: var(--icon-color);
   }
 }
