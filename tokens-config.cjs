@@ -358,8 +358,21 @@ function formatVariables({ format, dictionary, outputReferences, formatting }) {
 }
 
 
+function getTokenCategory(filePath) {
+  const fileName = filePath.split("/").at(-1);
+  const tokenCategory = fileName.replace(".tokens.json", "");
+  return tokenCategory;
+}
+
 module.exports = {
-  source: ["design-tokens.json"],
+  source: ["src/tokens/**/*.json"],
+  parsers: [
+    {
+      pattern: /\.json$/,
+      parse: ({ filePath, contents }) =>
+        JSON.parse(`{"${getTokenCategory(filePath)}": ${contents}}`),
+    },
+  ],
   format: {
     "css/variables/modular-css": createModularCssFormat(),
   },
@@ -454,7 +467,8 @@ module.exports = {
 	    // - Page dimensions (page-*-width, page-*-height)
 	    // - Button size tokens (button-size-*) but not color or other non-size properties
 	    
-	    const isDimensionToken = token.name.startsWith('space-') ||
+	    const isDimensionToken = token.name.startsWith('dimension-') ||
+	                       token.name.startsWith('space-') ||
 	                       token.name.includes('-space') ||
 	                       token.name.startsWith('padding-') ||
 	                       token.name.includes('-padding') ||

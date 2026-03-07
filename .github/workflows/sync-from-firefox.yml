@@ -60,12 +60,13 @@ jobs:
           # Check for meaningful changes in files we actually want to sync
           CHANGES_FOUND=false
           
-          # List of files we care about syncing (that match our .gitignore whitelist)
+          # List of files and directories we care about syncing (that match our .gitignore whitelist)
           # Note: package.json is excluded because Acorn maintains its own customized build script
           # These files are now located in the src/ subdirectory of design-system
-          SYNC_FILES=("design-tokens.json" "text-and-typography.css")
+          SYNC_FILES=("text-and-typography.css")
+          SYNC_DIRS=("tokens")
           
-          echo "🔍 Checking for specific file changes..."
+          echo "🔍 Checking for specific file and directory changes..."
           for file in "${SYNC_FILES[@]}"; do
             # Handle special case for text-and-typography.css which goes to acorn-utils/
             if [ "$file" = "text-and-typography.css" ]; then
@@ -87,6 +88,25 @@ jobs:
               fi
             elif [ -f "$local_file" ]; then
               echo "📝 File removed in Firefox: $file"
+              CHANGES_FOUND=true
+            fi
+          done
+          
+          # Check directories (like tokens/)
+          for dir in "${SYNC_DIRS[@]}"; do
+            local_dir="src/$dir"
+            if [ -d "$DESIGN_SYSTEM_SRC_PATH/$dir" ]; then
+              if [ -d "$local_dir" ]; then
+                if ! diff -r "$local_dir" "$DESIGN_SYSTEM_SRC_PATH/$dir" > /dev/null 2>&1; then
+                  echo "📝 Changes detected in $dir directory"
+                  CHANGES_FOUND=true
+                fi
+              else
+                echo "📝 New directory detected: $dir"
+                CHANGES_FOUND=true
+              fi
+            elif [ -d "$local_dir" ]; then
+              echo "📝 Directory removed in Firefox: $dir"
               CHANGES_FOUND=true
             fi
           done
@@ -120,10 +140,11 @@ jobs:
           echo "Firefox commit: $FIREFOX_COMMIT_SHORT"
           echo "FIREFOX_COMMIT_SHORT=$FIREFOX_COMMIT_SHORT" >> $GITHUB_ENV
           
-          # Copy only specific files we want to sync
+          # Copy only specific files and directories we want to sync
           # Note: package.json is excluded because Acorn maintains its own customized build script
           # These files are now located in the src/ subdirectory of design-system
-          SYNC_FILES=("design-tokens.json" "text-and-typography.css")
+          SYNC_FILES=("text-and-typography.css")
+          SYNC_DIRS=("tokens")
           CHANGES_MADE=false
           
           for file in "${SYNC_FILES[@]}"; do
@@ -144,6 +165,24 @@ jobs:
             elif [ -f "$local_file" ]; then
               echo "📋 Removing $local_file (deleted in Firefox)..."
               rm "$local_file"
+              CHANGES_MADE=true
+            fi
+          done
+          
+          # Copy directories
+          for dir in "${SYNC_DIRS[@]}"; do
+            local_dir="src/$dir"
+            if [ -d "$DESIGN_SYSTEM_SRC_PATH/$dir" ]; then
+              echo "📋 Copying $dir directory from Firefox src/ to $local_dir..."
+              # Ensure parent directory exists
+              mkdir -p "src"
+              # Remove old directory and copy new one
+              rm -rf "$local_dir"
+              cp -r "$DESIGN_SYSTEM_SRC_PATH/$dir" "$local_dir"
+              CHANGES_MADE=true
+            elif [ -d "$local_dir" ]; then
+              echo "📋 Removing $local_dir (deleted in Firefox)..."
+              rm -rf "$local_dir"
               CHANGES_MADE=true
             fi
           done
@@ -233,9 +272,10 @@ jobs:
             
             ### Changes
             
-            The following files have been updated from the Firefox repository:
+            The following have been updated from the Firefox repository:
             
-            - Design tokens and related files from `toolkit/themes/shared/design-system/src/`
+            - Split design token files from `toolkit/themes/shared/design-system/src/tokens/`
+            - Text and typography utilities from `toolkit/themes/shared/design-system/src/`
             
             ### Review Checklist
             
@@ -289,7 +329,7 @@ jobs:
             echo "The Acorn Design System is already up to date with the Firefox repository." >> $GITHUB_STEP_SUMMARY
           fi
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "**Note**: The Acorn Design System syncs `design-tokens.json` and `text-and-typography.css` from Firefox, maintaining its own simplified token structure and customized build configuration." >> $GITHUB_STEP_SUMMARY
+          echo "**Note**: The Acorn Design System syncs split token files from `src/tokens/` and `text-and-typography.css` from Firefox, maintaining its own simplified token structure and customized build configuration." >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "Last sync: $(date '+%Y-%m-%d %H:%M:%S UTC')" >> $GITHUB_STEP_SUMMARY
 

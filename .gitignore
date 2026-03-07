@@ -22,8 +22,16 @@
 !package.json
 !package-lock.json
 
-# Optionally keep design-tokens.json for reference
-!design-tokens.json
+# Keep the src/ directory with split token files
+!src/
+!src/**
 
 # Keep the build configuration for the acorn design system
-!tokens-config.js
+!tokens-config.cjs
+
+# Keep the components directory with all web components
+!components/
+!components/**
+
+# Keep the demo page
+!demo.html
