@@ -77,14 +77,6 @@ function shouldIncludeToken(token) {
   return hasSharedOrBrand || !isPlatformOnly;
 }
 
-// Helper function to check if token is input-related
-function isInputRelated(tokenName) {
-  return tokenName.includes('button-') || tokenName.startsWith('button-') ||
-         tokenName.includes('checkbox-') || tokenName.startsWith('checkbox-') ||
-         tokenName.includes('input-') || tokenName.startsWith('input-');
-}
-
-
 /**
  * Creates a modular CSS formatter for acorn design tokens without layers or anonymous-content-host
  * @returns {Function} - Formatter function that returns a modular CSS string.
@@ -387,199 +379,113 @@ module.exports = {
         ...["shared", "platform", "brand"].map(createLightDarkTransform),
       ],
       files: [
-	{
-	  destination: "acorn-tokens/acorn-colors.css",
-	  format: "css/variables/modular-css",
-	  filter: token => {
-	    // Exclude shadow-related color tokens (they go to shadows)
-	    if (token.name.includes('shadow') && token.name.includes('color')) return false;
-	    
-	    // Exclude component-specific tokens (they go to their own files)
-	    if (token.name.startsWith('button-')) return false;
-	    if (token.name.startsWith('badge-')) return false;
-	    if (token.name.startsWith('table-')) return false;
-	    if (token.name.startsWith('promo-')) return false;
-	    
-	    // Match ALL other color-related tokens including:
-	    // - Color palettes (color-red-10, color-blue-50, etc.)
-	    // - Background colors (background-color-*)
-	    // - Border colors (border-color-*)
-	    // - Text colors (text-color-*)
-	    // - Icon colors (icon-color-*)
-	    // - Link colors (link-color-*)
-	    // - Outline colors (outline-color-*)
-	    // - Attention dot color
-	    // - Focus outline color
-	    const isColorToken = token.name.startsWith('color-') ||
-	                        token.name.includes('-color') ||
-	                        token.name.startsWith('background-color') ||
-	                        token.name.startsWith('border-color') ||
-	                        token.name.startsWith('text-color') ||
-	                        token.name.startsWith('icon-color') ||
-	                        token.name.startsWith('link-color') ||
-	                        token.name.startsWith('link-') ||
-	                        token.name.startsWith('outline-color') ||
-	                        token.name === 'attention-dot-color' ||
-	                        token.name === 'focus-outline-color' ||
-	                        // Include checkbox color tokens
-	                        (token.name.includes('checkbox-') && token.name.includes('color')) ||
-	                        // Include input color tokens
-	                        (token.name.includes('input-') && token.name.includes('color')) ||
-	                        // Include icon color tokens
-	                        (token.name.startsWith('icon-') && token.name.includes('color'));
-	    
-	    return isColorToken && shouldIncludeToken(token);
-	  }
-	},
-	{
-	  destination: "acorn-tokens/acorn-typography.css",
-	  format: "css/variables/modular-css",
-	  filter: token => {
-	    if (isInputRelated(token.name)) return false;
-	    
-	    const isTypographyToken = token.name.startsWith('font-') ||
-	                             token.name.includes('font-') ||
-	                             token.name.startsWith('heading-') ||
-	                             (token.name.startsWith('text-') && !token.name.includes('color'));
-	    
-	    return isTypographyToken && shouldIncludeToken(token);
-	  }
-	},
-	{
-	  destination: "acorn-tokens/acorn-dimension.css",
-	  format: "css/variables/modular-css",
-	  filter: token => {
-	    if (isInputRelated(token.name)) return false;
-	    // Exclude all button tokens from the size file
-	    if (token.name.startsWith('button-')) {
-	      return false;
-	    }
-
-	    // Exclude font-size tokens from the size file (they belong in typography)
-	    if (token.name.includes('font-size')) {
-	      return false;
-	    }
-	    // Match all size-related tokens:
-	    // - Size tokens (size-*, --size-*)
-	    // - Width tokens (width-*, --*-width)
-	    // - Height tokens (height-*, --*-height)
-	    // - Icon size tokens (icon-size-*)
-	    // - Page dimensions (page-*-width, page-*-height)
-	    // - Button size tokens (button-size-*) but not color or other non-size properties
-	    
-	    const isDimensionToken = token.name.startsWith('dimension-') ||
-	                       token.name.startsWith('space-') ||
-	                       token.name.includes('-space') ||
-	                       token.name.startsWith('padding-') ||
-	                       token.name.includes('-padding') ||
-	                       token.name.startsWith('margin-') ||
-	                       token.name.includes('-margin') ||
-			       token.name.startsWith('size-') ||
-	                       token.name.includes('-size') ||
-	                       token.name.startsWith('width-') ||
-	                       token.name.includes('-width') ||
-	                       token.name.startsWith('height-') ||
-	                       token.name.includes('-height') ||
-	                       token.name.startsWith('icon-size') ||
-	                       token.name.startsWith('page-') ||
-	                       token.name.includes('page-') ||
-	                       // Include button size tokens but exclude other button properties
-	                       (token.name.includes('button-size') && !token.name.includes('color'));
-	    
-	    if (!isDimensionToken) return false;
-
-	    // Exclude border-width from the size file (goes to borders)
-	    if (token.name.includes('border-width')) return false;
-	    
-	    // Exclude focus-outline tokens from the size file (goes to inputs)
-	    if (token.name.includes('focus-outline')) return false;
-	    
-	    // Exclude other input-related non-size tokens
-	    if ((token.name.includes('button') || token.name.includes('checkbox') || token.name.includes('input')) && 
-	        !token.name.includes('-size') && !token.name.includes('-width') && !token.name.includes('-height') && !token.name.includes('font-size')) {
-	      return false;
-	    }
-
-	    // Exclude checkbox and input tokens from acorn-size.css
-	    if (token.name.startsWith('checkbox-') || token.name.startsWith('input-')) {
-	      return false;
-	    }
-	    
-	    return isDimensionToken && shouldIncludeToken(token);
-	  }
-	},
-	{
-	  destination: "acorn-tokens/acorn-borders.css",
-	  format: "css/variables/modular-css",
-	  filter: token => {
-	    if (isInputRelated(token.name)) return false;
-
-	    const isBorderToken = (token.name.startsWith('border-') || token.name.includes('-border')) && !token.name.includes('-color');
-	    
-	    return isBorderToken && shouldIncludeToken(token);
-	  }
-	},
-	{
-	  destination: "acorn-tokens/acorn-shadows.css",
-	  format: "css/variables/modular-css",
-	  filter: token => {
-	    const isShadowToken = token.name.includes('shadow') ||
-	                         token.name.includes('box-shadow') ||
-	                         token.name.startsWith('box-shadow-');
-	    
-	    return isShadowToken && shouldIncludeToken(token);
-	  }
-	},
-	{
-	  destination: "acorn-tokens/acorn-inputs.css",
-	  format: "css/variables/modular-css",
-	  filter: token => {
-	    // Exclude button tokens (they now go to their own file)
-	    if (token.name.startsWith('button-')) return false;
-	    
-	    const isInputToken = isInputRelated(token.name) ||
-	                        (token.name.startsWith('focus-outline') && !token.name.includes('-color'));
-	    
-	    if (!isInputToken) return false;
-	    
-	    // Exclude color tokens as they go to colors file
-	    if (token.name.includes('-color')) return false;
-	    
-	    return shouldIncludeToken(token);
-	  }
-	},
-	{
-	  destination: "acorn-tokens/acorn-button.css",
-	  format: "css/variables/modular-css",
-	  filter: token => {
-	    const isButtonToken = token.name.startsWith('button-');
-	    return isButtonToken && shouldIncludeToken(token);
-	  }
-	},
-	{
-	  destination: "acorn-tokens/acorn-badge.css",
-	  format: "css/variables/modular-css",
-	  filter: token => {
-	    const isBadgeToken = token.name.startsWith('badge-');
-	    return isBadgeToken && shouldIncludeToken(token);
-	  }
-	},
-	{
-	  destination: "acorn-tokens/acorn-table.css",
-	  format: "css/variables/modular-css",
-	  filter: token => {
-	    const isTableToken = token.name.startsWith('table-') || token.name.startsWith('table-row-');
-	    return isTableToken && shouldIncludeToken(token);
-	  }
-	},
-	{
-	  destination: "acorn-tokens/acorn-promo.css",
-	  format: "css/variables/modular-css",
-	  filter: token => {
-	    const isPromoToken = token.name.startsWith('promo-');
-	    return isPromoToken && shouldIncludeToken(token);
-	  }
-	}
+        // Base tokens - 1:1 mapping with JSON files
+        {
+          destination: "acorn-tokens/base/background.css",
+          format: "css/variables/modular-css",
+          filter: token => token.name.startsWith('background')
+        },
+        {
+          destination: "acorn-tokens/base/border.css",
+          format: "css/variables/modular-css",
+          filter: token => token.name.startsWith('border') && shouldIncludeToken(token)
+        },
+        {
+          destination: "acorn-tokens/base/box.css",
+          format: "css/variables/modular-css",
+          filter: token => token.name.startsWith('box') && shouldIncludeToken(token)
+        },
+        {
+          destination: "acorn-tokens/base/color.css",
+          format: "css/variables/modular-css",
+          filter: token => token.name.startsWith('color') && shouldIncludeToken(token)
+        },
+        {
+          destination: "acorn-tokens/base/dimension.css",
+          format: "css/variables/modular-css",
+          filter: token => token.name.startsWith('dimension') && shouldIncludeToken(token)
+        },
+        {
+          destination: "acorn-tokens/base/focus.css",
+          format: "css/variables/modular-css",
+          filter: token => token.name.startsWith('focus') && shouldIncludeToken(token)
+        },
+        {
+          destination: "acorn-tokens/base/font.css",
+          format: "css/variables/modular-css",
+          filter: token => token.name.startsWith('font') && shouldIncludeToken(token)
+        },
+        {
+          destination: "acorn-tokens/base/outline.css",
+          format: "css/variables/modular-css",
+          filter: token => token.name.startsWith('outline') && shouldIncludeToken(token)
+        },
+        {
+          destination: "acorn-tokens/base/size.css",
+          format: "css/variables/modular-css",
+          filter: token => token.name.startsWith('size') && shouldIncludeToken(token)
+        },
+        {
+          destination: "acorn-tokens/base/space.css",
+          format: "css/variables/modular-css",
+          filter: token => token.name.startsWith('space') && shouldIncludeToken(token)
+        },
+        {
+          destination: "acorn-tokens/base/text.css",
+          format: "css/variables/modular-css",
+          filter: token => token.name.startsWith('text') && shouldIncludeToken(token)
+        },
+        // Component tokens - 1:1 mapping with JSON files
+        {
+          destination: "acorn-tokens/components/attention.css",
+          format: "css/variables/modular-css",
+          filter: token => token.name.startsWith('attention') && shouldIncludeToken(token)
+        },
+        {
+          destination: "acorn-tokens/components/badge.css",
+          format: "css/variables/modular-css",
+          filter: token => token.name.startsWith('badge') && shouldIncludeToken(token)
+        },
+        {
+          destination: "acorn-tokens/components/button.css",
+          format: "css/variables/modular-css",
+          filter: token => token.name.startsWith('button') && shouldIncludeToken(token)
+        },
+        {
+          destination: "acorn-tokens/components/checkbox.css",
+          format: "css/variables/modular-css",
+          filter: token => token.name.startsWith('checkbox') && shouldIncludeToken(token)
+        },
+        {
+          destination: "acorn-tokens/components/heading.css",
+          format: "css/variables/modular-css",
+          filter: token => token.name.startsWith('heading') && shouldIncludeToken(token)
+        },
+        {
+          destination: "acorn-tokens/components/icon.css",
+          format: "css/variables/modular-css",
+          filter: token => token.name.startsWith('icon') && shouldIncludeToken(token)
+        },
+        {
+          destination: "acorn-tokens/components/input.css",
+          format: "css/variables/modular-css",
+          filter: token => token.name.startsWith('input') && shouldIncludeToken(token)
+        },
+        {
+          destination: "acorn-tokens/components/link.css",
+          format: "css/variables/modular-css",
+          filter: token => token.name.startsWith('link') && shouldIncludeToken(token)
+        },
+        {
+          destination: "acorn-tokens/components/page.css",
+          format: "css/variables/modular-css",
+          filter: token => token.name.startsWith('page') && shouldIncludeToken(token)
+        },
+        {
+          destination: "acorn-tokens/components/table.css",
+          format: "css/variables/modular-css",
+          filter: token => token.name.startsWith('table') && shouldIncludeToken(token)
+        },
       ],
     },
   },

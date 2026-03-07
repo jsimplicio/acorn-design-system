@@ -3,31 +3,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 :root {
-  /** Attention Dot **/
-  --attention-dot-color: light-dark(#2ac3a2, #54ffbd);
-
-  /** Background Color **/
-  --background-color-box: light-dark(var(--color-white), var(--color-gray-80));
-  --background-color-box-info: light-dark(var(--color-gray-20), var(--color-gray-80));
-  --background-color-canvas: light-dark(var(--color-white), var(--color-gray-90));
-  --background-color-critical: light-dark(var(--color-red-0), var(--color-red-90));
-  --background-color-information: light-dark(var(--color-blue-0), var(--color-blue-90));
-  --background-color-list-item-hover: color-mix(in srgb, var(--color-accent-primary) 20%, transparent);
-  --background-color-overlay: var(--color-black-alpha-50);
-  --background-color-success: light-dark(var(--color-green-0), var(--color-green-90));
-  --background-color-warning: light-dark(var(--color-yellow-0), var(--color-yellow-90));
-
-  /** Border **/
-  --border-color: light-dark(var(--color-gray-50), var(--color-gray-70));
-  --border-color-card: color-mix(in srgb, currentColor 10%, transparent);
-  --border-color-deemphasized: light-dark(var(--color-gray-30), var(--color-gray-70));
-  --border-color-interactive: light-dark(var(--color-gray-60), var(--color-gray-50));
-  --border-color-interactive-hover: var(--border-color-interactive);
-  --border-color-interactive-active: var(--border-color-interactive);
-  --border-color-interactive-disabled: var(--border-color-interactive);
-  --border-color-selected: var(--color-accent-primary);
-  --border-color-transparent: transparent;
-
   /** Color **/
   --color-accent-primary: light-dark(var(--color-blue-60), var(--color-cyan-30));
   --color-accent-primary-hover: light-dark(var(--color-blue-70), var(--color-cyan-20));
@@ -89,16 +64,16 @@
   --color-green-100: oklch(27% 0.1 145);
   --color-green-110: oklch(20% 0.05 145);
   --color-orange-0: oklch(97% 0.05 50);
-  --color-orange-10: oklch(90% 0.1 50);
+  --color-orange-10: oklch(90% 0.10 50);
   --color-orange-20: oklch(86% 0.14 50);
   --color-orange-30: oklch(79% 0.17 50);
   --color-orange-40: oklch(72% 0.19 50);
   --color-orange-50: oklch(65% 0.21 50);
   --color-orange-60: oklch(58% 0.21 50);
-  --color-orange-70: oklch(48% 0.2 50);
+  --color-orange-70: oklch(48% 0.20 50);
   --color-orange-80: oklch(41% 0.17 50);
   --color-orange-90: oklch(34% 0.14 50);
-  --color-orange-100: oklch(27% 0.1 50);
+  --color-orange-100: oklch(27% 0.10 50);
   --color-orange-110: oklch(20% 0.05 50);
   --color-pink-0: oklch(97% 0.05 360);
   --color-pink-10: oklch(90% 0.1 360);
@@ -170,104 +145,14 @@
   --color-yellow-90: oklch(34% 0.17 90);
   --color-yellow-100: oklch(27% 0.13 90);
   --color-yellow-110: oklch(20% 0.08 90);
-
-  /** Focus Outline **/
-  --focus-outline-color: var(--color-accent-primary);
-
-  /** Icon **/
-  --icon-color: light-dark(var(--color-gray-70), var(--color-gray-05));
-  --icon-color-critical: light-dark(var(--color-red-60), var(--color-red-20));
-  --icon-color-information: light-dark(var(--color-blue-60), var(--color-blue-20));
-  --icon-color-success: light-dark(var(--color-green-60), var(--color-green-20));
-  --icon-color-warning: light-dark(var(--color-yellow-60), var(--color-yellow-20));
-
-  /** Link **/
-  --link-color: var(--color-accent-primary);
-  --link-color-hover: var(--color-accent-primary-hover);
-  --link-color-active: var(--color-accent-primary-active);
-  --link-color-visited: var(--link-color);
-  --link-focus-outline-offset: 1px;
-
-  /** Outline Color **/
-  --outline-color-error: light-dark(var(--color-red-70), var(--color-red-20));
-
-  /** Text **/
-  --text-color: light-dark(var(--color-gray-100), var(--color-gray-05));
-  --text-color-disabled: color-mix(in srgb, currentColor 40%, transparent);
-  --text-color-accent-primary-selected: light-dark(var(--color-white), var(--color-gray-100));
-  --text-color-deemphasized: color-mix(in srgb, currentColor 69%, transparent);
-  --text-color-error: light-dark(var(--color-red-70), var(--color-red-20));
-  --text-color-list-item-hover: var(--text-color);
-}
-
-@media (prefers-contrast) {
-  :root {
-    /** Attention Dot **/
-    --attention-dot-color: AccentColor;
-
-    /** Background Color **/
-    --background-color-box: var(--background-color-canvas);
-    --background-color-box-info: var(--background-color-canvas);
-    --background-color-canvas: Canvas;
-    --background-color-critical: var(--background-color-canvas);
-    --background-color-information: var(--background-color-canvas);
-    --background-color-list-item-hover: SelectedItem;
-    --background-color-success: var(--background-color-canvas);
-    --background-color-warning: var(--background-color-canvas);
-
-    /** Border **/
-    --border-color: CanvasText;
-    --border-color-card: color-mix(in srgb, currentColor 41%, transparent);
-    --border-color-deemphasized: currentColor;
-    --border-color-interactive: var(--text-color);
-    --border-color-transparent: CanvasText;
-
-    /** Icon **/
-    --icon-color: var(--text-color);
-    --icon-color-critical: var(--icon-color);
-    --icon-color-information: var(--icon-color);
-    --icon-color-success: var(--icon-color);
-    --icon-color-warning: var(--icon-color);
-
-    /** Outline Color **/
-    --outline-color-error: var(--border-color);
-
-    /** Text **/
-    --text-color: CanvasText;
-    --text-color-deemphasized: inherit;
-    --text-color-error: inherit;
-    --text-color-list-item-hover: SelectedItemText;
-  }
 }
 
 @media (forced-colors) {
   :root {
-    /** Border **/
-    --border-color-card: CanvasText;
-    --border-color-deemphasized: ButtonText;
-    --border-color-interactive: ButtonText;
-    --border-color-interactive-hover: SelectedItem;
-    --border-color-interactive-active: ButtonText;
-    --border-color-interactive-disabled: GrayText;
-    --border-color-selected: SelectedItem;
-
-    /** Color **/
-    --color-accent-primary: ButtonText;
-    --color-accent-primary-hover: SelectedItem;
-    --color-accent-primary-active: var(--color-accent-primary-hover);
-    --color-accent-primary-selected: SelectedItem;
-
-    /** Focus Outline **/
-    --focus-outline-color: var(--text-color);
-
-    /** Link **/
-    --link-color: LinkText;
-    --link-color-hover: LinkText;
-    --link-color-active: ActiveText;
-    --link-color-visited: var(--link-color);
-
-    /** Text **/
-    --text-color-disabled: GrayText;
-    --text-color-accent-primary-selected: SelectedItemText;
+  /** Color **/
+  --color-accent-primary: ButtonText;
+  --color-accent-primary-hover: SelectedItem;
+  --color-accent-primary-active: var(--color-accent-primary-hover);
+  --color-accent-primary-selected: SelectedItem;
   }
 }

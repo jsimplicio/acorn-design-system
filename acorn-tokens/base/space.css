@@ -1,0 +1,14 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+:root {
+  /** Space **/
+  --space-xxsmall: var(--dimension-relative-0125);
+  --space-xsmall: var(--dimension-relative-025);
+  --space-small: var(--dimension-relative-050);
+  --space-medium: var(--dimension-relative-075);
+  --space-large: var(--dimension-relative-100);
+  --space-xlarge: var(--dimension-relative-150);
+  --space-xxlarge: var(--dimension-relative-200);
+}

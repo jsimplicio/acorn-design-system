@@ -13,6 +13,10 @@
 # Keep the acorn-tokens directory and all its contents
 !acorn-tokens/
 !acorn-tokens/**
+!acorn-tokens/base/
+!acorn-tokens/base/**
+!acorn-tokens/components/
+!acorn-tokens/components/**
 
 # Keep the acorn-utils directory and all its contents
 !acorn-utils/

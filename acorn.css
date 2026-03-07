@@ -1,27 +1,36 @@
 /* Acorn Design System - Complete Import
  * This file imports all Acorn design tokens and utilities for convenience.
  * 
- * For better performance, consider importing only the specific files you need:
- * - acorn-tokens/acorn-colors.css (color tokens)
- * - acorn-tokens/acorn-typography.css (typography tokens)
- * - acorn-tokens/acorn-dimension.css (size, space, and dimension tokens)
- * - acorn-tokens/acorn-borders.css (border tokens)
- * - acorn-tokens/acorn-shadows.css (shadow tokens)
- * - acorn-tokens/acorn-button.css (button-specific tokens)
- * - acorn-tokens/acorn-badge.css (badge-specific tokens)
- * - acorn-tokens/acorn-inputs.css (input/form tokens)
- * - acorn-utils/text-and-typography.css (typography utilities)
+ * Token files are organized to mirror the source JSON structure:
+ * - acorn-tokens/base/* (base design tokens)
+ * - acorn-tokens/components/* (component-specific tokens)
+ * - acorn-utils/* (utility files)
  */
 
-/* Design Token Files */
-@import url("acorn-tokens/acorn-colors.css");
-@import url("acorn-tokens/acorn-typography.css");
-@import url("acorn-tokens/acorn-dimension.css");
-@import url("acorn-tokens/acorn-borders.css");
-@import url("acorn-tokens/acorn-shadows.css");
-@import url("acorn-tokens/acorn-button.css");
-@import url("acorn-tokens/acorn-badge.css");
-@import url("acorn-tokens/acorn-inputs.css");
+/* Base Design Tokens */
+@import url("acorn-tokens/base/background.css");
+@import url("acorn-tokens/base/border.css");
+@import url("acorn-tokens/base/box.css");
+@import url("acorn-tokens/base/color.css");
+@import url("acorn-tokens/base/dimension.css");
+@import url("acorn-tokens/base/focus.css");
+@import url("acorn-tokens/base/font.css");
+@import url("acorn-tokens/base/outline.css");
+@import url("acorn-tokens/base/size.css");
+@import url("acorn-tokens/base/space.css");
+@import url("acorn-tokens/base/text.css");
+
+/* Component Tokens */
+@import url("acorn-tokens/components/attention.css");
+@import url("acorn-tokens/components/badge.css");
+@import url("acorn-tokens/components/button.css");
+@import url("acorn-tokens/components/checkbox.css");
+@import url("acorn-tokens/components/heading.css");
+@import url("acorn-tokens/components/icon.css");
+@import url("acorn-tokens/components/input.css");
+@import url("acorn-tokens/components/link.css");
+@import url("acorn-tokens/components/page.css");
+@import url("acorn-tokens/components/table.css");
 
 /* Utility Files */
 @import url("acorn-utils/text-and-typography.css");
