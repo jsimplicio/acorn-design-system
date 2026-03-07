@@ -3,11 +3,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 :root {
-  /** Border **/
-  --border-radius-circle: 9999px;
-  --border-radius-xsmall: 2px;
-  --border-radius-small: 4px;
-  --border-radius-medium: 8px;
-  --border-radius-large: 16px;
-  --border-width: 1px;
+  /** Input - Text **/
+  --input-text-min-height: var(--button-min-height);
 }

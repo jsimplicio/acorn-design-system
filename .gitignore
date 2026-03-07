@@ -7,20 +7,21 @@
 !.github/
 !.github/**
 
-# Keep the complete import file
-!acorn.css
+# Keep the src directory and all its contents
+!src/
+!src/**
 
-# Keep the acorn-tokens directory and all its contents
-!acorn-tokens/
-!acorn-tokens/**
-!acorn-tokens/base/
-!acorn-tokens/base/**
-!acorn-tokens/components/
-!acorn-tokens/components/**
+# Keep the dist directory (built CSS)
+!dist/
+!dist/**
 
-# Keep the acorn-utils directory and all its contents
-!acorn-utils/
-!acorn-utils/**
+# Keep the utils directory and all its contents
+!utils/
+!utils/**
+
+# Keep the examples directory
+!examples/
+!examples/**
 
 # Keep package.json and package-lock.json for npm compatibility (if users want to build)
 !package.json

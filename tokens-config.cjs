@@ -381,108 +381,108 @@ module.exports = {
       files: [
         // Base tokens - 1:1 mapping with JSON files
         {
-          destination: "acorn-tokens/base/background.css",
+          destination: "dist/styles/base/background.css",
           format: "css/variables/modular-css",
           filter: token => token.name.startsWith('background')
         },
         {
-          destination: "acorn-tokens/base/border.css",
+          destination: "dist/styles/base/border.css",
           format: "css/variables/modular-css",
           filter: token => token.name.startsWith('border') && shouldIncludeToken(token)
         },
         {
-          destination: "acorn-tokens/base/box.css",
+          destination: "dist/styles/base/box.css",
           format: "css/variables/modular-css",
           filter: token => token.name.startsWith('box') && shouldIncludeToken(token)
         },
         {
-          destination: "acorn-tokens/base/color.css",
+          destination: "dist/styles/base/color.css",
           format: "css/variables/modular-css",
           filter: token => token.name.startsWith('color') && shouldIncludeToken(token)
         },
         {
-          destination: "acorn-tokens/base/dimension.css",
+          destination: "dist/styles/base/dimension.css",
           format: "css/variables/modular-css",
           filter: token => token.name.startsWith('dimension') && shouldIncludeToken(token)
         },
         {
-          destination: "acorn-tokens/base/focus.css",
+          destination: "dist/styles/base/focus.css",
           format: "css/variables/modular-css",
           filter: token => token.name.startsWith('focus') && shouldIncludeToken(token)
         },
         {
-          destination: "acorn-tokens/base/font.css",
+          destination: "dist/styles/base/font.css",
           format: "css/variables/modular-css",
           filter: token => token.name.startsWith('font') && shouldIncludeToken(token)
         },
         {
-          destination: "acorn-tokens/base/outline.css",
+          destination: "dist/styles/base/outline.css",
           format: "css/variables/modular-css",
           filter: token => token.name.startsWith('outline') && shouldIncludeToken(token)
         },
         {
-          destination: "acorn-tokens/base/size.css",
+          destination: "dist/styles/base/size.css",
           format: "css/variables/modular-css",
           filter: token => token.name.startsWith('size') && shouldIncludeToken(token)
         },
         {
-          destination: "acorn-tokens/base/space.css",
+          destination: "dist/styles/base/space.css",
           format: "css/variables/modular-css",
           filter: token => token.name.startsWith('space') && shouldIncludeToken(token)
         },
         {
-          destination: "acorn-tokens/base/text.css",
+          destination: "dist/styles/base/text.css",
           format: "css/variables/modular-css",
           filter: token => token.name.startsWith('text') && shouldIncludeToken(token)
         },
         // Component tokens - 1:1 mapping with JSON files
         {
-          destination: "acorn-tokens/components/attention.css",
+          destination: "dist/styles/components/attention.css",
           format: "css/variables/modular-css",
           filter: token => token.name.startsWith('attention') && shouldIncludeToken(token)
         },
         {
-          destination: "acorn-tokens/components/badge.css",
+          destination: "dist/styles/components/badge.css",
           format: "css/variables/modular-css",
           filter: token => token.name.startsWith('badge') && shouldIncludeToken(token)
         },
         {
-          destination: "acorn-tokens/components/button.css",
+          destination: "dist/styles/components/button.css",
           format: "css/variables/modular-css",
           filter: token => token.name.startsWith('button') && shouldIncludeToken(token)
         },
         {
-          destination: "acorn-tokens/components/checkbox.css",
+          destination: "dist/styles/components/checkbox.css",
           format: "css/variables/modular-css",
           filter: token => token.name.startsWith('checkbox') && shouldIncludeToken(token)
         },
         {
-          destination: "acorn-tokens/components/heading.css",
+          destination: "dist/styles/components/heading.css",
           format: "css/variables/modular-css",
           filter: token => token.name.startsWith('heading') && shouldIncludeToken(token)
         },
         {
-          destination: "acorn-tokens/components/icon.css",
+          destination: "dist/styles/components/icon.css",
           format: "css/variables/modular-css",
           filter: token => token.name.startsWith('icon') && shouldIncludeToken(token)
         },
         {
-          destination: "acorn-tokens/components/input.css",
+          destination: "dist/styles/components/input.css",
           format: "css/variables/modular-css",
           filter: token => token.name.startsWith('input') && shouldIncludeToken(token)
         },
         {
-          destination: "acorn-tokens/components/link.css",
+          destination: "dist/styles/components/link.css",
           format: "css/variables/modular-css",
           filter: token => token.name.startsWith('link') && shouldIncludeToken(token)
         },
         {
-          destination: "acorn-tokens/components/page.css",
+          destination: "dist/styles/components/page.css",
           format: "css/variables/modular-css",
           filter: token => token.name.startsWith('page') && shouldIncludeToken(token)
         },
         {
-          destination: "acorn-tokens/components/table.css",
+          destination: "dist/styles/components/table.css",
           format: "css/variables/modular-css",
           filter: token => token.name.startsWith('table') && shouldIncludeToken(token)
         },

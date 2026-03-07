@@ -3,16 +3,17 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 :root {
-  /** Checkbox **/
-  --checkbox-margin-inline: var(--space-small);
-  --checkbox-size: var(--size-item-small);
-
   /** Focus Outline **/
   --focus-outline: var(--focus-outline-width) solid var(--focus-outline-color);
+  --focus-outline-color: var(--color-accent-primary);
   --focus-outline-inset: calc(-1 * var(--focus-outline-width));
   --focus-outline-offset: 2px;
   --focus-outline-width: 2px;
+}
 
-  /** Input - Text **/
-  --input-text-min-height: var(--button-min-height);
+@media (forced-colors) {
+  :root {
+  /** Focus Outline **/
+  --focus-outline-color: var(--text-color);
+  }
 }

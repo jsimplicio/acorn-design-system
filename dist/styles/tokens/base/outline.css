@@ -1,0 +1,15 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+:root {
+  /** Outline Color **/
+  --outline-color-error: light-dark(var(--color-red-70), var(--color-red-20));
+}
+
+@media (prefers-contrast) {
+  :root {
+  /** Outline Color **/
+  --outline-color-error: var(--border-color);
+  }
+}

@@ -16,7 +16,7 @@
     "./tokens/*": "./acorn-tokens/*"
   },
   "scripts": {
-    "build": "(npm ls || npm ci) && style-dictionary build --config ./tokens-config.cjs && prettier ./acorn-tokens/*.css --write",
+    "build": "(npm ls || npm ci) && style-dictionary build --config ./tokens-config.cjs && prettier ./dist/styles/**/*.css --write",
     "test": "(npm ls || npm ci) && node tests/try-runner.js"
   },
   "devDependencies": {

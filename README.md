@@ -3,29 +3,31 @@
 This repository contains the Acorn Design System from Mozilla Firefox, automatically synced from the [mozilla-firefox/firefox](https://github.com/mozilla-firefox/firefox) repository.
 
 Acorn is Firefox's design system that provides:
-- **Design tokens** in JSON format (`design-tokens.json`)
-- **Modular CSS files** for different token categories
+- **Design tokens** in JSON format (split across multiple files)
+- **Web components** built with Lit
+- **Modular CSS files** generated from design tokens
 - **Build tools** for generating CSS from design tokens
-- **Documentation** and examples
 
 ## Repository structure
 
 ```
 acorn-design-system/
-├── design-tokens.json          # Main design tokens definition
-├── tokens-config.js           # Style Dictionary configuration
-├── package.json               # Build dependencies
-├── acorn.css                  # Complete design system (imports all below)
-├── acorn-tokens/              # Modular token CSS files
-│   ├── acorn-colors.css       # Color tokens (generated)
-│   ├── acorn-typography.css   # Typography tokens (generated)
-│   ├── acorn-size.css         # Size and dimension tokens (generated)
-│   ├── acorn-space.css        # Spacing tokens (generated)
-│   ├── acorn-borders.css      # Border tokens (generated)
-│   ├── acorn-shadows.css      # Shadow tokens (generated)
-│   └── acorn-inputs.css       # Input/form tokens (generated)
-└── acorn-utils/               # Custom Acorn utilities
-    └── text-and-typography.css # Additional typography utilities
+├── src/
+│   ├── components/            # Web components (Lit)
+│   ├── tokens/                # Design token JSON sources
+│   │   ├── base/              # Base tokens (color, size, space, etc.)
+│   │   └── components/        # Component tokens (button, badge, etc.)
+│   └── styles/
+│       └── index.css          # Main CSS entry point
+├── dist/
+│   └── styles/                # Generated CSS from tokens
+│       ├── base/              # Base token CSS
+│       └── components/        # Component token CSS
+├── examples/
+│   └── index.html             # Demo page
+├── utils/                     # Firefox utilities
+├── tokens-config.cjs          # Style Dictionary configuration
+└── package.json               # Build dependencies
 ```
 
 ## Usage
@@ -46,41 +48,26 @@ This will generate all the CSS files from the design tokens.
 
 ### Using the design system
 
-You can use the modular CSS files in your projects:
-
 ```html
-<!-- Option 1: Import everything at once -->
-<link rel="stylesheet" href="acorn.css">
+<!-- Import the complete design system -->
+<link rel="stylesheet" href="src/styles/index.css">
 
-<!-- Option 2: Use specific token categories (recommended for performance) -->
-<link rel="stylesheet" href="acorn-tokens/acorn-colors.css">
-<link rel="stylesheet" href="acorn-tokens/acorn-typography.css">
-<link rel="stylesheet" href="acorn-tokens/acorn-size.css">
+<!-- Use web components -->
+<script type="module">
+  import './src/components/button/acorn-button.js';
+  import './src/components/badge/acorn-badge.js';
+</script>
+
+<acorn-button type="primary" label="Click me"></acorn-button>
+<acorn-badge label="New"></acorn-badge>
 ```
 
 ### CSS token files
 
-| File | Description |
-|------|-------------|
-| `acorn.css` | **Complete import** - Imports all token files and utilities below |
-| `acorn-tokens/acorn-colors.css` | All color-related tokens (backgrounds, borders, text, icons, etc.) |
-| `acorn-tokens/acorn-typography.css` | Font sizes, weights, and heading styles |
-| `acorn-tokens/acorn-size.css` | Dimensions, icon sizes, and layout measurements |
-| `acorn-tokens/acorn-space.css` | Spacing, padding, and margin tokens |
-| `acorn-tokens/acorn-borders.css` | Border widths, radii, and styles |
-| `acorn-tokens/acorn-shadows.css` | Box shadow definitions |
-| `acorn-tokens/acorn-inputs.css` | Form elements, buttons, and interactive components |
-| `acorn-utils/text-and-typography.css` | Additional typography utilities and text-related helper classes |
-
-### Custom utilities
-
-The `acorn-utils/` directory contains additional CSS utilities.
-
-```html
-<!-- Include custom utilities alongside token files -->
-<link rel="stylesheet" href="acorn-tokens/acorn-typography.css">
-<link rel="stylesheet" href="acorn-utils/text-and-typography.css">
-```
+Generated CSS is organized to mirror the source JSON structure:
+- `dist/styles/base/` - Base design tokens (color, size, space, font, etc.)
+- `dist/styles/components/` - Component-specific tokens (button, badge, checkbox, etc.)
+- `src/styles/index.css` - Imports all token files
 
 ## Built with Style Dictionary
 

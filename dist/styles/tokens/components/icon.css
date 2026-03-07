@@ -1,0 +1,29 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+:root {
+  /** Icon **/
+  --icon-color: light-dark(var(--color-gray-70), var(--color-gray-05));
+  --icon-color-critical: light-dark(var(--color-red-60), var(--color-red-20));
+  --icon-color-information: light-dark(var(--color-blue-60), var(--color-blue-20));
+  --icon-color-success: light-dark(var(--color-green-60), var(--color-green-20));
+  --icon-color-warning: light-dark(var(--color-yellow-60), var(--color-yellow-20));
+  --icon-size: var(--icon-size-small);
+  --icon-size-xsmall: var(--dimension-12);
+  --icon-size-small: var(--dimension-16);
+  --icon-size-medium: var(--dimension-20);
+  --icon-size-large: var(--dimension-24);
+  --icon-size-xlarge: var(--dimension-32);
+}
+
+@media (prefers-contrast) {
+  :root {
+  /** Icon **/
+  --icon-color: var(--text-color);
+  --icon-color-critical: var(--icon-color);
+  --icon-color-information: var(--icon-color);
+  --icon-color-success: var(--icon-color);
+  --icon-color-warning: var(--icon-color);
+  }
+}
