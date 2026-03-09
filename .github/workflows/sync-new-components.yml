@@ -1,0 +1,253 @@
+---
+name: Sync New Components from Firefox
+
+on:
+  schedule:
+    - cron: '0 8 * * 1'  # Weekly on Mondays
+  workflow_dispatch:
+
+jobs:
+  detect-and-convert:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
+    steps:
+      - name: Checkout Acorn Design System repo
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: Set up Git
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email '41898282+github-actions[bot]@users.noreply.github.com'
+
+      - name: Sparse checkout Firefox widgets directory
+        run: |
+          echo "🦊 Setting up sparse checkout for widgets directory..."
+          git clone --filter=blob:none --no-checkout https://github.com/mozilla/firefox.git firefox-repo
+          cd firefox-repo
+          git sparse-checkout init --cone
+          git sparse-checkout set toolkit/content/widgets
+          git checkout
+          echo "✅ Successfully checked out widgets directory"
+
+      - name: Detect new moz-* components
+        id: detect_new
+        run: |
+          echo "🔍 Scanning for moz-* components in Firefox..."
+          WIDGETS_PATH="firefox-repo/toolkit/content/widgets"
+          
+          cd firefox-repo
+          FIREFOX_COMMIT=$(git rev-parse HEAD)
+          FIREFOX_COMMIT_SHORT=$(git rev-parse --short HEAD)
+          cd ..
+          echo "Firefox commit: $FIREFOX_COMMIT_SHORT"
+          echo "FIREFOX_COMMIT_SHORT=$FIREFOX_COMMIT_SHORT" >> $GITHUB_ENV
+          
+          # Find all moz-*.js files
+          if [ ! -d "$WIDGETS_PATH" ]; then
+            echo "❌ Widgets directory not found"
+            exit 1
+          fi
+          
+          # Get list of moz-*.js components from Firefox
+          FIREFOX_COMPONENTS=$(find "$WIDGETS_PATH" -name "moz-*.js" -type f -exec basename {} \; | sort)
+          
+          # Get list of already converted acorn-* components
+          ACORN_COMPONENTS=$(find src/components -name "acorn-*.js" -type f -exec basename {} \; | sed 's/acorn-/moz-/g' | sort)
+          
+          echo "📋 Firefox moz-* components found:"
+          echo "$FIREFOX_COMPONENTS"
+          echo ""
+          echo "📋 Already converted (as acorn-*):"
+          echo "$ACORN_COMPONENTS"
+          echo ""
+          
+          # Find components that exist in Firefox but not in Acorn
+          NEW_COMPONENTS=""
+          for component in $FIREFOX_COMPONENTS; do
+            if ! echo "$ACORN_COMPONENTS" | grep -q "^$component$"; then
+              NEW_COMPONENTS="$NEW_COMPONENTS $component"
+            fi
+          done
+          
+          if [ -z "$NEW_COMPONENTS" ]; then
+            echo "✅ No new components to convert"
+            echo "new_components_found=false" >> $GITHUB_OUTPUT
+          else
+            echo "🆕 New components detected:"
+            echo "$NEW_COMPONENTS"
+            echo "new_components_found=true" >> $GITHUB_OUTPUT
+            echo "NEW_COMPONENTS=$NEW_COMPONENTS" >> $GITHUB_ENV
+          fi
+
+      - name: Setup Node.js
+        if: steps.detect_new.outputs.new_components_found == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        if: steps.detect_new.outputs.new_components_found == 'true'
+        run: npm ci
+
+      - name: Convert new components
+        if: steps.detect_new.outputs.new_components_found == 'true'
+        run: |
+          echo "🔄 Converting new components..."
+          WIDGETS_PATH="firefox-repo/toolkit/content/widgets"
+          CONVERTED_LIST=""
+          
+          for moz_component in $NEW_COMPONENTS; do
+            echo "Converting $moz_component..."
+            
+            # Extract component name (e.g., moz-button.js -> button)
+            COMPONENT_NAME=$(echo "$moz_component" | sed 's/moz-//g' | sed 's/.js//g')
+            ACORN_NAME="acorn-$COMPONENT_NAME"
+            
+            # Create component directory
+            mkdir -p "src/components/$COMPONENT_NAME"
+            
+            # Copy and convert the component file
+            FIREFOX_FILE="$WIDGETS_PATH/$moz_component"
+            ACORN_FILE="src/components/$COMPONENT_NAME/$ACORN_NAME.js"
+            
+            if [ -f "$FIREFOX_FILE" ]; then
+              echo "📄 Converting $moz_component to $ACORN_NAME.js"
+              
+              # Read the Firefox component
+              cp "$FIREFOX_FILE" "$ACORN_FILE"
+              
+              # Apply conversion transformations
+              sed -i 's/MozElements\.//' "$ACORN_FILE"
+              sed -i 's/customElements\.define("[^"]*",//' "$ACORN_FILE"
+              sed -i 's/^);$//' "$ACORN_FILE"
+              sed -i "s/class Moz/class Acorn/g" "$ACORN_FILE"
+              sed -i "s/\"moz-/\"acorn-/g" "$ACORN_FILE"
+              sed -i "s/'moz-/'acorn-/g" "$ACORN_FILE"
+              
+              # Add Lit imports at the top
+              cat > "$ACORN_FILE.tmp" << 'EOF'
+import { html, css, LitElement } from 'lit';
+
+EOF
+              cat "$ACORN_FILE" >> "$ACORN_FILE.tmp"
+              mv "$ACORN_FILE.tmp" "$ACORN_FILE"
+              
+              # Add customElements.define at the end
+              CLASS_NAME=$(grep -oP 'class \K[A-Za-z]+' "$ACORN_FILE" | head -1)
+              echo "" >> "$ACORN_FILE"
+              echo "customElements.define('$ACORN_NAME', $CLASS_NAME);" >> "$ACORN_FILE"
+              
+              # Try to convert chrome:// imports to relative imports
+              sed -i 's|chrome://global/content/elements/moz-\([^"]*\)\.js|..\/\1\/acorn-\1.js|g' "$ACORN_FILE"
+              
+              CONVERTED_LIST="$CONVERTED_LIST\n- $COMPONENT_NAME (from $moz_component)"
+              echo "✅ Converted $COMPONENT_NAME"
+            else
+              echo "⚠️ File not found: $FIREFOX_FILE"
+            fi
+          done
+          
+          echo "CONVERTED_LIST<<EOF" >> $GITHUB_ENV
+          echo -e "$CONVERTED_LIST" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+
+      - name: Stage changes
+        if: steps.detect_new.outputs.new_components_found == 'true'
+        run: |
+          git add src/components/
+          
+          if git diff --cached --quiet; then
+            echo "⚠️ No changes to commit"
+            echo "changes_made=false" >> $GITHUB_ENV
+          else
+            echo "✅ Changes staged"
+            echo "changes_made=true" >> $GITHUB_ENV
+          fi
+
+      - name: Create Pull Request
+        if: steps.detect_new.outputs.new_components_found == 'true' && env.changes_made == 'true'
+        id: create_pr
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: |
+            Auto-convert new Firefox moz-* components
+            
+            Detected and converted new components from Firefox widgets.
+            Source: mozilla/firefox@${{ env.FIREFOX_COMMIT_SHORT }}
+            
+            ⚠️ Manual review required
+          title: "🔄 New Firefox components - Auto-converted to Acorn"
+          body: |
+            ## 🆕 New Components Auto-Conversion
+            
+            This PR contains automatically converted components from Firefox's moz-* widgets.
+            
+            **Source**: [mozilla/firefox](https://github.com/mozilla/firefox)
+            **Firefox Commit**: ${{ env.FIREFOX_COMMIT_SHORT }}
+            **Sync Run**: ${{ github.run_id }}
+            
+            ### Components Converted
+            
+            ${{ env.CONVERTED_LIST }}
+            
+            ### Manual Review Required
+            
+            Each component needs:
+            
+            1. **Lit Patterns** - Verify `render()`, `static styles`, and properties are correct
+            2. **Dependencies** - Fix `chrome://` imports and `moz-*` references to use `acorn-*`
+            3. **Examples** - Add demos to `examples/index.html`
+            4. **Testing** - Verify functionality in the demo page
+            
+            ### Review Checklist
+            
+            - [ ] Verified Lit implementation
+            - [ ] Fixed import paths
+            - [ ] Added examples
+            - [ ] Tested all components
+            
+            **Note**: This PR was automatically created by the component sync workflow.
+          branch: auto-convert-components-${{ github.run_number }}
+          delete-branch: true
+          labels: auto-conversion, needs-review
+
+      - name: Create summary
+        if: always()
+        run: |
+          echo "## Component Sync Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          if [ "${{ steps.detect_new.outputs.new_components_found }}" == "true" ]; then
+            if [ "${{ env.changes_made }}" == "true" ]; then
+              echo "✅ **New Components Detected and Converted**" >> $GITHUB_STEP_SUMMARY
+              echo "" >> $GITHUB_STEP_SUMMARY
+              echo "**PR Created**: ${{ steps.create_pr.outputs.pull-request-url }}" >> $GITHUB_STEP_SUMMARY
+              echo "" >> $GITHUB_STEP_SUMMARY
+              echo "### Converted Components" >> $GITHUB_STEP_SUMMARY
+              echo "${{ env.CONVERTED_LIST }}" >> $GITHUB_STEP_SUMMARY
+              echo "" >> $GITHUB_STEP_SUMMARY
+              echo "⚠️ **Manual review required**" >> $GITHUB_STEP_SUMMARY
+            else
+              echo "⚠️ **Components detected but no changes made**" >> $GITHUB_STEP_SUMMARY
+            fi
+          else
+            echo "✅ **No new components detected**" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "All Firefox moz-* components have been converted to Acorn." >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Last check: $(date '+%Y-%m-%d %H:%M:%S UTC')" >> $GITHUB_STEP_SUMMARY
+
+      - name: Clean up
+        if: always()
+        run: |
+          echo "🧹 Cleaning up..."
+          rm -rf firefox-repo

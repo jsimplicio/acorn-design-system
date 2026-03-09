@@ -7,32 +7,33 @@
 !.github/
 !.github/**
 
-# Keep the src directory and all its contents
+# Keep source token definitions (JSON files that build to tokens/)
 !src/
 !src/**
 
-# Keep the dist directory (built CSS and utils)
-!dist/
-!dist/**
+# Keep built tokens (CSS files)
+!tokens/
+!tokens/**
+
+# Keep components (web components source)
+!components/
+!components/**
+
+# Keep styles (CSS imports and utilities)
+!styles/
+!styles/**
+
+# Keep utils (utility files)
+!utils/
+!utils/**
 
 # Keep the examples directory
 !examples/
 !examples/**
 
-# Keep package.json and package-lock.json for npm compatibility (if users want to build)
+# Keep package files
 !package.json
 !package-lock.json
 
-# Keep the src/ directory with split token files
-!src/
-!src/**
-
-# Keep the build configuration for the acorn design system
+# Keep the build configuration
 !tokens-config.cjs
-
-# Keep the components directory with all web components
-!components/
-!components/**
-
-# Keep the demo page
-!demo.html

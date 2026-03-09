@@ -381,108 +381,108 @@ module.exports = {
       files: [
         // Base tokens - 1:1 mapping with JSON files
         {
-          destination: "dist/tokens/base/background.css",
+          destination: "tokens/base/background.css",
           format: "css/variables/modular-css",
           filter: token => token.name.startsWith('background')
         },
         {
-          destination: "dist/tokens/base/border.css",
+          destination: "tokens/base/border.css",
           format: "css/variables/modular-css",
           filter: token => token.name.startsWith('border') && shouldIncludeToken(token)
         },
         {
-          destination: "dist/tokens/base/box.css",
+          destination: "tokens/base/box.css",
           format: "css/variables/modular-css",
           filter: token => token.name.startsWith('box') && shouldIncludeToken(token)
         },
         {
-          destination: "dist/tokens/base/color.css",
+          destination: "tokens/base/color.css",
           format: "css/variables/modular-css",
           filter: token => token.name.startsWith('color') && shouldIncludeToken(token)
         },
         {
-          destination: "dist/tokens/base/dimension.css",
+          destination: "tokens/base/dimension.css",
           format: "css/variables/modular-css",
           filter: token => token.name.startsWith('dimension') && shouldIncludeToken(token)
         },
         {
-          destination: "dist/tokens/base/focus.css",
+          destination: "tokens/base/focus.css",
           format: "css/variables/modular-css",
           filter: token => token.name.startsWith('focus') && shouldIncludeToken(token)
         },
         {
-          destination: "dist/tokens/base/font.css",
+          destination: "tokens/base/font.css",
           format: "css/variables/modular-css",
           filter: token => token.name.startsWith('font') && shouldIncludeToken(token)
         },
         {
-          destination: "dist/tokens/base/outline.css",
+          destination: "tokens/base/outline.css",
           format: "css/variables/modular-css",
           filter: token => token.name.startsWith('outline') && shouldIncludeToken(token)
         },
         {
-          destination: "dist/tokens/base/size.css",
+          destination: "tokens/base/size.css",
           format: "css/variables/modular-css",
           filter: token => token.name.startsWith('size') && shouldIncludeToken(token)
         },
         {
-          destination: "dist/tokens/base/space.css",
+          destination: "tokens/base/space.css",
           format: "css/variables/modular-css",
           filter: token => token.name.startsWith('space') && shouldIncludeToken(token)
         },
         {
-          destination: "dist/tokens/base/text.css",
+          destination: "tokens/base/text.css",
           format: "css/variables/modular-css",
           filter: token => token.name.startsWith('text') && shouldIncludeToken(token)
         },
         // Component tokens - 1:1 mapping with JSON files
         {
-          destination: "dist/tokens/components/attention.css",
+          destination: "tokens/components/attention.css",
           format: "css/variables/modular-css",
           filter: token => token.name.startsWith('attention') && shouldIncludeToken(token)
         },
         {
-          destination: "dist/tokens/components/badge.css",
+          destination: "tokens/components/badge.css",
           format: "css/variables/modular-css",
           filter: token => token.name.startsWith('badge') && shouldIncludeToken(token)
         },
         {
-          destination: "dist/tokens/components/button.css",
+          destination: "tokens/components/button.css",
           format: "css/variables/modular-css",
           filter: token => token.name.startsWith('button') && shouldIncludeToken(token)
         },
         {
-          destination: "dist/tokens/components/checkbox.css",
+          destination: "tokens/components/checkbox.css",
           format: "css/variables/modular-css",
           filter: token => token.name.startsWith('checkbox') && shouldIncludeToken(token)
         },
         {
-          destination: "dist/tokens/components/heading.css",
+          destination: "tokens/components/heading.css",
           format: "css/variables/modular-css",
           filter: token => token.name.startsWith('heading') && shouldIncludeToken(token)
         },
         {
-          destination: "dist/tokens/components/icon.css",
+          destination: "tokens/components/icon.css",
           format: "css/variables/modular-css",
           filter: token => token.name.startsWith('icon') && shouldIncludeToken(token)
         },
         {
-          destination: "dist/tokens/components/input.css",
+          destination: "tokens/components/input.css",
           format: "css/variables/modular-css",
           filter: token => token.name.startsWith('input') && shouldIncludeToken(token)
         },
         {
-          destination: "dist/tokens/components/link.css",
+          destination: "tokens/components/link.css",
           format: "css/variables/modular-css",
           filter: token => token.name.startsWith('link') && shouldIncludeToken(token)
         },
         {
-          destination: "dist/tokens/components/page.css",
+          destination: "tokens/components/page.css",
           format: "css/variables/modular-css",
           filter: token => token.name.startsWith('page') && shouldIncludeToken(token)
         },
         {
-          destination: "dist/tokens/components/table.css",
+          destination: "tokens/components/table.css",
           format: "css/variables/modular-css",
           filter: token => token.name.startsWith('table') && shouldIncludeToken(token)
         },

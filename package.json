@@ -7,16 +7,13 @@
   "main": "./components/index.js",
   "exports": {
     ".": "./components/index.js",
-    "./components": "./components/index.js",
-    "./components/core": "./components/core/acorn-element.js",
-    "./components/badge": "./components/badge/acorn-badge.js",
-    "./components/button": "./components/button/acorn-button.js",
-    "./components/card": "./components/card/acorn-card.js",
-    "./tokens": "./acorn.css",
-    "./tokens/*": "./acorn-tokens/*"
+    "./components/*": "./components/*",
+    "./styles/*": "./styles/*",
+    "./tokens/*": "./tokens/*",
+    "./utils/*": "./utils/*"
   },
   "scripts": {
-    "build": "(npm ls || npm ci) && style-dictionary build --config ./tokens-config.cjs && prettier ./dist/tokens/**/*.css --write",
+    "build": "(npm ls || npm ci) && style-dictionary build --config ./tokens-config.cjs && prettier ./tokens/**/*.css --write",
     "test": "(npm ls || npm ci) && node tests/try-runner.js"
   },
   "devDependencies": {

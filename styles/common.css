@@ -1,0 +1,42 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+/* Common styles for Acorn web components */
+
+* {
+  box-sizing: border-box;
+}
+
+p {
+  line-height: 1.5;
+  margin: 0;
+  &:not(:only-child) {
+      margin: 0 0 var(--space-small);
+  }
+}
+
+a {
+  color: var(--link-color);
+  text-decoration: var(--link-text-decoration);
+}
+
+a:hover {
+  color: var(--link-color-hover);
+  text-decoration: var(--link-text-decoration-hover);
+}
+
+a:active {
+  color: var(--link-color-active);
+  text-decoration: var(--link-text-decoration-active);
+}
+
+a:visited {
+  color: var(--link-color-visited);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0 0 var(--space-small);
+  font-weight: var(--heading-font-weight);
+  line-height: 1.2;
+}

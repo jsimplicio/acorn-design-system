@@ -3,9 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
     <title>Acorn Design System - Component Demo</title>
     
-    <!-- Import Map for Lit -->
     <script type="importmap">
       {
         "imports": {
@@ -20,16 +20,19 @@
       }
     </script>
     
-    <!-- Import Acorn tokens -->
-    <link rel="stylesheet" href="../src/styles/index.css" />
+    <link rel="stylesheet" href="../styles/index.css" />
     
     <style>
+      :root {
+        color-scheme: light dark;
+      }
+      
       body {
         font-family: system-ui, -apple-system, sans-serif;
         padding: 2rem;
         background-color: var(--background-color-canvas);
         color: var(--text-color);
-        max-width: 1200px;
+        max-width: 800px;
         margin: 0 auto;
       }
       
@@ -39,181 +42,376 @@
       
       .demo-section {
         margin-block: var(--space-xlarge);
-        padding: var(--space-large);
+      }
+
+      .demo {
         background-color: var(--background-color-box);
-        border-radius: var(--border-radius-medium);
+	border-radius: var(--border-radius-medium);
         border: 1px solid var(--border-color);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: var(--space-small);
+	min-height: var(--dimension-200);
       }
       
+      .demo,
       .demo-row {
         display: flex;
         gap: var(--space-medium);
         align-items: center;
         flex-wrap: wrap;
-        margin-block: var(--space-medium);
-      }
-      
-      .demo-description {
-        color: var(--text-color-deemphasized);
-        margin-block-end: var(--space-medium);
+        
+	&:not(:last-of-type) { 
+	  margin-block-end: var(--space-xlarge); 
+	}
       }
     </style>
   </head>
   <body>
     <h1>Acorn Design System</h1>
-    <p class="demo-description">
-      Cross-browser web components built with Lit, using Acorn design tokens.
+    <p>
+      Cross-browser Firefox web components built with Lit, using Acorn design tokens.
     </p>
 
+    <!-- Filter -->
+    <acorn-select id="component-filter" label="Filter by component" placeholder="Show all components">
+      <acorn-panel-list>
+	<acorn-panel-item value="all">Show all components</acorn-panel-item>
+	<acorn-panel-item value="badges">Badges</acorn-panel-item>
+	<acorn-panel-item value="buttons">Buttons</acorn-panel-item>
+	<acorn-panel-item value="radio-groups">Radio Groups</acorn-panel-item>
+	<acorn-panel-item value="checkboxes">Checkboxes</acorn-panel-item>
+	<acorn-panel-item value="cards">Cards</acorn-panel-item>
+	<acorn-panel-item value="panels">Panels</acorn-panel-item>
+	<acorn-panel-item value="panel-lists">Panel Lists</acorn-panel-item>
+	<acorn-panel-item value="selects">Selects</acorn-panel-item>
+	<acorn-panel-item value="text-inputs">Text Inputs</acorn-panel-item>
+      </acorn-panel-list>
+    </acorn-select>
+
     <!-- Badges -->
-    <section class="demo-section">
+    <section class="demo-section" data-category="badges">
       <h2>Badges</h2>
-      <div class="demo-row">
-        <acorn-badge label="Default"></acorn-badge>
-        <acorn-badge type="new"></acorn-badge>
-        <acorn-badge type="beta"></acorn-badge>
-        <acorn-badge label="Custom Label"></acorn-badge>
-      </div>
+      <section class="demo demo-row">
+	<acorn-badge label="Default"></acorn-badge>
+	<acorn-badge type="new"></acorn-badge>
+	<acorn-badge type="beta"></acorn-badge>
+	<acorn-badge label="Custom Label"></acorn-badge>
+      </section>
     </section>
 
     <!-- Buttons -->
-    <section class="demo-section">
+    <section class="demo-section" data-category="buttons">
       <h2>Buttons</h2>
-      
       <h3>Types</h3>
-      <div class="demo-row">
+      <section class="demo demo-row">
         <acorn-button label="Default"></acorn-button>
         <acorn-button type="primary" label="Primary"></acorn-button>
         <acorn-button type="destructive" label="Destructive"></acorn-button>
         <acorn-button type="ghost" label="Ghost"></acorn-button>
-      </div>
+      </section>
       
       <h3>Sizes</h3>
-      <div class="demo-row">
+      <section class="demo demo-row">
         <acorn-button label="Default Size"></acorn-button>
         <acorn-button size="small" label="Small Size"></acorn-button>
-      </div>
+      </section>
       
       <h3>States</h3>
-      <div class="demo-row">
+      <section class="demo demo-row">
         <acorn-button label="Enabled"></acorn-button>
         <acorn-button label="Disabled" disabled></acorn-button>
         <acorn-button type="primary" label="Primary Disabled" disabled></acorn-button>
-      </div>
+      </section>
       
       <h3>With Slotted Content</h3>
-      <div class="demo-row">
+      <section class="demo">
         <acorn-button type="primary">
           Click Me!
         </acorn-button>
-      </div>
+      </section>
+    </section>
+
+    <!-- Radio Groups -->
+    <section class="demo-section" data-category="radio-groups">
+      <h2>Radio Groups</h2>
+      <section class="demo">
+	<acorn-radio-group label="Choose a color" name="color" value="blue">
+	  <acorn-radio label="Red" value="red"></acorn-radio>
+	  <acorn-radio label="Blue" value="blue"></acorn-radio>
+	  <acorn-radio label="Green" value="green"></acorn-radio>
+	</acorn-radio-group>
+      </section>
+      
+      <h3>Disabled Group</h3>
+      <section class="demo">
+	<acorn-radio-group label="Disabled options" name="disabled-group" disabled>
+	  <acorn-radio label="Option 1" value="opt1"></acorn-radio>
+	  <acorn-radio label="Option 2" value="opt2"></acorn-radio>
+	</acorn-radio-group>
+      </section>
+
+      <h3>Individual Disabled Radio</h3>
+      <section class="demo">
+	<acorn-radio-group label="Mixed state" name="mixed" value="enabled">
+	  <acorn-radio label="Enabled" value="enabled"></acorn-radio>
+	  <acorn-radio label="Disabled" value="disabled" disabled></acorn-radio>
+	  <acorn-radio label="Also enabled" value="also-enabled"></acorn-radio>
+	</acorn-radio-group>
+      </section>
     </section>
 
     <!-- Checkboxes -->
-    <section class="demo-section">
+    <section class="demo-section" data-category="checkboxes">
       <h2>Checkboxes</h2>
-      <div class="demo-row">
+      <section class="demo demo-row">
         <acorn-checkbox label="Default checkbox"></acorn-checkbox>
         <acorn-checkbox label="Checked" checked></acorn-checkbox>
         <acorn-checkbox label="Disabled" disabled></acorn-checkbox>
         <acorn-checkbox label="Disabled checked" checked disabled></acorn-checkbox>
-      </div>
+      </section>
       
       <h3>With Description</h3>
-      <acorn-checkbox 
-        label="Accept terms" 
-        description="By checking this, you agree to our terms of service."
-      ></acorn-checkbox>
+      <section class="demo">
+	<acorn-checkbox 
+	  label="Accept terms" 
+	  description="By checking this, you agree to our terms of service."
+	></acorn-checkbox>
+      </section>
     </section>
 
     <!-- Cards -->
-    <section class="demo-section">
+    <section class="demo-section" data-category="cards">
       <h2>Cards</h2>
       
       <h3>Default Card</h3>
-      <acorn-card heading="Simple Card">
-        <p>This is the content of a default card. It displays all content immediately.</p>
-      </acorn-card>
+      <section class="demo">
+	<acorn-card heading="Simple Card">
+	  <p>This is the content of a default card. It displays all content immediately.</p>
+	</acorn-card>
+      </section>
       
       <h3>Accordion Card (Collapsed)</h3>
-      <acorn-card type="accordion" heading="Expandable Card">
-        <p>This content is hidden by default and can be expanded by clicking the heading.</p>
-        <p>Great for FAQ sections or collapsible content!</p>
-      </acorn-card>
+      <section class="demo">
+	<acorn-card type="accordion" heading="Expandable Card">
+	  <p>This content is hidden by default and can be expanded by clicking the heading.</p>
+	  <p>Great for FAQ sections or collapsible content!</p>
+	</acorn-card>
+      </section>
       
       <h3>Accordion Card (Expanded)</h3>
-      <acorn-card type="accordion" heading="Already Expanded" expanded>
-        <p>This accordion card starts in the expanded state.</p>
-      </acorn-card>
+      <section class="demo">
+	<acorn-card type="accordion" heading="Already Expanded" expanded>
+	  <p>This accordion card starts in the expanded state.</p>
+	</acorn-card>
+      </section>
+    </section>
+
+    <!-- Panels -->
+    <section class="demo-section" data-category="panels">
+      <h2>Panels</h2>
+      
+      <h3>Default Panel (Centered)</h3>
+      <section class="demo">
+	<acorn-button id="panel-trigger-1" type="primary" label="Show Panel"></acorn-button>
+	<acorn-panel id="panel-1" style="padding: var(--space-medium);">
+	  <p>This is a simple panel that appears centered on the screen.</p>
+	  <acorn-button label="Close" onclick="document.getElementById('panel-1').hide()"></acorn-button>
+	</acorn-panel>
+      </section>
+
+      <h3>Arrow Panel (Anchored)</h3>
+      <section class="demo">
+	<acorn-button id="panel-trigger-2" type="primary" label="Show Dropdown"></acorn-button>
+	<acorn-panel id="panel-2" type="arrow" anchor="panel-trigger-2" side="bottom" style="padding: var(--space-medium);">
+	  <p>This panel is anchored to the button above it.</p>
+	  <section style="display: flex; gap: var(--space-small); margin-top: var(--space-small);">
+	    <acorn-button size="small" label="Action 1"></acorn-button>
+	    <acorn-button size="small" label="Action 2"></acorn-button>
+	  </section>
+	</acorn-panel>
+      </section>
+      
+      <h3>Different Sides</h3>
+      <section class="demo demo-row">
+        <section>
+          <acorn-button id="panel-trigger-top" label="Top"></acorn-button>
+          <acorn-panel id="panel-top" type="arrow" anchor="panel-trigger-top" side="top" style="padding: var(--space-medium);">
+            Panel on top
+          </acorn-panel>
+        </section>
+        <section>
+          <acorn-button id="panel-trigger-right" label="Right"></acorn-button>
+          <acorn-panel id="panel-right" type="arrow" anchor="panel-trigger-right" side="right" style="padding: var(--space-medium);">
+            Panel on right
+          </acorn-panel>
+        </section>
+        <section>
+          <acorn-button id="panel-trigger-left" label="Left"></acorn-button>
+          <acorn-panel id="panel-left" type="arrow" anchor="panel-trigger-left" side="left" style="padding: var(--space-medium);">
+            Panel on left
+          </acorn-panel>
+        </section>
+      </section>
+      
+      <h3>Panel with Menu Items</h3>
+      <section class="demo">
+	<acorn-button id="panel-trigger-menu" type="primary" label="Open Menu"></acorn-button>
+	<acorn-panel id="panel-menu" type="arrow" anchor="panel-trigger-menu" side="bottom">
+	  <acorn-toolbarbutton label="New Tab"></acorn-toolbarbutton>
+	  <acorn-toolbarbutton label="New Window"></acorn-toolbarbutton>
+	  <acorn-toolbarbutton label="New Private Window"></acorn-toolbarbutton>
+	  <acorn-toolbarbutton label="Checked Item" checked></acorn-toolbarbutton>
+	  <acorn-toolbarbutton label="Disabled Item" disabled></acorn-toolbarbutton>
+	</acorn-panel>
+      </section>
+    </section>
+
+    <!-- Panel Lists -->
+    <section class="demo-section" data-category="panel-lists">
+      <h2>Panel Lists</h2>
+      
+      <h3>Basic Panel List</h3>
+      <section class="demo">
+	<acorn-button id="panel-list-trigger" type="primary" label="Open List"></acorn-button>
+	<acorn-panel-list id="panel-list-1">
+	  <acorn-panel-item value="copy">Copy</acorn-panel-item>
+	  <acorn-panel-item value="paste">Paste</acorn-panel-item>
+	  <acorn-panel-item value="delete">Delete</acorn-panel-item>
+	</acorn-panel-list>
+      </section>
+      
+      <h3>Panel List with Icons</h3>
+      <section class="demo">
+	<acorn-button id="panel-list-icon-trigger" type="primary" label="Actions"></acorn-button>
+	<acorn-panel-list id="panel-list-2">
+	  <acorn-panel-item value="save" icon="https://via.placeholder.com/16">Save</acorn-panel-item>
+	  <acorn-panel-item value="export" icon="https://via.placeholder.com/16">Export</acorn-panel-item>
+	  <acorn-panel-item value="share" icon="https://via.placeholder.com/16">Share</acorn-panel-item>
+	</acorn-panel-list>
+      </section>
+      
+      <h3>Panel List with Disabled Item</h3>
+      <section class="demo">
+	<acorn-button id="panel-list-disabled-trigger" label="Options"></acorn-button>
+	<acorn-panel-list id="panel-list-3">
+	  <acorn-panel-item value="option1">Available Option</acorn-panel-item>
+	  <acorn-panel-item value="option2" disabled>Disabled Option</acorn-panel-item>
+	  <acorn-panel-item value="option3">Another Option</acorn-panel-item>
+	</acorn-panel-list>
+      </section>
+    </section>
+
+    <!-- Selects -->
+    <section class="demo-section" data-category="selects">
+      <h2>Selects</h2>
+      
+      <h3>Basic Select</h3>
+      <section class="demo">
+	<acorn-select label="Choose a theme" placeholder="Select theme">
+	  <acorn-panel-list>
+	    <acorn-panel-item value="light">Light</acorn-panel-item>
+	    <acorn-panel-item value="dark">Dark</acorn-panel-item>
+	    <acorn-panel-item value="auto">Auto</acorn-panel-item>
+	  </acorn-panel-list>
+	</acorn-select>
+      </section>
+      
+      <h3>Disabled Select</h3>
+      <section class="demo">
+	<acorn-select label="Disabled select" disabled>
+	  <acorn-panel-list>
+	    <acorn-panel-item value="opt1">Option 1</acorn-panel-item>
+	  </acorn-panel-list>
+	</acorn-select>
+      </section>
     </section>
 
     <!-- Text Inputs -->
-    <section class="demo-section">
+    <section class="demo-section" data-category="text-inputs">
       <h2>Text Inputs</h2>
       
       <h3>Text Input</h3>
-      <acorn-input-text 
-        label="Username" 
-        placeholder="Enter your username"
-        description="Choose a unique username"
-      ></acorn-input-text>
+      <section class="demo">
+	<acorn-input-text 
+	  label="Username" 
+	  placeholder="Enter your username"
+	  description="Choose a unique username"
+	></acorn-input-text>
+      </section> 
       
       <h3>Email Input</h3>
-      <acorn-input-email 
-        label="Email Address" 
-        placeholder="user@example.com"
-      ></acorn-input-email>
+      <section class="demo">
+	<acorn-input-email 
+	  label="Email Address" 
+	  placeholder="user@example.com"
+	></acorn-input-email>
+      </section>
       
       <h3>Password Input</h3>
-      <acorn-input-password 
-        label="Password" 
-        placeholder="Enter password"
-        description="Must be at least 8 characters"
-      ></acorn-input-password>
+      <section class="demo">
+	<acorn-input-password 
+	  label="Password" 
+	  placeholder="Enter password"
+	  description="Must be at least 8 characters"
+	></acorn-input-password>
+      </section>
       
       <h3>Number Input</h3>
-      <acorn-input-number 
-        label="Age" 
-        placeholder="Enter your age"
-      ></acorn-input-number>
+      <section class="demo">
+	<acorn-input-number 
+	  label="Age" 
+	  placeholder="Enter your age"
+	></acorn-input-number>
+      </section>
       
       <h3>Search Input</h3>
-      <acorn-input-search 
-        label="Search" 
-        placeholder="Search for something..."
-      ></acorn-input-search>
+      <section class="demo">
+	<acorn-input-search 
+	  label="Search" 
+	  placeholder="Search for something..."
+	></acorn-input-search>
+      </section>
       
       <h3>Phone Input</h3>
-      <acorn-input-tel 
-        label="Phone Number" 
-        placeholder="(555) 123-4567"
-      ></acorn-input-tel>
+      <section class="demo">
+	<acorn-input-tel 
+	  label="Phone Number" 
+	  placeholder="(555) 123-4567"
+	></acorn-input-tel>
+      </section>
       
       <h3>URL Input</h3>
-      <acorn-input-url 
-        label="Website" 
-        placeholder="https://example.com"
-      ></acorn-input-url>
+      <section class="demo">
+	<acorn-input-url 
+	  label="Website" 
+	  placeholder="https://example.com"
+	></acorn-input-url>
+      </section>
     </section>
 
-    <!-- Component Import -->
     <script type="module">
-      // Import all components
-      import '../src/components/badge/acorn-badge.js';
-      import '../src/components/button/acorn-button.js';
-      import '../src/components/card/acorn-card.js';
-      import '../src/components/checkbox/acorn-checkbox.js';
-      import '../src/components/input-text/acorn-input-text.js';
-      import '../src/components/input-email/acorn-input-email.js';
-      import '../src/components/input-password/acorn-input-password.js';
-      import '../src/components/input-number/acorn-input-number.js';
-      import '../src/components/input-search/acorn-input-search.js';
-      import '../src/components/input-tel/acorn-input-tel.js';
-      import '../src/components/input-url/acorn-input-url.js';
+      import '../components/badge/acorn-badge.js';
+      import '../components/button/acorn-button.js';
+      import '../components/card/acorn-card.js';
+      import '../components/checkbox/acorn-checkbox.js';
+      import '../components/radio-group/acorn-radio-group.js';
+      import '../components/panel/acorn-panel.js';
+      import '../components/toolbarbutton/acorn-toolbarbutton.js';
+      import '../components/input-text/acorn-input-text.js';
+      import '../components/input-email/acorn-input-email.js';
+      import '../components/input-password/acorn-input-password.js';
+      import '../components/input-number/acorn-input-number.js';
+      import '../components/input-search/acorn-input-search.js';
+      import '../components/input-tel/acorn-input-tel.js';
+      import '../components/input-url/acorn-input-url.js';
+      import '../components/panel-list/acorn-panel-list.js';
+      import '../components/select/acorn-select.js';
       
       console.log('Acorn components loaded!');
       
-      // Add event listeners for demonstration
+      // Event listeners for demonstration
       document.querySelectorAll('acorn-button').forEach(button => {
         button.addEventListener('click', (e) => {
           if (!button.disabled) {
@@ -227,6 +425,76 @@
           console.log('Card toggled:', e.detail.open ? 'opened' : 'closed');
         });
       });
+      
+      // Radio group change events
+      document.querySelectorAll('acorn-radio-group').forEach(group => {
+        group.addEventListener('change', (e) => {
+          console.log('Radio group changed:', e.detail.value);
+        });
+      });
+      
+      // Panel triggers
+      document.getElementById('panel-trigger-1')?.addEventListener('click', () => {
+        document.getElementById('panel-1').show();
+      });
+      document.getElementById('panel-trigger-2')?.addEventListener('click', () => {
+        document.getElementById('panel-2').toggle();
+      });
+      document.getElementById('panel-trigger-top')?.addEventListener('click', () => {
+        document.getElementById('panel-top').toggle();
+      });
+      document.getElementById('panel-trigger-right')?.addEventListener('click', () => {
+        document.getElementById('panel-right').toggle();
+      });
+      document.getElementById('panel-trigger-left')?.addEventListener('click', () => {
+        document.getElementById('panel-left').toggle();
+      });
+      document.getElementById('panel-trigger-menu')?.addEventListener('click', () => {
+        document.getElementById('panel-menu').toggle();
+      });
+      
+      // Listen for toolbarbutton clicks
+      document.querySelectorAll('acorn-toolbarbutton').forEach(btn => {
+        btn.addEventListener('toolbarbutton-click', (e) => {
+          console.log('Toolbarbutton clicked:', e.detail.label);
+          document.getElementById('panel-menu').hide();
+        });
+      });
+      
+      // Panel list triggers
+      document.getElementById('panel-list-trigger')?.addEventListener('click', (e) => {
+        document.getElementById('panel-list-1').toggle(e);
+      });
+      document.getElementById('panel-list-icon-trigger')?.addEventListener('click', (e) => {
+        document.getElementById('panel-list-2').toggle(e);
+      });
+      document.getElementById('panel-list-disabled-trigger')?.addEventListener('click', (e) => {
+        document.getElementById('panel-list-3').toggle(e);
+      });
+      
+      // Listen for panel-list selections
+      document.querySelectorAll('acorn-panel-list').forEach(list => {
+        list.addEventListener('click', (e) => {
+          console.log('Panel list item selected:', e.detail?.value);
+        });
+      });
+      
+      // Component filter
+      const filterSelect = document.getElementById('component-filter');
+      if (filterSelect) {
+        filterSelect.addEventListener('change', (e) => {
+          const category = e.detail.value;
+          const sections = document.querySelectorAll('.demo-section');
+          
+          sections.forEach(section => {
+            if (category === 'all' || section.dataset.category === category) {
+              section.style.display = 'block';
+            } else {
+              section.style.display = 'none';
+            }
+          });
+        });
+      }
     </script>
   </body>
 </html>

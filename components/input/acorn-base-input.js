@@ -52,66 +52,142 @@ export class AcornBaseInputElement extends AcornElement {
 
   static styles = css`
     :host {
+      --input-height: var(--size-item-small);
+      --input-width: var(--size-item-small);
+      --input-space-offset: calc(var(--input-width) + var(--space-small));
+      --input-nested-offset: var(--input-space-offset);
+      --input-margin-block-adjust: calc((1lh - var(--input-height)) / 2);
+      --icon-margin-block-adjust: calc((1lh - var(--icon-size)) / 2);
+      --input-margin-inline-start-adjust: calc(-1 * var(--input-space-offset));
+    }
+
+    :host(:not(:state(has-label))) {
+      --input-space-offset: var(--input-width);
+    }
+
+    :host([inputlayout="block"]) {
+      --input-space-offset: 0;
+      --input-nested-offset: var(--space-xlarge);
+      --input-margin-block-adjust: var(--space-xsmall) 0;
+    }
+
+    :host([inputlayout="block"]:not(:state(has-label), :state(has-description))) {
+      --input-margin-block-adjust: 0;
+    }
+
+    :host([inputlayout="inline-end"]) {
+      --input-space-offset: 0;
+      --input-nested-offset: var(--space-xlarge);
+    }
+
+    :host(:not([hidden])) {
       display: block;
     }
 
-    .content-wrapper {
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-xsmall);
+    :host(:not([hidden], :state(has-label), [inputlayout="block"])) {
+      display: inline-block;
     }
 
-    :host([inputlayout='inline']) .content-wrapper {
-      flex-direction: row;
+    @media (forced-colors) {
+      :host(:state(disabled)) {
+        color: var(--text-color-disabled);
+      }
+    }
+
+    /* Inline-end layout */
+    :host([inputlayout="inline-end"]) .content-wrapper {
+      display: flex;
       align-items: center;
+      gap: var(--space-medium);
     }
 
-    .label-wrapper {
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-xsmall);
+    :host([inputlayout="inline-end"]) .label-wrapper {
       flex: 1;
     }
 
+    :host([inputlayout="inline-end"]) .description {
+      margin-block-start: var(--space-xxsmall);
+    }
+
+    /* Label text */
+    .label-wrapper {
+      display: block;
+      padding-inline-start: var(--input-space-offset);
+    }
+
     label {
-      display: flex;
-      align-items: center;
-      gap: var(--space-small);
-      cursor: pointer;
+      display: block;
     }
 
-    :host([inputlayout='inline']) label {
-      flex-direction: row;
+    :host(:state(disabled)) label {
+      color: var(--text-color-disabled);
     }
 
-    :host([inputlayout='block']) label {
-      flex-direction: column;
-      align-items: flex-start;
+    /* Input */
+    #input {
+      min-width: var(--input-width);
+      min-height: var(--input-height);
+      font-size: inherit;
+      font-family: inherit;
+      line-height: inherit;
+      vertical-align: top;
+      margin-block: var(--input-margin-block-adjust);
+      margin-inline: var(--input-margin-inline-start-adjust) var(--space-small);
     }
 
+    :host(:not(:state(has-label))) #input {
+      margin-inline-end: 0;
+    }
+
+    @media not (forced-colors) {
+      #input {
+        accent-color: var(--color-accent-primary);
+      }
+    }
+
+    /* Icon */
     .icon {
+      vertical-align: top;
       width: var(--icon-size);
       height: var(--icon-size);
-      flex-shrink: 0;
+      margin-block: var(--icon-margin-block-adjust);
+      -moz-context-properties: fill, fill-opacity, stroke;
+      fill: currentColor;
+      stroke: currentColor;
     }
 
-    .text-container {
+    .icon + .text {
+      margin-inline-start: var(--space-small);
+    }
+
+    /* Description */
+    :host(:state(has-description)) .description {
+      margin-block-start: var(--space-xxsmall);
+    }
+
+    :host(:state(has-description):state(has-support-link)) .description-text {
+      margin-inline-end: var(--space-xsmall);
+    }
+
+    ::slotted([slot="description"]) {
+      display: inline;
+    }
+
+    /* Nested fields */
+    .nested {
+      margin-inline-start: var(--input-nested-offset);
       display: flex;
-      align-items: center;
-      gap: var(--space-small);
+      flex-direction: column;
     }
 
-    .text {
-      color: var(--text-color);
+    ::slotted([slot="nested"]) {
+      margin-block-start: var(--space-large);
     }
 
-    .description {
-      color: var(--text-color-deemphasized);
-      font-size: var(--font-size-small);
-    }
-
-    .description-text {
-      display: block;
+    /* Maintain direction in some input types, even when the page is rtl */
+    input:is([type="tel"], [type="url"], [type="email"], [type="number"]):not(:placeholder-shown) {
+      direction: ltr;
+      text-align: match-parent;
     }
   `;
 
