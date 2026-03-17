@@ -6,9 +6,18 @@
   /** Icon **/
   --icon-color: light-dark(var(--color-gray-70), var(--color-gray-05));
   --icon-color-critical: light-dark(var(--color-red-60), var(--color-red-20));
-  --icon-color-information: light-dark(var(--color-blue-60), var(--color-blue-20));
-  --icon-color-success: light-dark(var(--color-green-60), var(--color-green-20));
-  --icon-color-warning: light-dark(var(--color-yellow-60), var(--color-yellow-20));
+  --icon-color-information: light-dark(
+    var(--color-blue-60),
+    var(--color-blue-20)
+  );
+  --icon-color-success: light-dark(
+    var(--color-green-60),
+    var(--color-green-20)
+  );
+  --icon-color-warning: light-dark(
+    var(--color-yellow-60),
+    var(--color-yellow-20)
+  );
   --icon-size: var(--icon-size-small);
   --icon-size-xsmall: var(--dimension-12);
   --icon-size-small: var(--dimension-16);
