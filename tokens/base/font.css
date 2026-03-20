@@ -11,9 +11,13 @@
   --font-size-xlarge: 1.467rem;
   --font-size-xxlarge: 1.6rem;
   --font-size-xxxlarge: 2.2rem;
+  --font-size-heading-medium: var(--font-size-large);
+  --font-size-heading-large: var(--font-size-xlarge);
+  --font-size-heading-xlarge: var(--font-size-xxlarge);
 
   /** Font Weight **/
   --font-weight: normal;
   --font-weight-bold: 700;
+  --font-weight-heading: var(--font-weight-semibold);
   --font-weight-semibold: 600;
 }
