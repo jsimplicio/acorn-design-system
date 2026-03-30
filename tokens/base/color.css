@@ -4,10 +4,23 @@
 
 :root {
   /** Color **/
-  --color-accent-primary: light-dark(var(--color-blue-60), var(--color-cyan-30));
-  --color-accent-primary-hover: light-dark(var(--color-blue-70), var(--color-cyan-20));
-  --color-accent-primary-active: light-dark(var(--color-blue-80), var(--color-cyan-10));
-  --color-accent-primary-selected: light-dark(var(--color-blue-60), var(--color-cyan-30));
+  --color-accent-attention: light-dark(#2ac3a2, #54ffbd);
+  --color-accent-primary: light-dark(
+    var(--color-blue-60),
+    var(--color-cyan-30)
+  );
+  --color-accent-primary-hover: light-dark(
+    var(--color-blue-70),
+    var(--color-cyan-20)
+  );
+  --color-accent-primary-active: light-dark(
+    var(--color-blue-80),
+    var(--color-cyan-10)
+  );
+  --color-accent-primary-selected: light-dark(
+    var(--color-blue-60),
+    var(--color-cyan-30)
+  );
   --color-black: #000000;
   --color-black-alpha-10: oklch(0 0 0 / 10%);
   --color-black-alpha-20: oklch(0 0 0 / 20%);
@@ -63,6 +76,157 @@
   --color-green-90: oklch(34% 0.14 145);
   --color-green-100: oklch(27% 0.1 145);
   --color-green-110: oklch(20% 0.05 145);
+  --color-neutral-0: unset;
+  --color-neutral-10: unset;
+  --color-neutral-20: unset;
+  --color-neutral-30: unset;
+  --color-neutral-40: unset;
+  --color-neutral-50: unset;
+  --color-neutral-60: unset;
+  --color-neutral-70: unset;
+  --color-neutral-80: unset;
+  --color-neutral-90: unset;
+  --color-nova-accent-attention: light-dark(
+    var(--color-green-40),
+    var(--color-green-30)
+  );
+  --color-nova-accent-primary: light-dark(
+    var(--color-violet-50),
+    var(--color-violet-30)
+  );
+  --color-nova-accent-primary-hover: light-dark(
+    var(--color-violet-60),
+    var(--color-violet-40)
+  );
+  --color-nova-accent-primary-active: light-dark(
+    var(--color-violet-70),
+    var(--color-violet-50)
+  );
+  --color-nova-accent-primary-selected: light-dark(
+    var(--color-violet-50),
+    var(--color-violet-30)
+  );
+  --color-nova-blue-0: #e3f4ff;
+  --color-nova-blue-10: #c2e5ff;
+  --color-nova-blue-20: #9cceff;
+  --color-nova-blue-30: #72b3ff;
+  --color-nova-blue-40: #4893ff;
+  --color-nova-blue-50: #2971e7;
+  --color-nova-blue-60: #0f50b6;
+  --color-nova-blue-70: #023587;
+  --color-nova-blue-80: #001d61;
+  --color-nova-blue-90: #000f42;
+  --color-nova-cyan-0: #e7f4f9;
+  --color-nova-cyan-10: #c0e7f5;
+  --color-nova-cyan-20: #90d3e8;
+  --color-nova-cyan-30: #5abad7;
+  --color-nova-cyan-40: #0f9fc1;
+  --color-nova-cyan-50: #0a7f9f;
+  --color-nova-cyan-60: #055e78;
+  --color-nova-cyan-70: #004257;
+  --color-nova-cyan-80: #002b3b;
+  --color-nova-cyan-90: #001b28;
+  --color-nova-green-0: #e8f7e5;
+  --color-nova-green-10: #c6ebbd;
+  --color-nova-green-20: #9cd790;
+  --color-nova-green-30: #70bf5e;
+  --color-nova-green-40: #3da321;
+  --color-nova-green-50: #108307;
+  --color-nova-green-60: #056204;
+  --color-nova-green-70: #004600;
+  --color-nova-green-80: #002e00;
+  --color-nova-green-90: #011e00;
+  --color-nova-neutral-0: #f6f8ff;
+  --color-nova-neutral-10: #eef0fb;
+  --color-nova-neutral-20: #d7d8e3;
+  --color-nova-neutral-30: #b1b2bd;
+  --color-nova-neutral-40: #7e808a;
+  --color-nova-neutral-50: #4f5059;
+  --color-nova-neutral-60: #32333b;
+  --color-nova-neutral-70: #26272f;
+  --color-nova-neutral-80: #181820;
+  --color-nova-neutral-90: #101118;
+  --color-nova-orange-0: #ffede0;
+  --color-nova-orange-10: #ffd3b7;
+  --color-nova-orange-20: #ffb28a;
+  --color-nova-orange-30: #ff8d5b;
+  --color-nova-orange-40: #f26527;
+  --color-nova-orange-50: #ce4008;
+  --color-nova-orange-60: #9f2304;
+  --color-nova-orange-70: #730f00;
+  --color-nova-orange-80: #4e0200;
+  --color-nova-orange-90: #350000;
+  --color-nova-pink-0: #ffeaf5;
+  --color-nova-pink-10: #feceec;
+  --color-nova-pink-20: #fface0;
+  --color-nova-pink-30: #fe88d2;
+  --color-nova-pink-40: #ef60c4;
+  --color-nova-pink-50: #cb3aa6;
+  --color-nova-pink-60: #9b1b7d;
+  --color-nova-pink-70: #700059;
+  --color-nova-pink-80: #4b003a;
+  --color-nova-pink-90: #300024;
+  --color-nova-purple-0: #faebff;
+  --color-nova-purple-10: #f4d3ff;
+  --color-nova-purple-20: #e7b5ff;
+  --color-nova-purple-30: #d98fff;
+  --color-nova-purple-40: #cc67fd;
+  --color-nova-purple-50: #ac3dea;
+  --color-nova-purple-60: #821fb5;
+  --color-nova-purple-70: #5c0583;
+  --color-nova-purple-80: #3b0058;
+  --color-nova-purple-90: #240036;
+  --color-nova-purple-desaturated-0: #f4f0f7;
+  --color-nova-purple-desaturated-10: #e5daef;
+  --color-nova-purple-desaturated-20: #d0bddf;
+  --color-nova-purple-desaturated-30: #b79ecb;
+  --color-nova-purple-desaturated-40: #9c7eb3;
+  --color-nova-purple-desaturated-50: #7d5e93;
+  --color-nova-purple-desaturated-60: #5d4171;
+  --color-nova-purple-desaturated-70: #412853;
+  --color-nova-purple-desaturated-80: #2a1439;
+  --color-nova-purple-desaturated-90: #1a0726;
+  --color-nova-red-0: #ffebe6;
+  --color-nova-red-10: #ffd0ca;
+  --color-nova-red-20: #ffadab;
+  --color-nova-red-30: #ff858e;
+  --color-nova-red-40: #f35a77;
+  --color-nova-red-50: #cf325e;
+  --color-nova-red-60: #a01242;
+  --color-nova-red-70: #76002b;
+  --color-nova-red-80: #500219;
+  --color-nova-red-90: #36000d;
+  --color-nova-violet-0: #f5ecff;
+  --color-nova-violet-10: #e7d9ff;
+  --color-nova-violet-20: #d2bfff;
+  --color-nova-violet-30: #bba0ff;
+  --color-nova-violet-40: #a27dff;
+  --color-nova-violet-50: #854dff;
+  --color-nova-violet-60: #632fc8;
+  --color-nova-violet-70: #451793;
+  --color-nova-violet-80: #2b0664;
+  --color-nova-violet-90: #19053e;
+  --color-nova-violet-desaturated-0: #f2f0f8;
+  --color-nova-violet-desaturated-10: #e1dbf1;
+  --color-nova-violet-desaturated-20: #c9c0e3;
+  --color-nova-violet-desaturated-30: #aea1d1;
+  --color-nova-violet-desaturated-40: #9182ba;
+  --color-nova-violet-desaturated-50: #71629a;
+  --color-nova-violet-desaturated-60: #534577;
+  --color-nova-violet-desaturated-70: #382c58;
+  --color-nova-violet-desaturated-80: #23173e;
+  --color-nova-violet-desaturated-90: #14092b;
+  --color-nova-white: #ffffff;
+  --color-nova-yellow-0: #fff9e2;
+  --color-nova-yellow-10: #fbe4ad;
+  --color-nova-yellow-20: #f4c470;
+  --color-nova-yellow-30: #ea9e1e;
+  --color-nova-yellow-40: #d57800;
+  --color-nova-yellow-50: #ae5900;
+  --color-nova-yellow-60: #834004;
+  --color-nova-yellow-70: #5e2900;
+  --color-nova-yellow-80: #401700;
+  --color-nova-yellow-90: #2b0b00;
   --color-orange-0: oklch(97% 0.05 50);
   --color-orange-10: oklch(90% 0.1 50);
   --color-orange-20: oklch(86% 0.14 50);
@@ -99,6 +263,16 @@
   --color-purple-90: oklch(34% 0.14 315);
   --color-purple-100: oklch(27% 0.1 315);
   --color-purple-110: oklch(20% 0.05 315);
+  --color-purple-desaturated-0: unset;
+  --color-purple-desaturated-10: unset;
+  --color-purple-desaturated-20: unset;
+  --color-purple-desaturated-30: unset;
+  --color-purple-desaturated-40: unset;
+  --color-purple-desaturated-50: unset;
+  --color-purple-desaturated-60: unset;
+  --color-purple-desaturated-70: unset;
+  --color-purple-desaturated-80: unset;
+  --color-purple-desaturated-90: unset;
   --color-red-0: oklch(97% 0.05 15);
   --color-red-10: oklch(90% 0.1 15);
   --color-red-20: oklch(83% 0.14 15);
@@ -123,6 +297,16 @@
   --color-violet-90: oklch(34% 0.14 290);
   --color-violet-100: oklch(27% 0.1 290);
   --color-violet-110: oklch(20% 0.05 290);
+  --color-violet-desaturated-0: unset;
+  --color-violet-desaturated-10: unset;
+  --color-violet-desaturated-20: unset;
+  --color-violet-desaturated-30: unset;
+  --color-violet-desaturated-40: unset;
+  --color-violet-desaturated-50: unset;
+  --color-violet-desaturated-60: unset;
+  --color-violet-desaturated-70: unset;
+  --color-violet-desaturated-80: unset;
+  --color-violet-desaturated-90: unset;
   --color-white: #ffffff;
   --color-white-alpha-10: oklch(1 0 0 / 10%);
   --color-white-alpha-20: oklch(1 0 0 / 20%);
@@ -147,6 +331,13 @@
   --color-yellow-110: oklch(20% 0.08 90);
 }
 
+@media (prefers-contrast) {
+  :root {
+    /** Color **/
+    --color-accent-attention: AccentColor;
+  }
+}
+
 @media (forced-colors) {
   :root {
     /** Color **/
@@ -154,5 +345,10 @@
     --color-accent-primary-hover: SelectedItem;
     --color-accent-primary-active: var(--color-accent-primary-hover);
     --color-accent-primary-selected: SelectedItem;
+    --color-nova-accent-attention: AccentColor;
+    --color-nova-accent-primary: AccentColor;
+    --color-nova-accent-primary-hover: SelectedItem;
+    --color-nova-accent-primary-active: var(--color-accent-primary-hover);
+    --color-nova-accent-primary-selected: SelectedItem;
   }
 }
