@@ -9,6 +9,10 @@
   --link-color-active: var(--color-accent-primary-active);
   --link-color-visited: var(--link-color);
   --link-focus-outline-offset: 1px;
+  --link-nova-color: var(--color-accent-primary);
+  --link-nova-color-hover: var(--color-accent-primary-hover);
+  --link-nova-color-active: var(--color-accent-primary-active);
+  --link-nova-color-visited: var(--link-color);
 }
 
 @media (forced-colors) {
@@ -18,5 +22,8 @@
     --link-color-hover: LinkText;
     --link-color-active: ActiveText;
     --link-color-visited: var(--link-color);
+    --link-nova-color: LinkText;
+    --link-nova-color-hover: LinkText;
+    --link-nova-color-active: ActiveText;
   }
 }
