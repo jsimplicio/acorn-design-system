@@ -297,8 +297,8 @@
   "opacity": {
     "disabled": {
       "value": {
-        "default": 0.5,
-        "forcedColors": 1
+        "default": "0.5",
+        "forcedColors": "1"
       }
     }
   },
@@ -470,6 +470,13 @@
       },
       "selected": {
         "value": "{button.text.color.active}"
+      }
+    }
+  },
+  "attention": {
+    "dot": {
+      "color": {
+        "value": "{color.accent.attention}"
       }
     }
   }
