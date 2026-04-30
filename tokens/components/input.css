@@ -5,4 +5,7 @@
 :root {
   /** Input - Text **/
   --input-text-min-height: var(--button-min-height);
+
+  /** Unspecified **/
+  --input-border-color: var(--border-color-interactive);
 }

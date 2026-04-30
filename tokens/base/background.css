@@ -5,14 +5,66 @@
 :root {
   /** Background Color **/
   --background-color-box: light-dark(var(--color-white), var(--color-gray-80));
-  --background-color-box-info: light-dark(var(--color-gray-20), var(--color-gray-80));
-  --background-color-canvas: light-dark(var(--color-white), var(--color-gray-90));
-  --background-color-critical: light-dark(var(--color-red-0), var(--color-red-90));
-  --background-color-information: light-dark(var(--color-blue-0), var(--color-blue-90));
-  --background-color-list-item-hover: color-mix(in srgb, var(--color-accent-primary) 20%, transparent);
+  --background-color-box-info: light-dark(
+    var(--color-gray-20),
+    var(--color-gray-80)
+  );
+  --background-color-canvas: light-dark(
+    var(--color-white),
+    var(--color-gray-90)
+  );
+  --background-color-critical: light-dark(
+    var(--color-red-0),
+    var(--color-red-90)
+  );
+  --background-color-information: light-dark(
+    var(--color-blue-0),
+    var(--color-blue-90)
+  );
+  --background-color-list-item-hover: color-mix(
+    in srgb,
+    var(--color-accent-primary) 20%,
+    transparent
+  );
   --background-color-overlay: var(--color-black-alpha-50);
-  --background-color-success: light-dark(var(--color-green-0), var(--color-green-90));
-  --background-color-warning: light-dark(var(--color-yellow-0), var(--color-yellow-90));
+  --background-color-success: light-dark(
+    var(--color-green-0),
+    var(--color-green-90)
+  );
+  --background-color-warning: light-dark(
+    var(--color-yellow-0),
+    var(--color-yellow-90)
+  );
+
+  /** Unspecified **/
+  --background-nova-color-box: light-dark(
+    var(--color-white),
+    var(--color-neutral-70)
+  );
+  --background-nova-color-box-info: light-dark(
+    var(--color-neutral-20),
+    var(--color-neutral-80)
+  );
+  --background-nova-color-canvas: light-dark(
+    var(--color-violet-desaturated-0),
+    var(--color-neutral-90)
+  );
+  --background-nova-color-critical: light-dark(
+    var(--color-red-0),
+    var(--color-red-80)
+  );
+  --background-nova-color-information: light-dark(
+    var(--color-blue-0),
+    var(--color-blue-80)
+  );
+  --background-nova-color-success: light-dark(
+    var(--color-green-0),
+    var(--color-green-80)
+  );
+  --background-nova-color-warning: light-dark(
+    var(--color-yellow-0),
+    var(--color-yellow-80)
+  );
 }
 
 @media (prefers-contrast) {
@@ -26,5 +78,18 @@
     --background-color-list-item-hover: SelectedItem;
     --background-color-success: var(--background-color-canvas);
     --background-color-warning: var(--background-color-canvas);
+  }
+}
+
+@media (forced-colors) {
+  :root {
+    /** Unspecified **/
+    --background-nova-color-box: var(--background-color-canvas);
+    --background-nova-color-box-info: var(--background-color-canvas);
+    --background-nova-color-canvas: Canvas;
+    --background-nova-color-critical: var(--background-color-canvas);
+    --background-nova-color-information: var(--background-color-canvas);
+    --background-nova-color-success: var(--background-color-canvas);
+    --background-nova-color-warning: var(--background-color-canvas);
   }
 }
