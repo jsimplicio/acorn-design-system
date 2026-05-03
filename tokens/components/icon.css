@@ -6,9 +6,38 @@
   /** Icon **/
   --icon-color: light-dark(var(--color-gray-70), var(--color-gray-05));
   --icon-color-critical: light-dark(var(--color-red-60), var(--color-red-20));
-  --icon-color-information: light-dark(var(--color-blue-60), var(--color-blue-20));
-  --icon-color-success: light-dark(var(--color-green-60), var(--color-green-20));
-  --icon-color-warning: light-dark(var(--color-yellow-60), var(--color-yellow-20));
+  --icon-color-information: light-dark(
+    var(--color-blue-60),
+    var(--color-blue-20)
+  );
+  --icon-color-success: light-dark(
+    var(--color-green-60),
+    var(--color-green-20)
+  );
+  --icon-color-warning: light-dark(
+    var(--color-yellow-60),
+    var(--color-yellow-20)
+  );
+  --icon-nova-color: light-dark(
+    var(--color-neutral-70),
+    var(--color-neutral-0)
+  );
+  --icon-nova-color-critical: light-dark(
+    var(--color-red-40),
+    var(--color-red-20)
+  );
+  --icon-nova-color-information: light-dark(
+    var(--color-blue-40),
+    var(--color-blue-20)
+  );
+  --icon-nova-color-success: light-dark(
+    var(--color-green-40),
+    var(--color-green-20)
+  );
+  --icon-nova-color-warning: light-dark(
+    var(--color-yellow-40),
+    var(--color-yellow-20)
+  );
   --icon-size: var(--icon-size-small);
   --icon-size-xsmall: var(--dimension-12);
   --icon-size-small: var(--dimension-16);
@@ -25,5 +54,16 @@
     --icon-color-information: var(--icon-color);
     --icon-color-success: var(--icon-color);
     --icon-color-warning: var(--icon-color);
+  }
+}
+
+@media (forced-colors) {
+  :root {
+    /** Icon **/
+    --icon-nova-color: var(--text-color);
+    --icon-nova-color-critical: var(--icon-color);
+    --icon-nova-color-information: var(--icon-color);
+    --icon-nova-color-success: var(--icon-color);
+    --icon-nova-color-warning: var(--icon-color);
   }
 }
