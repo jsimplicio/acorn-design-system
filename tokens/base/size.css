@@ -20,6 +20,11 @@
   --size-layout-medium: var(--dimension-300);
   --size-layout-large: var(--dimension-400);
   --size-layout-xlarge: var(--dimension-500);
+  --size-nova-item-xsmall: 12px;
+  --size-nova-item-small: 16px;
+  --size-nova-item-medium: 24px;
+  --size-nova-item-large: 32px;
+  --size-nova-item-xlarge: 48px;
   --size-sidebar: 280px;
   --size-sidebar-narrow: 118px;
 }

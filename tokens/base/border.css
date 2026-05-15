@@ -5,19 +5,45 @@
 :root {
   /** Border **/
   --border-color: light-dark(var(--color-gray-50), var(--color-gray-70));
-  --border-color-card: color-mix(in srgb, currentColor 10%, transparent);
-  --border-color-deemphasized: light-dark(var(--color-gray-30), var(--color-gray-70));
-  --border-color-interactive: light-dark(var(--color-gray-60), var(--color-gray-50));
+  --border-color-deemphasized: light-dark(
+    var(--color-gray-30),
+    var(--color-gray-70)
+  );
+  --border-color-error: light-dark(var(--color-red-70), var(--color-red-20));
+  --border-color-interactive: light-dark(
+    var(--color-gray-60),
+    var(--color-gray-50)
+  );
   --border-color-interactive-hover: var(--border-color-interactive);
   --border-color-interactive-active: var(--border-color-interactive);
   --border-color-interactive-disabled: var(--border-color-interactive);
   --border-color-selected: var(--color-accent-primary);
   --border-color-transparent: transparent;
+  --border-nova-color: light-dark(var(--color-gray-30), var(--color-gray-50));
+  --border-nova-color-deemphasized: light-dark(
+    var(--color-gray-20),
+    var(--color-gray-60)
+  );
+  --border-nova-color-error: light-dark(
+    var(--color-red-50),
+    var(--color-red-20)
+  );
+  --border-nova-color-interactive: var(--color-gray-40);
+  --border-nova-color-interactive-disabled: light-dark(
+    var(--color-gray-25),
+    var(--color-gray-50)
+  );
+  --border-nova-color-transparent: transparent;
+  --border-nova-radius-large: 12px;
+  --border-nova-radius-xlarge: 16px;
+  --border-nova-radius-xxlarge: 24px;
   --border-radius-circle: 9999px;
   --border-radius-xsmall: 2px;
   --border-radius-small: 4px;
   --border-radius-medium: 8px;
   --border-radius-large: 16px;
+  --border-radius-xlarge: 0;
+  --border-radius-xxlarge: 0;
   --border-width: 1px;
 }
 
@@ -25,8 +51,8 @@
   :root {
     /** Border **/
     --border-color: CanvasText;
-    --border-color-card: color-mix(in srgb, currentColor 41%, transparent);
     --border-color-deemphasized: currentColor;
+    --border-color-error: var(--border-color);
     --border-color-interactive: var(--text-color);
     --border-color-transparent: CanvasText;
   }
@@ -35,12 +61,17 @@
 @media (forced-colors) {
   :root {
     /** Border **/
-    --border-color-card: CanvasText;
     --border-color-deemphasized: ButtonText;
     --border-color-interactive: ButtonText;
     --border-color-interactive-hover: SelectedItem;
     --border-color-interactive-active: ButtonText;
     --border-color-interactive-disabled: GrayText;
     --border-color-selected: SelectedItem;
+    --border-nova-color: CanvasText;
+    --border-nova-color-deemphasized: CanvasText;
+    --border-nova-color-error: var(--border-color);
+    --border-nova-color-interactive: ButtonText;
+    --border-nova-color-interactive-disabled: GrayText;
+    --border-nova-color-transparent: CanvasText;
   }
 }
