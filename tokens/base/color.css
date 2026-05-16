@@ -4,10 +4,23 @@
 
 :root {
   /** Color **/
-  --color-accent-primary: light-dark(var(--color-blue-60), var(--color-cyan-30));
-  --color-accent-primary-hover: light-dark(var(--color-blue-70), var(--color-cyan-20));
-  --color-accent-primary-active: light-dark(var(--color-blue-80), var(--color-cyan-10));
-  --color-accent-primary-selected: light-dark(var(--color-blue-60), var(--color-cyan-30));
+  --color-accent-attention: light-dark(#2ac3a2, #54ffbd);
+  --color-accent-primary: light-dark(
+    var(--color-blue-60),
+    var(--color-cyan-30)
+  );
+  --color-accent-primary-hover: light-dark(
+    var(--color-blue-70),
+    var(--color-cyan-20)
+  );
+  --color-accent-primary-active: light-dark(
+    var(--color-blue-80),
+    var(--color-cyan-10)
+  );
+  --color-accent-primary-selected: light-dark(
+    var(--color-blue-60),
+    var(--color-cyan-30)
+  );
   --color-black: #000000;
   --color-black-alpha-10: oklch(0 0 0 / 10%);
   --color-black-alpha-20: oklch(0 0 0 / 20%);
@@ -42,13 +55,24 @@
   --color-cyan-90: oklch(34% 0.14 205);
   --color-cyan-100: oklch(27% 0.1 205);
   --color-cyan-110: oklch(20% 0.05 205);
+  --color-gray-0: unset;
   --color-gray-05: #fbfbfe;
+  --color-gray-10: unset;
+  --color-gray-15: unset;
   --color-gray-20: #f0f0f4;
+  --color-gray-25: unset;
   --color-gray-30: #bac2ca;
+  --color-gray-35: unset;
+  --color-gray-40: unset;
+  --color-gray-45: unset;
   --color-gray-50: #bfbfc9;
+  --color-gray-55: unset;
   --color-gray-60: #8f8f9d;
+  --color-gray-65: unset;
   --color-gray-70: #5b5b66;
+  --color-gray-75: unset;
   --color-gray-80: #23222b;
+  --color-gray-85: unset;
   --color-gray-90: #1c1b22;
   --color-gray-100: #15141a;
   --color-green-0: oklch(97% 0.05 145);
@@ -63,6 +87,147 @@
   --color-green-90: oklch(34% 0.14 145);
   --color-green-100: oklch(27% 0.1 145);
   --color-green-110: oklch(20% 0.05 145);
+  --color-nova-accent-attention: light-dark(
+    var(--color-green-40),
+    var(--color-green-30)
+  );
+  --color-nova-accent-primary: light-dark(
+    var(--color-violet-50),
+    var(--color-violet-20)
+  );
+  --color-nova-accent-primary-hover: light-dark(
+    var(--color-violet-60),
+    var(--color-violet-30)
+  );
+  --color-nova-accent-primary-active: light-dark(
+    var(--color-violet-70),
+    var(--color-violet-40)
+  );
+  --color-nova-accent-primary-selected: var(
+    --button-background-color-primary-active
+  );
+  --color-nova-blue-0: #ecf3f8;
+  --color-nova-blue-10: #c5eafe;
+  --color-nova-blue-20: #a2d3ff;
+  --color-nova-blue-30: #7bb2ff;
+  --color-nova-blue-40: #5a87fd;
+  --color-nova-blue-50: #455fe7;
+  --color-nova-blue-60: #3246b0;
+  --color-nova-blue-70: #23327b;
+  --color-nova-blue-80: #17214c;
+  --color-nova-blue-90: #111524;
+  --color-nova-cyan-0: #ebf4f5;
+  --color-nova-cyan-10: #c3eef8;
+  --color-nova-cyan-20: #8fddf0;
+  --color-nova-cyan-30: #4cc4e1;
+  --color-nova-cyan-40: #10a4ca;
+  --color-nova-cyan-50: #0a809f;
+  --color-nova-cyan-60: #066077;
+  --color-nova-cyan-70: #034554;
+  --color-nova-cyan-80: #002d38;
+  --color-nova-cyan-90: #011c23;
+  --color-nova-gray-0: #fcfbff;
+  --color-nova-gray-05: #f7f6fb;
+  --color-nova-gray-10: #efedf2;
+  --color-nova-gray-15: #e3e2e7;
+  --color-nova-gray-20: #d6d5da;
+  --color-nova-gray-25: #c7c6cb;
+  --color-nova-gray-30: #b7b6ba;
+  --color-nova-gray-35: #a6a4a9;
+  --color-nova-gray-40: #949297;
+  --color-nova-gray-45: #817f84;
+  --color-nova-gray-50: #67666a;
+  --color-nova-gray-55: #515054;
+  --color-nova-gray-60: #3f3e42;
+  --color-nova-gray-65: #312f33;
+  --color-nova-gray-70: #252428;
+  --color-nova-gray-75: #1d1b1f;
+  --color-nova-gray-80: #171519;
+  --color-nova-gray-85: #131215;
+  --color-nova-gray-90: #121114;
+  --color-nova-green-0: #ecf4f1;
+  --color-nova-green-10: #c4f1e0;
+  --color-nova-green-20: #90e3c6;
+  --color-nova-green-30: #4acca6;
+  --color-nova-green-40: #11ae84;
+  --color-nova-green-50: #008865;
+  --color-nova-green-60: #06674b;
+  --color-nova-green-70: #004933;
+  --color-nova-green-80: #003020;
+  --color-nova-green-90: #001e12;
+  --color-nova-orange-0: #f8f0ec;
+  --color-nova-orange-10: #ffdbc5;
+  --color-nova-orange-20: #febd99;
+  --color-nova-orange-30: #ff9565;
+  --color-nova-orange-40: #f4682c;
+  --color-nova-orange-50: #cd4208;
+  --color-nova-orange-60: #9c2c05;
+  --color-nova-orange-70: #701c07;
+  --color-nova-orange-80: #461209;
+  --color-nova-orange-90: #250e0b;
+  --color-nova-pink-0: #f7eff3;
+  --color-nova-pink-10: #ffd5ee;
+  --color-nova-pink-20: #ffb0e2;
+  --color-nova-pink-30: #f585d3;
+  --color-nova-pink-40: #db54bf;
+  --color-nova-pink-50: #b32e9f;
+  --color-nova-pink-60: #882078;
+  --color-nova-pink-70: #5f1854;
+  --color-nova-pink-80: #3c1334;
+  --color-nova-pink-90: #1e111b;
+  --color-nova-purple-0: #faebff;
+  --color-nova-purple-10: #f6d7ff;
+  --color-nova-purple-20: #e8b7ff;
+  --color-nova-purple-30: #d490ff;
+  --color-nova-purple-40: #b864ee;
+  --color-nova-purple-50: #9540c8;
+  --color-nova-purple-60: #702e98;
+  --color-nova-purple-70: #4f216b;
+  --color-nova-purple-80: #311842;
+  --color-nova-purple-90: #1a1220;
+  --color-nova-purple-desaturated-30: #c0a7d4;
+  --color-nova-purple-desaturated-50: #816297;
+  --color-nova-purple-desaturated-60: #624677;
+  --color-nova-red-0: #fcf2f3;
+  --color-nova-red-10: #ffd9df;
+  --color-nova-red-20: #ffb6bf;
+  --color-nova-red-30: #ff8998;
+  --color-nova-red-40: #ed566e;
+  --color-nova-red-50: #c52d4f;
+  --color-nova-red-60: #961e3d;
+  --color-nova-red-70: #69172d;
+  --color-nova-red-80: #42121f;
+  --color-nova-red-90: #211014;
+  --color-nova-violet-0: #f5ecff;
+  --color-nova-violet-10: #eaddff;
+  --color-nova-violet-20: #d4c1ff;
+  --color-nova-violet-30: #b89cff;
+  --color-nova-violet-40: #9871ff;
+  --color-nova-violet-50: #764edd;
+  --color-nova-violet-60: #5939a8;
+  --color-nova-violet-70: #3e2976;
+  --color-nova-violet-80: #271c48;
+  --color-nova-violet-90: #161423;
+  --color-nova-violet-desaturated-0: #f2f0f8;
+  --color-nova-violet-desaturated-10: #e7e1f8;
+  --color-nova-violet-desaturated-20: #d2c8ec;
+  --color-nova-violet-desaturated-30: #b6aad9;
+  --color-nova-violet-desaturated-40: #9687c0;
+  --color-nova-violet-desaturated-50: #75669f;
+  --color-nova-violet-desaturated-60: #584a7d;
+  --color-nova-violet-desaturated-70: #3e315f;
+  --color-nova-violet-desaturated-80: #281d44;
+  --color-nova-violet-desaturated-90: #180e30;
+  --color-nova-yellow-0: #f9f5e6;
+  --color-nova-yellow-10: #fde8b5;
+  --color-nova-yellow-20: #fbcc77;
+  --color-nova-yellow-30: #f3a81e;
+  --color-nova-yellow-40: #db820e;
+  --color-nova-yellow-50: #b26100;
+  --color-nova-yellow-60: #854800;
+  --color-nova-yellow-70: #5f3100;
+  --color-nova-yellow-80: #3e1d00;
+  --color-nova-yellow-90: #270f00;
   --color-orange-0: oklch(97% 0.05 50);
   --color-orange-10: oklch(90% 0.1 50);
   --color-orange-20: oklch(86% 0.14 50);
@@ -99,6 +264,16 @@
   --color-purple-90: oklch(34% 0.14 315);
   --color-purple-100: oklch(27% 0.1 315);
   --color-purple-110: oklch(20% 0.05 315);
+  --color-purple-desaturated-0: unset;
+  --color-purple-desaturated-10: unset;
+  --color-purple-desaturated-20: unset;
+  --color-purple-desaturated-30: unset;
+  --color-purple-desaturated-40: unset;
+  --color-purple-desaturated-50: unset;
+  --color-purple-desaturated-60: unset;
+  --color-purple-desaturated-70: unset;
+  --color-purple-desaturated-80: unset;
+  --color-purple-desaturated-90: unset;
   --color-red-0: oklch(97% 0.05 15);
   --color-red-10: oklch(90% 0.1 15);
   --color-red-20: oklch(83% 0.14 15);
@@ -123,6 +298,16 @@
   --color-violet-90: oklch(34% 0.14 290);
   --color-violet-100: oklch(27% 0.1 290);
   --color-violet-110: oklch(20% 0.05 290);
+  --color-violet-desaturated-0: unset;
+  --color-violet-desaturated-10: unset;
+  --color-violet-desaturated-20: unset;
+  --color-violet-desaturated-30: unset;
+  --color-violet-desaturated-40: unset;
+  --color-violet-desaturated-50: unset;
+  --color-violet-desaturated-60: unset;
+  --color-violet-desaturated-70: unset;
+  --color-violet-desaturated-80: unset;
+  --color-violet-desaturated-90: unset;
   --color-white: #ffffff;
   --color-white-alpha-10: oklch(1 0 0 / 10%);
   --color-white-alpha-20: oklch(1 0 0 / 20%);
@@ -147,6 +332,13 @@
   --color-yellow-110: oklch(20% 0.08 90);
 }
 
+@media (prefers-contrast) {
+  :root {
+    /** Color **/
+    --color-accent-attention: AccentColor;
+  }
+}
+
 @media (forced-colors) {
   :root {
     /** Color **/
@@ -154,5 +346,10 @@
     --color-accent-primary-hover: SelectedItem;
     --color-accent-primary-active: var(--color-accent-primary-hover);
     --color-accent-primary-selected: SelectedItem;
+    --color-nova-accent-attention: AccentColor;
+    --color-nova-accent-primary: AccentColor;
+    --color-nova-accent-primary-hover: SelectedItem;
+    --color-nova-accent-primary-active: var(--color-accent-primary-hover);
+    --color-nova-accent-primary-selected: SelectedItem;
   }
 }
